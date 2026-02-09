@@ -5,7 +5,8 @@ function buildpro_evaluate_add_meta_box($post_type, $post)
         return;
     }
     $template = get_page_template_slug($post->ID);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post->ID !== $front_id) {
         return;
     }
     add_meta_box(
@@ -145,7 +146,8 @@ function buildpro_save_evaluate_meta($post_id)
         return;
     }
     $template = get_page_template_slug($post_id);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post_id !== $front_id) {
         return;
     }
     $title = isset($_POST['buildpro_evaluate_title']) ? sanitize_text_field($_POST['buildpro_evaluate_title']) : '';
@@ -165,5 +167,9 @@ function buildpro_save_evaluate_meta($post_id)
     update_post_meta($post_id, 'buildpro_evaluate_text', $text);
     update_post_meta($post_id, 'buildpro_evaluate_desc', $desc);
     update_post_meta($post_id, 'buildpro_evaluate_items', $clean);
+    set_theme_mod('buildpro_evaluate_title', $title);
+    set_theme_mod('buildpro_evaluate_text', $text);
+    set_theme_mod('buildpro_evaluate_desc', $desc);
+    set_theme_mod('buildpro_evaluate_items', $clean);
 }
 add_action('save_post_page', 'buildpro_save_evaluate_meta');

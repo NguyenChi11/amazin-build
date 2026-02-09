@@ -206,6 +206,113 @@ function buildpro_banner_sync_customizer_to_meta($wp_customize_manager)
     }
 }
 add_action('customize_save_after', 'buildpro_banner_sync_customizer_to_meta');
+function buildpro_services_sync_customizer_to_meta()
+{
+    $home = buildpro_banner_find_home_id();
+    if ($home) {
+        $title = get_theme_mod('buildpro_service_title', '');
+        $desc = get_theme_mod('buildpro_service_desc', '');
+        $items = get_theme_mod('buildpro_service_items', array());
+        $items = is_array($items) ? $items : array();
+        $clean = array();
+        foreach ($items as $item) {
+            $clean[] = array(
+                'icon_id' => isset($item['icon_id']) ? absint($item['icon_id']) : 0,
+                'title' => isset($item['title']) ? sanitize_text_field($item['title']) : '',
+                'description' => isset($item['description']) ? sanitize_textarea_field($item['description']) : '',
+                'link_url' => isset($item['link_url']) ? esc_url_raw($item['link_url']) : '',
+                'link_title' => isset($item['link_title']) ? sanitize_text_field($item['link_title']) : '',
+                'link_target' => isset($item['link_target']) ? sanitize_text_field($item['link_target']) : '',
+            );
+        }
+        update_post_meta($home, 'buildpro_service_title', $title);
+        update_post_meta($home, 'buildpro_service_desc', $desc);
+        update_post_meta($home, 'buildpro_service_items', $clean);
+    }
+}
+add_action('customize_save_after', 'buildpro_services_sync_customizer_to_meta');
+function buildpro_evaluate_sync_customizer_to_meta()
+{
+    $home = buildpro_banner_find_home_id();
+    if ($home) {
+        $title = get_theme_mod('buildpro_evaluate_title', '');
+        $text = get_theme_mod('buildpro_evaluate_text', '');
+        $desc = get_theme_mod('buildpro_evaluate_desc', '');
+        $items = get_theme_mod('buildpro_evaluate_items', array());
+        $items = is_array($items) ? $items : array();
+        $clean = array();
+        foreach ($items as $item) {
+            $clean[] = array(
+                'name' => isset($item['name']) ? sanitize_text_field($item['name']) : '',
+                'position' => isset($item['position']) ? sanitize_text_field($item['position']) : '',
+                'description' => isset($item['description']) ? sanitize_textarea_field($item['description']) : '',
+                'avatar_id' => isset($item['avatar_id']) ? absint($item['avatar_id']) : 0,
+            );
+        }
+        update_post_meta($home, 'buildpro_evaluate_title', $title);
+        update_post_meta($home, 'buildpro_evaluate_text', $text);
+        update_post_meta($home, 'buildpro_evaluate_desc', $desc);
+        update_post_meta($home, 'buildpro_evaluate_items', $clean);
+    }
+}
+add_action('customize_save_after', 'buildpro_evaluate_sync_customizer_to_meta');
+function buildpro_option_sync_customizer_to_meta()
+{
+    $home = buildpro_banner_find_home_id();
+    if ($home) {
+        $items = get_theme_mod('buildpro_option_items', array());
+        $items = is_array($items) ? $items : array();
+        $clean = array();
+        foreach ($items as $item) {
+            $clean[] = array(
+                'icon_id' => isset($item['icon_id']) ? absint($item['icon_id']) : 0,
+                'text' => isset($item['text']) ? sanitize_text_field($item['text']) : '',
+                'description' => isset($item['description']) ? sanitize_textarea_field($item['description']) : '',
+            );
+        }
+        update_post_meta($home, 'buildpro_option_items', $clean);
+    }
+}
+add_action('customize_save_after', 'buildpro_option_sync_customizer_to_meta');
+function buildpro_data_sync_customizer_to_meta()
+{
+    $home = buildpro_banner_find_home_id();
+    if ($home) {
+        $items = get_theme_mod('buildpro_data_items', array());
+        $items = is_array($items) ? $items : array();
+        $clean = array();
+        foreach ($items as $item) {
+            $clean[] = array(
+                'number' => isset($item['number']) ? sanitize_text_field($item['number']) : '',
+                'text' => isset($item['text']) ? sanitize_text_field($item['text']) : '',
+            );
+        }
+        update_post_meta($home, 'buildpro_data_items', $clean);
+    }
+}
+add_action('customize_save_after', 'buildpro_data_sync_customizer_to_meta');
+function buildpro_portfolio_sync_customizer_to_meta()
+{
+    $home = buildpro_banner_find_home_id();
+    if ($home) {
+        $title = get_theme_mod('projects_title', '');
+        $desc = get_theme_mod('projects_description', '');
+        update_post_meta($home, 'projects_title', $title);
+        update_post_meta($home, 'projects_description', $desc);
+    }
+}
+add_action('customize_save_after', 'buildpro_portfolio_sync_customizer_to_meta');
+function buildpro_post_section_sync_customizer_to_meta()
+{
+    $home = buildpro_banner_find_home_id();
+    if ($home) {
+        $title = get_theme_mod('title_post', '');
+        $desc = get_theme_mod('description_post', '');
+        update_post_meta($home, 'title_post', $title);
+        update_post_meta($home, 'description_post', $desc);
+    }
+}
+add_action('customize_save_after', 'buildpro_post_section_sync_customizer_to_meta');
 function buildpro_banner_sanitize_items($value)
 {
     if (is_string($value)) {

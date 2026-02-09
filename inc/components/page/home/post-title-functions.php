@@ -5,7 +5,8 @@ function buildpro_post_section_add_meta_box($post_type, $post)
         return;
     }
     $template = get_page_template_slug($post->ID);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post->ID !== $front_id) {
         return;
     }
     add_meta_box(
@@ -52,6 +53,8 @@ function buildpro_save_post_section_meta($post_id)
     $desc = isset($_POST['description_post']) ? sanitize_textarea_field($_POST['description_post']) : '';
     update_post_meta($post_id, 'title_post', $title);
     update_post_meta($post_id, 'description_post', $desc);
+    set_theme_mod('title_post', $title);
+    set_theme_mod('description_post', $desc);
 }
 add_action('save_post_page', 'buildpro_save_post_section_meta');
 function buildpro_enqueue_posts_data_script()

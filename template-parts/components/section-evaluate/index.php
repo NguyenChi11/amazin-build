@@ -1,11 +1,23 @@
 <?php
 $page_id = get_queried_object_id();
-$evaluate_text = get_post_meta($page_id, 'buildpro_evaluate_text', true);
-$evaluate_title = get_post_meta($page_id, 'buildpro_evaluate_title', true);
-$evaluate_description = get_post_meta($page_id, 'buildpro_evaluate_desc', true);
+$evaluate_text = get_theme_mod('buildpro_evaluate_text', '');
+if ($evaluate_text === '') {
+    $evaluate_text = get_post_meta($page_id, 'buildpro_evaluate_text', true);
+}
+$evaluate_title = get_theme_mod('buildpro_evaluate_title', '');
+if ($evaluate_title === '') {
+    $evaluate_title = get_post_meta($page_id, 'buildpro_evaluate_title', true);
+}
+$evaluate_description = get_theme_mod('buildpro_evaluate_desc', '');
+if ($evaluate_description === '') {
+    $evaluate_description = get_post_meta($page_id, 'buildpro_evaluate_desc', true);
+}
 
 $evaluate_items = [];
-$rows = get_post_meta($page_id, 'buildpro_evaluate_items', true);
+$rows = get_theme_mod('buildpro_evaluate_items', array());
+if (!is_array($rows) || empty($rows)) {
+    $rows = get_post_meta($page_id, 'buildpro_evaluate_items', true);
+}
 $rows = is_array($rows) ? $rows : [];
 foreach ($rows as $row) {
     $description = isset($row['description']) ? $row['description'] : '';

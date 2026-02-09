@@ -100,7 +100,8 @@ function buildpro_save_data_meta($post_id)
         return;
     }
     $template = get_page_template_slug($post_id);
-    if ($template !== 'page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post_id !== $front_id) {
         return;
     }
     $items = isset($_POST['buildpro_data_items']) && is_array($_POST['buildpro_data_items']) ? $_POST['buildpro_data_items'] : array();
@@ -112,5 +113,6 @@ function buildpro_save_data_meta($post_id)
         );
     }
     update_post_meta($post_id, 'buildpro_data_items', $clean);
+    set_theme_mod('buildpro_data_items', $clean);
 }
 add_action('save_post_page', 'buildpro_save_data_meta');

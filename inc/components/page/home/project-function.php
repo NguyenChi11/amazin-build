@@ -5,7 +5,8 @@ function buildpro_portfolio_add_meta_box($post_type, $post)
         return;
     }
     $template = get_page_template_slug($post->ID);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post->ID !== $front_id) {
         return;
     }
     add_meta_box(
@@ -49,12 +50,15 @@ function buildpro_save_portfolio_meta($post_id)
         return;
     }
     $template = get_page_template_slug($post_id);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post_id !== $front_id) {
         return;
     }
     $title = isset($_POST['projects_title']) ? sanitize_text_field($_POST['projects_title']) : '';
     $desc = isset($_POST['projects_description']) ? sanitize_textarea_field($_POST['projects_description']) : '';
     update_post_meta($post_id, 'projects_title', $title);
     update_post_meta($post_id, 'projects_description', $desc);
+    set_theme_mod('projects_title', $title);
+    set_theme_mod('projects_description', $desc);
 }
 add_action('save_post_page', 'buildpro_save_portfolio_meta');

@@ -2,8 +2,14 @@
 $location_icon = 268;
 $right_icon = 60;
 $page_id = get_queried_object_id();
-$portfolio_title = get_post_meta($page_id, 'projects_title', true);
-$portfolio_desc = get_post_meta($page_id, 'projects_description', true);
+$portfolio_title = get_theme_mod('projects_title', '');
+if ($portfolio_title === '') {
+    $portfolio_title = get_post_meta($page_id, 'projects_title', true);
+}
+$portfolio_desc = get_theme_mod('projects_description', '');
+if ($portfolio_desc === '') {
+    $portfolio_desc = get_post_meta($page_id, 'projects_description', true);
+}
 
 $portfolio_items = [];
 $query = new WP_Query(array(

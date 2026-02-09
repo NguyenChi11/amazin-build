@@ -5,7 +5,8 @@ function buildpro_banner_add_meta_box($post_type, $post)
         return;
     }
     $template = get_page_template_slug($post->ID);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post->ID !== $front_id) {
         return;
     }
     add_meta_box(
@@ -84,7 +85,8 @@ function buildpro_save_banner_meta($post_id)
         return;
     }
     $template = get_page_template_slug($post_id);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post_id !== $front_id) {
         return;
     }
     $items = isset($_POST['buildpro_banner_items']) && is_array($_POST['buildpro_banner_items']) ? $_POST['buildpro_banner_items'] : array();

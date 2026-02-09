@@ -1,7 +1,10 @@
 <?php
 $section_data_items = [];
 $page_id = get_queried_object_id();
-$rows = get_post_meta($page_id, 'buildpro_data_items', true);
+$rows = get_theme_mod('buildpro_data_items', array());
+if (!is_array($rows) || empty($rows)) {
+    $rows = get_post_meta($page_id, 'buildpro_data_items', true);
+}
 if ($rows && is_array($rows)) {
     foreach ($rows as $row) {
         $number = isset($row['number']) ? $row['number'] : '';

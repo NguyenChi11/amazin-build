@@ -5,7 +5,8 @@ function buildpro_home_group_meta_box_add($post_type, $post)
         return;
     }
     $template = get_page_template_slug($post->ID);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post->ID !== $front_id) {
         return;
     }
     add_meta_box('buildpro_home_group', 'HomePage', 'buildpro_home_group_meta_box_render', 'page', 'normal', 'high');
@@ -15,7 +16,8 @@ add_action('add_meta_boxes', 'buildpro_home_group_meta_box_add', 10, 2);
 function buildpro_home_group_meta_box_render($post)
 {
     $template = get_page_template_slug($post->ID);
-    if ($template !== 'home-page.php') {
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post->ID !== $front_id) {
         return;
     }
     echo '<div class="buildpro-admin-tabs" style="margin:0;padding:8px 0;">'
