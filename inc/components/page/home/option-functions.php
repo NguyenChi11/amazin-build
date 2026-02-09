@@ -18,10 +18,26 @@ function buildpro_option_render_meta_box($post)
     wp_enqueue_media();
     $items = get_post_meta($post->ID, 'buildpro_option_items', true);
     $items = is_array($items) ? $items : array();
+    $prepared = array();
+    foreach ($items as $it) {
+        $icon_id = isset($it['icon_id']) ? (int) $it['icon_id'] : 0;
+        $thumb = $icon_id ? wp_get_attachment_image_url($icon_id, 'thumbnail') : '';
+        $prepared[] = array(
+            'icon_id' => $icon_id,
+            'text' => isset($it['text']) ? (string) $it['text'] : '',
+            'description' => isset($it['description']) ? (string) $it['description'] : '',
+            'thumb_url' => $thumb ? (string) $thumb : '',
+        );
+    }
     $template_file = get_template_directory() . '/inc-components/custom-wp/home/option/index.php';
     if (file_exists($template_file)) {
         include $template_file;
     }
+    wp_add_inline_script(
+        'buildpro-option-script',
+        'window.buildproOptionData=' . wp_json_encode(array('items' => $prepared)) . ';',
+        'before'
+    );
 }
 
 function buildpro_option_admin_enqueue($hook)

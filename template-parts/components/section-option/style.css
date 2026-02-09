@@ -1,6 +1,7 @@
 .section-option {
   padding: 1rem 0rem;
-  margin: 0 3.75rem;
+  padding: 0 3.75rem;
+  position: relative;
 }
 
 .section-option__swiper-wrapper {
@@ -54,4 +55,49 @@
   letter-spacing: 0;
   text-align: justify;
   margin: 0rem;
+}
+
+.section-option__hover-outline {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #00a0d2;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.section-option:hover .section-option__hover-outline {
+  opacity: 1;
+}
+.section-option__customize-shortcut {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.section-option:hover .section-option__customize-shortcut {
+  opacity: 1;
+  visibility: visible;
+}
+.section-option__customize-button {
+  background: #00a0d2;
+  color: #fff;
+  border: 0;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.section-option .customize-partial-edit-shortcut {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.section-option:hover .customize-partial-edit-shortcut {
+  opacity: 1;
+  visibility: visible;
 }

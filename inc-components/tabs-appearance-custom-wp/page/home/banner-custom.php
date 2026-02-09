@@ -352,36 +352,7 @@ function buildpro_evaluate_sync_customizer_to_meta()
     }
 }
 add_action('customize_save_after', 'buildpro_evaluate_sync_customizer_to_meta');
-function buildpro_option_sync_customizer_to_meta()
-{
-    $page_id = 0;
-    if (function_exists('wp_get_current_user')) {
-        global $wp_customize;
-        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
-            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
-            if ($setting) {
-                $page_id = absint($setting->value());
-            }
-        }
-    }
-    if ($page_id <= 0) {
-        $page_id = buildpro_banner_find_home_id();
-    }
-    if ($page_id) {
-        $items = get_theme_mod('buildpro_option_items', array());
-        $items = is_array($items) ? $items : array();
-        $clean = array();
-        foreach ($items as $item) {
-            $clean[] = array(
-                'icon_id' => isset($item['icon_id']) ? absint($item['icon_id']) : 0,
-                'text' => isset($item['text']) ? sanitize_text_field($item['text']) : '',
-                'description' => isset($item['description']) ? sanitize_textarea_field($item['description']) : '',
-            );
-        }
-        update_post_meta($page_id, 'buildpro_option_items', $clean);
-    }
-}
-add_action('customize_save_after', 'buildpro_option_sync_customizer_to_meta');
+
 function buildpro_data_sync_customizer_to_meta()
 {
     $page_id = 0;
@@ -489,3 +460,5 @@ function buildpro_banner_customize_controls_enqueue()
     wp_enqueue_style('wp-link');
 }
 add_action('customize_controls_enqueue_scripts', 'buildpro_banner_customize_controls_enqueue');
+
+// Option (Home) Customizer registration

@@ -1,6 +1,10 @@
 (function () {
   var wrapper = document.getElementById("buildpro-option-wrapper");
   var addBtn = document.getElementById("buildpro-option-add");
+  var tpl = document.getElementById("buildpro-option-row-template");
+  if (!wrapper || !tpl) {
+    return;
+  }
   var frame;
   function bindRow(row) {
     var selectBtn = row.querySelector(".select-option-icon");
@@ -28,7 +32,8 @@
             attachment.sizes && attachment.sizes.thumbnail
               ? attachment.sizes.thumbnail.url
               : attachment.url;
-          preview.innerHTML = "<img src='" + url + "'>";
+          preview.innerHTML =
+            "<img src='" + url + "' style='max-height:80px;'>";
         });
         frame.open();
       });
@@ -47,48 +52,48 @@
       });
     }
   }
-  if (wrapper) {
-    Array.prototype.forEach.call(
-      wrapper.querySelectorAll(".buildpro-option-row"),
-      bindRow,
-    );
+  function createRow(idx) {
+    var node = tpl.content.firstElementChild.cloneNode(true);
+    var html = node.outerHTML.replace(/__INDEX__/g, String(idx));
+    var temp = document.createElement("div");
+    temp.innerHTML = html;
+    return temp.firstElementChild;
   }
-  if (addBtn) {
+  function setValues(row, item) {
+    var input = row.querySelector(".option-icon-id");
+    var preview = row.querySelector(".option-icon-preview");
+    var textInput = row.querySelector("input[name$='[text]']");
+    var descInput = row.querySelector("textarea[name$='[description]']");
+    if (input) {
+      input.value = item.icon_id || "";
+    }
+    if (preview) {
+      if (item.thumb_url) {
+        preview.innerHTML =
+          "<img src='" + item.thumb_url + "' style='max-height:80px;'>";
+      } else {
+        preview.innerHTML = "<span style='color:#888'>Chưa chọn icon</span>";
+      }
+    }
+    if (textInput) {
+      textInput.value = item.text || "";
+    }
+    if (descInput) {
+      descInput.value = item.description || "";
+    }
+  }
+  var data = window.buildproOptionData || { items: [] };
+  data.items.forEach(function (it, idx) {
+    var row = createRow(idx);
+    wrapper.appendChild(row);
+    setValues(row, it);
+    bindRow(row);
+  });
+  if (addBtn && tpl) {
     addBtn.addEventListener("click", function (e) {
       e.preventDefault();
       var idx = wrapper.querySelectorAll(".buildpro-option-row").length;
-      var html =
-        "" +
-        '<div class="buildpro-option-row" data-index="' +
-        idx +
-        '">' +
-        '  <div class="buildpro-option-grid">' +
-        '    <div class="buildpro-option-block">' +
-        "      <h4>Icon</h4>" +
-        '      <div class="buildpro-option-field">' +
-        '        <input type="hidden" class="option-icon-id" name="buildpro_option_items[' +
-        idx +
-        '][icon_id]" value="">' +
-        '        <button type="button" class="button select-option-icon">Chọn icon</button>' +
-        '        <button type="button" class="button remove-option-icon">Xóa icon</button>' +
-        "      </div>" +
-        '      <div class="option-icon-preview"><span class="option-icon-placeholder">Chưa chọn icon</span></div>' +
-        "    </div>" +
-        '    <div class="buildpro-option-block">' +
-        "      <h4>Nội dung</h4>" +
-        '      <p class="buildpro-option-field"><label>Text</label><input type="text" name="buildpro_option_items[' +
-        idx +
-        '][text]" class="regular-text" value=""></p>' +
-        '      <p class="buildpro-option-field"><label>Mô tả</label><textarea name="buildpro_option_items[' +
-        idx +
-        '][description]" rows="4" class="large-text"></textarea></p>' +
-        "    </div>" +
-        "  </div>" +
-        '  <div class="buildpro-option-actions"><button type="button" class="button remove-option-row">Xóa mục</button></div>' +
-        "</div>";
-      var temp = document.createElement("div");
-      temp.innerHTML = html;
-      var row = temp.firstElementChild;
+      var row = createRow(idx);
       wrapper.appendChild(row);
       bindRow(row);
     });
