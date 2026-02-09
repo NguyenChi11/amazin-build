@@ -208,6 +208,23 @@ function buildpro_banner_enqueue_assets()
 add_action('customize_controls_enqueue_scripts', 'buildpro_banner_enqueue_assets');
 function buildpro_banner_find_home_id()
 {
+    $selected = 0;
+    if (function_exists('wp_get_current_user')) {
+        global $wp_customize;
+        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+            if ($setting) {
+                $val = $setting->value();
+                $selected = absint($val);
+            }
+        }
+    }
+    if ($selected > 0) {
+        $tpl = get_page_template_slug($selected);
+        if ($tpl === 'home-page.php') {
+            return $selected;
+        }
+    }
     $home_id = (int) get_option('page_on_front');
     if ($home_id) {
         $tpl = get_page_template_slug($home_id);
@@ -223,9 +240,21 @@ function buildpro_banner_find_home_id()
 }
 function buildpro_banner_get_default_items()
 {
-    $home = buildpro_banner_find_home_id();
-    if ($home) {
-        $items = get_post_meta($home, 'buildpro_banner_items', true);
+    $page_id = 0;
+    if (function_exists('wp_get_current_user')) {
+        global $wp_customize;
+        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+            if ($setting) {
+                $page_id = absint($setting->value());
+            }
+        }
+    }
+    if ($page_id <= 0) {
+        $page_id = buildpro_banner_find_home_id();
+    }
+    if ($page_id) {
+        $items = get_post_meta($page_id, 'buildpro_banner_items', true);
         return is_array($items) ? $items : array();
     }
     return array();
@@ -234,16 +263,37 @@ function buildpro_banner_sync_customizer_to_meta($wp_customize_manager)
 {
     $items = get_theme_mod('buildpro_banner_items', array());
     $items = buildpro_banner_sanitize_items($items);
-    $home = buildpro_banner_find_home_id();
-    if ($home) {
-        update_post_meta($home, 'buildpro_banner_items', $items);
+    $page_id = 0;
+    if ($wp_customize_manager instanceof WP_Customize_Manager) {
+        $setting = $wp_customize_manager->get_setting('buildpro_preview_page_id');
+        if ($setting) {
+            $page_id = absint($setting->value());
+        }
+    }
+    if ($page_id <= 0) {
+        $page_id = buildpro_banner_find_home_id();
+    }
+    if ($page_id) {
+        update_post_meta($page_id, 'buildpro_banner_items', $items);
     }
 }
 add_action('customize_save_after', 'buildpro_banner_sync_customizer_to_meta');
 function buildpro_services_sync_customizer_to_meta()
 {
-    $home = buildpro_banner_find_home_id();
-    if ($home) {
+    $page_id = 0;
+    if (function_exists('wp_get_current_user')) {
+        global $wp_customize;
+        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+            if ($setting) {
+                $page_id = absint($setting->value());
+            }
+        }
+    }
+    if ($page_id <= 0) {
+        $page_id = buildpro_banner_find_home_id();
+    }
+    if ($page_id) {
         $title = get_theme_mod('buildpro_service_title', '');
         $desc = get_theme_mod('buildpro_service_desc', '');
         $items = get_theme_mod('buildpro_service_items', array());
@@ -259,16 +309,28 @@ function buildpro_services_sync_customizer_to_meta()
                 'link_target' => isset($item['link_target']) ? sanitize_text_field($item['link_target']) : '',
             );
         }
-        update_post_meta($home, 'buildpro_service_title', $title);
-        update_post_meta($home, 'buildpro_service_desc', $desc);
-        update_post_meta($home, 'buildpro_service_items', $clean);
+        update_post_meta($page_id, 'buildpro_service_title', $title);
+        update_post_meta($page_id, 'buildpro_service_desc', $desc);
+        update_post_meta($page_id, 'buildpro_service_items', $clean);
     }
 }
 add_action('customize_save_after', 'buildpro_services_sync_customizer_to_meta');
 function buildpro_evaluate_sync_customizer_to_meta()
 {
-    $home = buildpro_banner_find_home_id();
-    if ($home) {
+    $page_id = 0;
+    if (function_exists('wp_get_current_user')) {
+        global $wp_customize;
+        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+            if ($setting) {
+                $page_id = absint($setting->value());
+            }
+        }
+    }
+    if ($page_id <= 0) {
+        $page_id = buildpro_banner_find_home_id();
+    }
+    if ($page_id) {
         $title = get_theme_mod('buildpro_evaluate_title', '');
         $text = get_theme_mod('buildpro_evaluate_text', '');
         $desc = get_theme_mod('buildpro_evaluate_desc', '');
@@ -283,17 +345,29 @@ function buildpro_evaluate_sync_customizer_to_meta()
                 'avatar_id' => isset($item['avatar_id']) ? absint($item['avatar_id']) : 0,
             );
         }
-        update_post_meta($home, 'buildpro_evaluate_title', $title);
-        update_post_meta($home, 'buildpro_evaluate_text', $text);
-        update_post_meta($home, 'buildpro_evaluate_desc', $desc);
-        update_post_meta($home, 'buildpro_evaluate_items', $clean);
+        update_post_meta($page_id, 'buildpro_evaluate_title', $title);
+        update_post_meta($page_id, 'buildpro_evaluate_text', $text);
+        update_post_meta($page_id, 'buildpro_evaluate_desc', $desc);
+        update_post_meta($page_id, 'buildpro_evaluate_items', $clean);
     }
 }
 add_action('customize_save_after', 'buildpro_evaluate_sync_customizer_to_meta');
 function buildpro_option_sync_customizer_to_meta()
 {
-    $home = buildpro_banner_find_home_id();
-    if ($home) {
+    $page_id = 0;
+    if (function_exists('wp_get_current_user')) {
+        global $wp_customize;
+        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+            if ($setting) {
+                $page_id = absint($setting->value());
+            }
+        }
+    }
+    if ($page_id <= 0) {
+        $page_id = buildpro_banner_find_home_id();
+    }
+    if ($page_id) {
         $items = get_theme_mod('buildpro_option_items', array());
         $items = is_array($items) ? $items : array();
         $clean = array();
@@ -304,14 +378,26 @@ function buildpro_option_sync_customizer_to_meta()
                 'description' => isset($item['description']) ? sanitize_textarea_field($item['description']) : '',
             );
         }
-        update_post_meta($home, 'buildpro_option_items', $clean);
+        update_post_meta($page_id, 'buildpro_option_items', $clean);
     }
 }
 add_action('customize_save_after', 'buildpro_option_sync_customizer_to_meta');
 function buildpro_data_sync_customizer_to_meta()
 {
-    $home = buildpro_banner_find_home_id();
-    if ($home) {
+    $page_id = 0;
+    if (function_exists('wp_get_current_user')) {
+        global $wp_customize;
+        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+            if ($setting) {
+                $page_id = absint($setting->value());
+            }
+        }
+    }
+    if ($page_id <= 0) {
+        $page_id = buildpro_banner_find_home_id();
+    }
+    if ($page_id) {
         $items = get_theme_mod('buildpro_data_items', array());
         $items = is_array($items) ? $items : array();
         $clean = array();
@@ -321,29 +407,53 @@ function buildpro_data_sync_customizer_to_meta()
                 'text' => isset($item['text']) ? sanitize_text_field($item['text']) : '',
             );
         }
-        update_post_meta($home, 'buildpro_data_items', $clean);
+        update_post_meta($page_id, 'buildpro_data_items', $clean);
     }
 }
 add_action('customize_save_after', 'buildpro_data_sync_customizer_to_meta');
 function buildpro_portfolio_sync_customizer_to_meta()
 {
-    $home = buildpro_banner_find_home_id();
-    if ($home) {
+    $page_id = 0;
+    if (function_exists('wp_get_current_user')) {
+        global $wp_customize;
+        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+            if ($setting) {
+                $page_id = absint($setting->value());
+            }
+        }
+    }
+    if ($page_id <= 0) {
+        $page_id = buildpro_banner_find_home_id();
+    }
+    if ($page_id) {
         $title = get_theme_mod('projects_title', '');
         $desc = get_theme_mod('projects_description', '');
-        update_post_meta($home, 'projects_title', $title);
-        update_post_meta($home, 'projects_description', $desc);
+        update_post_meta($page_id, 'projects_title', $title);
+        update_post_meta($page_id, 'projects_description', $desc);
     }
 }
 add_action('customize_save_after', 'buildpro_portfolio_sync_customizer_to_meta');
 function buildpro_post_section_sync_customizer_to_meta()
 {
-    $home = buildpro_banner_find_home_id();
-    if ($home) {
+    $page_id = 0;
+    if (function_exists('wp_get_current_user')) {
+        global $wp_customize;
+        if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+            $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+            if ($setting) {
+                $page_id = absint($setting->value());
+            }
+        }
+    }
+    if ($page_id <= 0) {
+        $page_id = buildpro_banner_find_home_id();
+    }
+    if ($page_id) {
         $title = get_theme_mod('title_post', '');
         $desc = get_theme_mod('description_post', '');
-        update_post_meta($home, 'title_post', $title);
-        update_post_meta($home, 'description_post', $desc);
+        update_post_meta($page_id, 'title_post', $title);
+        update_post_meta($page_id, 'description_post', $desc);
     }
 }
 add_action('customize_save_after', 'buildpro_post_section_sync_customizer_to_meta');

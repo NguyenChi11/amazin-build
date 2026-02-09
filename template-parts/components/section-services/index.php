@@ -1,17 +1,24 @@
 <?php
 $page_id = get_queried_object_id();
-$service_title = get_theme_mod('buildpro_service_title', '');
-if ($service_title === '') {
-    $service_title = get_post_meta($page_id, 'buildpro_service_title', true);
-}
-$service_desc = get_theme_mod('buildpro_service_desc', '');
-if ($service_desc === '') {
-    $service_desc = get_post_meta($page_id, 'buildpro_service_desc', true);
+$service_title = get_post_meta($page_id, 'buildpro_service_title', true);
+$service_desc = get_post_meta($page_id, 'buildpro_service_desc', true);
+if (is_customize_preview()) {
+    $mod_title = get_theme_mod('buildpro_service_title', '');
+    if ($mod_title !== '') {
+        $service_title = $mod_title;
+    }
+    $mod_desc = get_theme_mod('buildpro_service_desc', '');
+    if ($mod_desc !== '') {
+        $service_desc = $mod_desc;
+    }
 }
 $service_items = [];
-$rows = get_theme_mod('buildpro_service_items', array());
-if (!is_array($rows) || empty($rows)) {
-    $rows = get_post_meta($page_id, 'buildpro_service_items', true);
+$rows = get_post_meta($page_id, 'buildpro_service_items', true);
+if (is_customize_preview()) {
+    $mods = get_theme_mod('buildpro_service_items', array());
+    if (is_array($mods) && !empty($mods)) {
+        $rows = $mods;
+    }
 }
 if ($rows && is_array($rows)) {
     foreach ($rows as $row) {

@@ -1,11 +1,15 @@
 <?php
-$title = get_theme_mod('title_post', '');
-$desc = get_theme_mod('description_post', '');
-if ($title === '') {
-    $title = get_post_meta(get_the_ID(), 'title_post', true);
-}
-if ($desc === '') {
-    $desc = get_post_meta(get_the_ID(), 'description_post', true);
+$title = get_post_meta(get_the_ID(), 'title_post', true);
+$desc = get_post_meta(get_the_ID(), 'description_post', true);
+if (is_customize_preview()) {
+    $mod_title = get_theme_mod('title_post', '');
+    if ($mod_title !== '') {
+        $title = $mod_title;
+    }
+    $mod_desc = get_theme_mod('description_post', '');
+    if ($mod_desc !== '') {
+        $desc = $mod_desc;
+    }
 }
 
 $posts = [];

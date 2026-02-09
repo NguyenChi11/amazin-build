@@ -1,9 +1,12 @@
 <?php
 $section_option_items = [];
 $page_id = get_queried_object_id();
-$rows = get_theme_mod('buildpro_option_items', array());
-if (!is_array($rows) || empty($rows)) {
-    $rows = get_post_meta($page_id, 'buildpro_option_items', true);
+$rows = get_post_meta($page_id, 'buildpro_option_items', true);
+if (is_customize_preview()) {
+    $mods = get_theme_mod('buildpro_option_items', array());
+    if (is_array($mods) && !empty($mods)) {
+        $rows = $mods;
+    }
 }
 if ($rows && is_array($rows)) {
     foreach ($rows as $row) {

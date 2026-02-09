@@ -2,13 +2,17 @@
 $location_icon = 268;
 $right_icon = 60;
 $page_id = get_queried_object_id();
-$portfolio_title = get_theme_mod('projects_title', '');
-if ($portfolio_title === '') {
-    $portfolio_title = get_post_meta($page_id, 'projects_title', true);
-}
-$portfolio_desc = get_theme_mod('projects_description', '');
-if ($portfolio_desc === '') {
-    $portfolio_desc = get_post_meta($page_id, 'projects_description', true);
+$portfolio_title = get_post_meta($page_id, 'projects_title', true);
+$portfolio_desc = get_post_meta($page_id, 'projects_description', true);
+if (is_customize_preview()) {
+    $mod_title = get_theme_mod('projects_title', '');
+    if ($mod_title !== '') {
+        $portfolio_title = $mod_title;
+    }
+    $mod_desc = get_theme_mod('projects_description', '');
+    if ($mod_desc !== '') {
+        $portfolio_desc = $mod_desc;
+    }
 }
 
 $portfolio_items = [];

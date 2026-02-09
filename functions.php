@@ -30,6 +30,7 @@ require get_template_directory() . '/import-assets/import-css-js.php';
 require get_template_directory() . '/inc/header-functions.php';
 require get_template_directory() . '/inc/components/page/page-function.php';
 require get_template_directory() . '/inc-components/tabs-appearance-custom-wp/page/function-pages.php';
+require get_template_directory() . '/inc-components/tabs-appearance-custom-wp/function.php';
 require get_template_directory() . '/inc/footer-functions.php';
 require get_template_directory() . '/inc/components/cpt/cpt-function.php';
 
@@ -130,6 +131,14 @@ function buildpro_register_project_cpt()
 	);
 	register_post_type('project', $args);
 }
+
+add_filter('nav_menu_link_attributes', function ($atts, $item, $args) {
+	if (isset($item->object) && $item->object === 'page' && !empty($item->object_id)) {
+		$atts['data-object-id'] = (string) absint($item->object_id);
+		$atts['data-object-type'] = 'page';
+	}
+	return $atts;
+}, 10, 3);
 add_action('init', 'buildpro_register_project_cpt');
 
 function buildpro_register_project_taxonomies()

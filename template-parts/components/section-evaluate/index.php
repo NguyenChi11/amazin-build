@@ -1,22 +1,30 @@
 <?php
 $page_id = get_queried_object_id();
-$evaluate_text = get_theme_mod('buildpro_evaluate_text', '');
-if ($evaluate_text === '') {
-    $evaluate_text = get_post_meta($page_id, 'buildpro_evaluate_text', true);
-}
-$evaluate_title = get_theme_mod('buildpro_evaluate_title', '');
-if ($evaluate_title === '') {
-    $evaluate_title = get_post_meta($page_id, 'buildpro_evaluate_title', true);
-}
-$evaluate_description = get_theme_mod('buildpro_evaluate_desc', '');
-if ($evaluate_description === '') {
-    $evaluate_description = get_post_meta($page_id, 'buildpro_evaluate_desc', true);
+$evaluate_text = get_post_meta($page_id, 'buildpro_evaluate_text', true);
+$evaluate_title = get_post_meta($page_id, 'buildpro_evaluate_title', true);
+$evaluate_description = get_post_meta($page_id, 'buildpro_evaluate_desc', true);
+if (is_customize_preview()) {
+    $mod_text = get_theme_mod('buildpro_evaluate_text', '');
+    if ($mod_text !== '') {
+        $evaluate_text = $mod_text;
+    }
+    $mod_title = get_theme_mod('buildpro_evaluate_title', '');
+    if ($mod_title !== '') {
+        $evaluate_title = $mod_title;
+    }
+    $mod_desc = get_theme_mod('buildpro_evaluate_desc', '');
+    if ($mod_desc !== '') {
+        $evaluate_description = $mod_desc;
+    }
 }
 
 $evaluate_items = [];
-$rows = get_theme_mod('buildpro_evaluate_items', array());
-if (!is_array($rows) || empty($rows)) {
-    $rows = get_post_meta($page_id, 'buildpro_evaluate_items', true);
+$rows = get_post_meta($page_id, 'buildpro_evaluate_items', true);
+if (is_customize_preview()) {
+    $mods = get_theme_mod('buildpro_evaluate_items', array());
+    if (is_array($mods) && !empty($mods)) {
+        $rows = $mods;
+    }
 }
 $rows = is_array($rows) ? $rows : [];
 foreach ($rows as $row) {
@@ -50,28 +58,28 @@ foreach ($rows as $row) {
             <div class="swiper section-evaluate__swiper swiper-container_evaluate">
                 <div class="swiper-wrapper swiper-wrapper_evaluate ">
                     <?php foreach ($evaluate_items as $item): ?>
-                    <div class="swiper-slide section-evaluate__swiper-slide">
-                        <div class="section-evaluate__item">
-                            <p class="section-evaluate__item-description"><?php echo esc_html($item['description']); ?>
-                            </p>
-                            <div class="section-evaluate__item-content">
-                                <div class="section-evaluate__item-avatar">
-                                    <?php
+                        <div class="swiper-slide section-evaluate__swiper-slide">
+                            <div class="section-evaluate__item">
+                                <p class="section-evaluate__item-description"><?php echo esc_html($item['description']); ?>
+                                </p>
+                                <div class="section-evaluate__item-content">
+                                    <div class="section-evaluate__item-avatar">
+                                        <?php
                                         $avatar_url = $item['avatar_id'] ? wp_get_attachment_image_url($item['avatar_id'], 'thumbnail') : '';
                                         ?>
-                                    <?php if ($avatar_url): ?>
-                                    <img src="<?php echo esc_url($avatar_url); ?>"
-                                        alt="<?php echo esc_attr($item['name']); ?>">
-                                    <?php endif; ?>
-                                </div>
-                                <div class="section-evaluate__item-info">
-                                    <h3 class="section-evaluate__item-name"><?php echo esc_html($item['name']); ?></h3>
-                                    <p class="section-evaluate__item-position">
-                                        <?php echo esc_html($item['position']); ?></p>
+                                        <?php if ($avatar_url): ?>
+                                            <img src="<?php echo esc_url($avatar_url); ?>"
+                                                alt="<?php echo esc_attr($item['name']); ?>">
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="section-evaluate__item-info">
+                                        <h3 class="section-evaluate__item-name"><?php echo esc_html($item['name']); ?></h3>
+                                        <p class="section-evaluate__item-position">
+                                            <?php echo esc_html($item['position']); ?></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
                 <div class="swiper-pagination"></div>
@@ -79,6 +87,6 @@ foreach ($rows as $row) {
         </div>
     </div>
     <?php if (empty($evaluate_items)): ?>
-    <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/evaluate-date.js')); ?>"></script>
+        <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/evaluate-date.js')); ?>"></script>
     <?php endif; ?>
 </section>
