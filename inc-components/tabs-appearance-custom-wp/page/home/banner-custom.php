@@ -69,9 +69,42 @@ function buildpro_banner_customize_register($wp_customize)
             $edit_url = admin_url('post.php?post=' . $p->ID . '&action=edit');
         }
     }
+    if (!function_exists('buildpro_customizer_is_home_preview')) {
+        function buildpro_customizer_is_home_preview()
+        {
+            $selected_id = 0;
+            if (function_exists('wp_get_current_user')) {
+                global $wp_customize;
+                if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+                    $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+                    if ($setting) {
+                        $val = $setting->value();
+                        $selected_id = absint($val);
+                    }
+                }
+            }
+            if ($selected_id <= 0) {
+                $selected_id = (int) get_option('page_on_front');
+            }
+            if ($selected_id > 0) {
+                $tpl = get_page_template_slug($selected_id);
+                if ($tpl && $tpl !== '') {
+                    if ($tpl === 'home-page.php') {
+                        return true;
+                    }
+                }
+                $front = (int) get_option('page_on_front');
+                if ($front && $selected_id === $front) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
     $wp_customize->add_section('buildpro_banner_section', array(
         'title' => __('Banner Home', 'buildpro'),
         'priority' => 25,
+        'active_callback' => 'buildpro_customizer_is_home_preview',
     ));
     $wp_customize->add_setting('buildpro_banner_edit_link', array(
         'default' => '',
@@ -123,6 +156,7 @@ function buildpro_banner_customize_register($wp_customize)
     $wp_customize->add_section('buildpro_link_picker_section', array(
         'title' => __('Danh sách Link', 'buildpro'),
         'priority' => 26,
+        'active_callback' => 'buildpro_customizer_is_home_preview',
     ));
     $wp_customize->add_setting('buildpro_link_picker_dummy', array(
         'default' => '',
