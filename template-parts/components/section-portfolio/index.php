@@ -1,0 +1,92 @@
+<?php
+$location_icon = 268;
+$right_icon = 60;
+$page_id = get_queried_object_id();
+$portfolio_title = get_post_meta($page_id, 'projects_title', true);
+$portfolio_desc = get_post_meta($page_id, 'projects_description', true);
+
+$portfolio_items = [];
+$query = new WP_Query(array(
+    'post_type' => 'project',
+    'posts_per_page' => 3,
+    'orderby' => 'date',
+    'order' => 'DESC',
+    'post_status' => 'publish',
+    'no_found_rows' => true,
+));
+if ($query->have_posts()) {
+    while ($query->have_posts()) {
+        $query->the_post();
+        $image_id = get_post_thumbnail_id(get_the_ID());
+        $name = get_the_title();
+        $terms = get_the_terms(get_the_ID(), 'project-contruction');
+        $text = '';
+        if (is_array($terms) && ! empty($terms)) {
+            $text = implode(', ', wp_list_pluck($terms, 'name'));
+        }
+        $location = get_post_meta(get_the_ID(), 'location_project', true);
+        $link_url = get_permalink();
+        $link_title = 'View Project';
+        $link_target = '';
+        $portfolio_items[] = [
+            'post_id' => get_the_ID(),
+            'image_id' => $image_id,
+            'text' => $text,
+            'name' => $name,
+            'location' => $location,
+            'link_url' => $link_url,
+            'link_title' => $link_title,
+            'link_target' => $link_target,
+        ];
+    }
+    wp_reset_postdata();
+}
+?>
+<section class="section-portfolio">
+    <div class="section-portfolio__header">
+        <h2 class="section-portfolio__title" data-has-meta="<?php echo $portfolio_title !== '' ? '1' : '0'; ?>">
+            <?php echo esc_html($portfolio_title ?: 'PROJECTS'); ?>
+        </h2>
+        <p class="section-portfolio__description" data-has-meta="<?php echo $portfolio_desc !== '' ? '1' : '0'; ?>">
+            <?php echo esc_html($portfolio_desc ?: ''); ?>
+        </p>
+    </div>
+    <div class="section-portfolio__list">
+        <?php foreach ($portfolio_items as $item): ?>
+        <a class="section-portfolio__item" href="<?php echo esc_url($item['link_url']); ?>"
+            <?php echo $item['link_target'] ? 'target="' . esc_attr($item['link_target']) . '"' : ''; ?>>
+            <div class="section-portfolio__item-image">
+                <?php
+                    $img_url = $item['image_id'] ? wp_get_attachment_image_url($item['image_id'], 'full') : '';
+                    ?>
+                <?php if ($img_url): ?>
+                <div class="section-portfolio__item-bg"
+                    style="background-image: url('<?php echo esc_url($img_url); ?>');"></div>
+                <?php else: ?>
+                <div class="section-portfolio__item-bg"></div>
+                <?php endif; ?>
+            </div>
+            <div class="section-portfolio__item-content">
+                <p class="section-portfolio__item-text"><?php echo $item['text']; ?></p>
+                <h3 class="section-portfolio__item-name"><?php echo $item['name']; ?></h3>
+                <div class="section-portfolio__item-location-wrapper">
+                    <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/icon_location.png')); ?>"
+                        alt="location" class="section-portfolio__item-location-icon">
+                    <p class="section-portfolio__item-location"><?php echo esc_html($item['location']); ?></p>
+                </div>
+            </div>
+        </a>
+        <?php endforeach; ?>
+    </div>
+    <div class="section-portfolio__page-link">
+        <a class="section-portfolio__page-link-text"
+            href="<?php echo esc_url(get_post_type_archive_link('project')); ?>">
+            Xem danh sách sản phẩm
+        </a>
+        <img class="section-banner__item-button-icon"
+            src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/Arrow_Right.png')); ?>" alt="Arrow Right">
+    </div>
+    <?php if (empty($portfolio_items)): ?>
+    <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/project-data.js')); ?>"></script>
+    <?php endif; ?>
+</section>

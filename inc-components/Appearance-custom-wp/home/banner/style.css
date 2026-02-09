@@ -1,0 +1,40 @@
+.buildpro-banner-row {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  background: #fff;
+  border-radius: 6px;
+}
+.buildpro-banner-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+.buildpro-banner-block {
+  background: #f7f7f7;
+  padding: 10px;
+  border-radius: 6px;
+}
+.buildpro-banner-block h4 {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+.buildpro-banner-field {
+  margin: 8px 0px;
+}
+
+.regular-text {
+  margin-bottom: 8px;
+}
+
+.buildpro-banner-field label {
+  display: block;
+  margin-bottom: 4px;
+}
+.buildpro-banner-field input {
+  margin-bottom: 8px;
+}
+.buildpro-banner-actions {
+  margin-top: 10px;
+  text-align: right;
+}

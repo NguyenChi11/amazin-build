@@ -1,0 +1,42 @@
+.buildpro-link-popup .buildpro-banner-field {
+  margin: 8px 0;
+}
+.buildpro-link-popup .buildpro-banner-field label {
+  display: block;
+  margin-bottom: 4px;
+}
+.buildpro-link-popup .results {
+  max-height: 220px;
+  overflow: auto;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  background: #fafafa;
+  padding: 6px;
+}
+.buildpro-link-popup .result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+.buildpro-link-popup .result .meta {
+  color: #666;
+  font-size: 12px;
+}
+.buildpro-link-popup .chip {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  color: #555;
+  font-size: 11px;
+}
+.buildpro-link-popup .actions {
+  margin-top: 10px;
+}
