@@ -1,6 +1,15 @@
 <?php if (!defined('ABSPATH')) {
     exit;
 } ?>
+<div class="buildpro-banner-block" style="margin-bottom:10px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px">
+    <h4>Trạng thái Section Banner</h4>
+    <input type="hidden" id="buildpro_banner_enabled" name="buildpro_banner_enabled" value="1">
+    <div style="display:flex;gap:8px">
+        <button type="button" class="button button-secondary" id="buildpro_banner_disable_btn">Xóa Section</button>
+        <button type="button" class="button button-primary" id="buildpro_banner_enable_btn">Thêm Section</button>
+        <span id="buildpro_banner_enabled_state" style="align-self:center;color:#374151"></span>
+    </div>
+</div>
 <template id="buildpro-banner-row-template">
     <div class="buildpro-banner-row" data-index="__INDEX__">
         <div class="buildpro-banner-grid">

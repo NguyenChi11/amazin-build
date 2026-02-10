@@ -20,8 +20,8 @@ if ($rows && is_array($rows)) {
 }
 ?>
 <section class="section-data">
-    <div class="section-data__hover-outline" ></div>
     <?php if (is_customize_preview()): ?>
+        <div class="section-data__hover-outline"></div>
 
 
         <script>

@@ -3,6 +3,15 @@ $arrow_right = 60;
 
 $section_banner_houses = [];
 $page_id = get_queried_object_id();
+$enabled = get_post_meta($page_id, 'buildpro_banner_enabled', true);
+$enabled = $enabled === '' ? 1 : (int)$enabled;
+if (is_customize_preview()) {
+    $enabled_mod = get_theme_mod('buildpro_banner_enabled', 1);
+    $enabled = (int)$enabled_mod;
+}
+if ($enabled !== 1) {
+    return;
+}
 $rows = get_post_meta($page_id, 'buildpro_banner_items', true);
 if (is_customize_preview()) {
     $mods = get_theme_mod('buildpro_banner_items', array());

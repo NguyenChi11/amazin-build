@@ -106,6 +106,16 @@ function buildpro_banner_customize_register($wp_customize)
         'priority' => 25,
         'active_callback' => 'buildpro_customizer_is_home_preview',
     ));
+    $wp_customize->add_setting('buildpro_banner_enabled', array(
+        'default' => 1,
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint',
+    ));
+    $wp_customize->add_control('buildpro_banner_enabled', array(
+        'label' => __('Hiển thị Banner', 'buildpro'),
+        'section' => 'buildpro_banner_section',
+        'type' => 'checkbox',
+    ));
     $wp_customize->add_setting('buildpro_banner_edit_link', array(
         'default' => '',
         'transport' => 'postMessage',
@@ -263,6 +273,7 @@ function buildpro_banner_sync_customizer_to_meta($wp_customize_manager)
 {
     $items = get_theme_mod('buildpro_banner_items', array());
     $items = buildpro_banner_sanitize_items($items);
+    $enabled = absint(get_theme_mod('buildpro_banner_enabled', 1));
     $page_id = 0;
     if ($wp_customize_manager instanceof WP_Customize_Manager) {
         $setting = $wp_customize_manager->get_setting('buildpro_preview_page_id');
@@ -275,6 +286,7 @@ function buildpro_banner_sync_customizer_to_meta($wp_customize_manager)
     }
     if ($page_id) {
         update_post_meta($page_id, 'buildpro_banner_items', $items);
+        update_post_meta($page_id, 'buildpro_banner_enabled', $enabled);
     }
 }
 add_action('customize_save_after', 'buildpro_banner_sync_customizer_to_meta');

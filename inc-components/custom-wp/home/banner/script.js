@@ -2,6 +2,10 @@
   var wrapper = document.getElementById("buildpro-banner-wrapper");
   var addBtn = document.getElementById("buildpro-banner-add");
   var tpl = document.getElementById("buildpro-banner-row-template");
+  var enabledInput = document.getElementById("buildpro_banner_enabled");
+  var disableBtn = document.getElementById("buildpro_banner_disable_btn");
+  var enableBtn = document.getElementById("buildpro_banner_enable_btn");
+  var enabledState = document.getElementById("buildpro_banner_enabled_state");
   if (!wrapper || !tpl) {
     return;
   }
@@ -202,6 +206,30 @@
       var row = createRow(idx);
       wrapper.appendChild(row);
       bindRow(row);
+    });
+  }
+  function updateEnabledStateText() {
+    if (!enabledState || !enabledInput) return;
+    var val = parseInt(enabledInput.value || "1", 10) || 0;
+    enabledState.textContent = val === 1 ? "Đang hiển thị" : "Đang ẩn";
+  }
+  if (enabledInput) {
+    enabledInput.value =
+      typeof data.enabled !== "undefined" ? String(data.enabled) : "1";
+    updateEnabledStateText();
+  }
+  if (disableBtn && enabledInput) {
+    disableBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      enabledInput.value = "0";
+      updateEnabledStateText();
+    });
+  }
+  if (enableBtn && enabledInput) {
+    enableBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      enabledInput.value = "1";
+      updateEnabledStateText();
     });
   }
 })();
