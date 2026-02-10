@@ -2,6 +2,10 @@
   var wrapper = document.getElementById("buildpro-option-wrapper");
   var addBtn = document.getElementById("buildpro-option-add");
   var tpl = document.getElementById("buildpro-option-row-template");
+  var enabledInput = document.getElementById("buildpro_option_enabled");
+  var disableBtn = document.getElementById("buildpro_option_disable_btn");
+  var enableBtn = document.getElementById("buildpro_option_enable_btn");
+  var enabledState = document.getElementById("buildpro_option_enabled_state");
   if (!wrapper || !tpl) {
     return;
   }
@@ -96,6 +100,36 @@
       var row = createRow(idx);
       wrapper.appendChild(row);
       bindRow(row);
+    });
+  }
+  function updateEnabledStateText() {
+    if (!enabledState || !enabledInput) return;
+    var val = parseInt(enabledInput.value || "1", 10) || 0;
+    enabledState.textContent = val === 1 ? "Đang hiển thị" : "Đang ẩn";
+  }
+  if (enabledInput) {
+    enabledInput.value =
+      typeof data.enabled !== "undefined" ? String(data.enabled) : "1";
+    updateEnabledStateText();
+  }
+  if (disableBtn && enabledInput) {
+    disableBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      enabledInput.value = "0";
+      updateEnabledStateText();
+      try {
+        enabledInput.dispatchEvent(new Event("change"));
+      } catch (err) {}
+    });
+  }
+  if (enableBtn && enabledInput) {
+    enableBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      enabledInput.value = "1";
+      updateEnabledStateText();
+      try {
+        enabledInput.dispatchEvent(new Event("change"));
+      } catch (err) {}
     });
   }
 })();

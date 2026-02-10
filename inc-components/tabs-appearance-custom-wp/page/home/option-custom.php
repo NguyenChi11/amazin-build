@@ -78,6 +78,30 @@ function buildpro_option_customize_register($wp_customize)
             return array();
         }
     }
+    if (!function_exists('buildpro_option_get_default_enabled')) {
+        function buildpro_option_get_default_enabled()
+        {
+            $page_id = 0;
+            if (function_exists('wp_get_current_user')) {
+                global $wp_customize;
+                if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+                    $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+                    if ($setting) {
+                        $page_id = absint($setting->value());
+                    }
+                }
+            }
+            if ($page_id <= 0) {
+                $page_id = buildpro_option_find_home_id();
+            }
+            if ($page_id) {
+                $enabled = get_post_meta($page_id, 'buildpro_option_enabled', true);
+                $enabled = ($enabled === '' ? 1 : (int) $enabled);
+                return $enabled;
+            }
+            return 1;
+        }
+    }
     if (!function_exists('buildpro_option_sanitize_items')) {
         function buildpro_option_sanitize_items($value)
         {
@@ -106,6 +130,16 @@ function buildpro_option_customize_register($wp_customize)
         'priority' => 27,
         'active_callback' => 'buildpro_customizer_is_home_preview',
     ));
+    $wp_customize->add_setting('buildpro_option_enabled', array(
+        'default' => buildpro_option_get_default_enabled(),
+        'transport' => 'postMessage',
+        'sanitize_callback' => 'absint',
+    ));
+    $wp_customize->add_control('buildpro_option_enabled', array(
+        'label' => __('Hiển thị Section Option', 'buildpro'),
+        'section' => 'buildpro_option_section',
+        'type' => 'checkbox',
+    ));
     $wp_customize->add_setting('buildpro_option_items', array(
         'default' => buildpro_option_get_default_items(),
         'transport' => 'postMessage',
@@ -122,6 +156,16 @@ function buildpro_option_customize_register($wp_customize)
         $wp_customize->selective_refresh->add_partial('buildpro_option_items', array(
             'selector' => '.section-option',
             'settings' => array('buildpro_option_items'),
+            'render_callback' => function () {
+                ob_start();
+                get_template_part('template-parts/components/section-option/index');
+                return ob_get_clean();
+            },
+        ));
+        $wp_customize->selective_refresh->add_partial('buildpro_option_enabled', array(
+            'selector' => '.section-option',
+            'settings' => array('buildpro_option_enabled'),
+            'container_inclusive' => true,
             'render_callback' => function () {
                 ob_start();
                 get_template_part('template-parts/components/section-option/index');
@@ -174,7 +218,9 @@ function buildpro_option_sync_customizer_to_meta()
                 'description' => isset($item['description']) ? sanitize_textarea_field($item['description']) : '',
             );
         }
+        $enabled = absint(get_theme_mod('buildpro_option_enabled', 1));
         update_post_meta($page_id, 'buildpro_option_items', $clean);
+        update_post_meta($page_id, 'buildpro_option_enabled', $enabled);
     }
 }
 add_action('customize_save_after', 'buildpro_option_sync_customizer_to_meta');

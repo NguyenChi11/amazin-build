@@ -17,6 +17,9 @@ function buildpro_option_render_meta_box($post)
     wp_nonce_field('buildpro_option_meta_save', 'buildpro_option_meta_nonce');
     wp_enqueue_media();
     $items = get_post_meta($post->ID, 'buildpro_option_items', true);
+    $enabled = get_post_meta($post->ID, 'buildpro_option_enabled', true);
+    $enabled = $enabled === '' ? 1 : (int) $enabled;
+    $enabled = absint(get_theme_mod('buildpro_option_enabled', $enabled));
     $items = is_array($items) ? $items : array();
     $prepared = array();
     foreach ($items as $it) {
@@ -35,7 +38,7 @@ function buildpro_option_render_meta_box($post)
     }
     wp_add_inline_script(
         'buildpro-option-script',
-        'window.buildproOptionData=' . wp_json_encode(array('items' => $prepared)) . ';',
+        'window.buildproOptionData=' . wp_json_encode(array('items' => $prepared, 'enabled' => $enabled)) . ';',
         'before'
     );
 }
@@ -71,6 +74,7 @@ function buildpro_save_option_meta($post_id)
         return;
     }
     $items = isset($_POST['buildpro_option_items']) && is_array($_POST['buildpro_option_items']) ? $_POST['buildpro_option_items'] : array();
+    $enabled = isset($_POST['buildpro_option_enabled']) ? absint($_POST['buildpro_option_enabled']) : 1;
     $clean = array();
     foreach ($items as $item) {
         $clean[] = array(
@@ -80,6 +84,8 @@ function buildpro_save_option_meta($post_id)
         );
     }
     update_post_meta($post_id, 'buildpro_option_items', $clean);
+    update_post_meta($post_id, 'buildpro_option_enabled', $enabled);
     set_theme_mod('buildpro_option_items', $clean);
+    set_theme_mod('buildpro_option_enabled', $enabled);
 }
 add_action('save_post_page', 'buildpro_save_option_meta');

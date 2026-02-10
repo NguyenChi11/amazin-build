@@ -29,5 +29,14 @@
         </div>
     </div>
 </template>
+<div class="buildpro-option-block" style="margin-bottom:10px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px">
+    <h4>Trạng thái Section Option</h4>
+    <input type="hidden" id="buildpro_option_enabled" name="buildpro_option_enabled" value="<?php echo isset($enabled) ? (int)$enabled : 1; ?>">
+    <div style="display:flex;gap:8px">
+        <button type="button" class="button button-secondary" id="buildpro_option_disable_btn">Xóa Section</button>
+        <button type="button" class="button button-primary" id="buildpro_option_enable_btn">Thêm Section</button>
+        <span id="buildpro_option_enabled_state" style="align-self:center;color:#374151"></span>
+    </div>
+</div>
 <div id="buildpro-option-wrapper"></div>
 <button type="button" class="button button-primary" id="buildpro-option-add">Thêm mục</button>
