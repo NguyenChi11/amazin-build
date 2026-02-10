@@ -1,7 +1,7 @@
 const postsData = {
   postsTitle: "LATEST POSTS",
   postsDescription:
-    "Tin tức và bài viết tiêu biểu về thiết kế, thi công và vật liệu.",
+    "Latest news and articles about design, construction, and materials.",
   items: [
     {
       id: 2001,
@@ -14,7 +14,7 @@ const postsData = {
         "/wp-content/themes/buildpro/assets/images/redux/banner/banner_2.jpg",
       ],
       description:
-        "Giải pháp xây dựng hiện đại, tối ưu chi phí và đảm bảo chất lượng.",
+        "Modern construction solutions, optimized cost and high-quality construction.",
       gallery: [
         "/wp-content/themes/buildpro/assets/images/image_7.jpg",
         "/wp-content/themes/buildpro/assets/images/image_9.jpg",
@@ -32,7 +32,7 @@ const postsData = {
         "/wp-content/themes/buildpro/assets/images/redux/banner/banner_3.jpg",
       ],
       description:
-        "Xu hướng thiết kế nhà ở hiện đại: tiện nghi, thẩm mỹ và bền vững.",
+        "Modern residential design trends: convenience, aesthetics, and durability.",
       gallery: [
         "/wp-content/themes/buildpro/assets/images/redux/banner/banner_2.jpg",
         "/wp-content/themes/buildpro/assets/images/image_9.jpg",
@@ -49,7 +49,7 @@ const postsData = {
         "/wp-content/themes/buildpro/assets/images/redux/banner/banner_1.jpg",
       ],
       description:
-        "Quản lý dự án thương mại: đảm bảo tiến độ và tiêu chuẩn chất lượng.",
+        "Commercial project management: ensuring progress and quality standards.",
       gallery: [
         "/wp-content/themes/buildpro/assets/images/image_10.jpg",
         "/wp-content/themes/buildpro/assets/images/redux/banner/banner_3.jpg",
@@ -67,7 +67,7 @@ const postsData = {
         "/wp-content/themes/buildpro/assets/images/redux/banner/banner_3.jpg",
       ],
       description:
-        "Tổng quan vật liệu cao cấp: ceramic, đá tự nhiên, kính cường lực.",
+        "Overview of premium materials: ceramic, natural stone, and strong glass.",
       gallery: [
         "/wp-content/themes/buildpro/assets/images/image_7.jpg",
         "/wp-content/themes/buildpro/assets/images/image_9.jpg",

@@ -5,7 +5,7 @@ const footerData = {
     logo: "/wp-content/themes/buildpro/assets/images/logo.png",
     title: "BuildPro",
     subTitle: "Better Building",
-    description: "Mô tả ngắn về thương hiệu ở footer.",
+    description: "Short description about the brand in the footer.",
   },
   pages: [
     { title: "Home", url: "/", target: "" },

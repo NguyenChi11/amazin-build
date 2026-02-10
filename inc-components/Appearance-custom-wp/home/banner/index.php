@@ -44,10 +44,16 @@ if (!is_array($items)) {
                     <p class="buildpro-banner-field"><label>Mô tả</label><textarea rows="4" class="large-text"
                             data-field="description"><?php echo esc_textarea($desc); ?></textarea></p>
                     <h4>Liên kết</h4>
-                    <p class="buildpro-banner-field"><label>Link URL</label><input type="url" class="regular-text"
-                            data-field="link_url" value="<?php echo esc_attr($link_url); ?>" placeholder="https://...">
+                    <p class="buildpro-banner-field">
+                        <label>Link URL</label>
+                        <input type="url" class="regular-text" data-field="link_url"
+                            value="<?php echo esc_attr($link_url); ?>" placeholder="https://...">
                         <button type="button" class="button choose-link">Chọn link</button>
-                        data-field="link_title" value="<?php echo esc_attr($link_title); ?>" placeholder="Text nút">
+                    </p>
+                    <p class="buildpro-banner-field">
+                        <label>Link Title</label>
+                        <input type="text" class="regular-text" data-field="link_title"
+                            value="<?php echo esc_attr($link_title); ?>" placeholder="Text nút">
                     </p>
                     <p class="buildpro-banner-field"><label>Link Target</label><select data-field="link_target">
                             <option value="" <?php selected($link_target, '', true); ?>>Mặc định</option>
@@ -76,4 +82,4 @@ if (!is_array($items)) {
         $index++;
     }
     ?>
-</div>
+</div><button type="button" class="button button-primary" id="buildpro-banner-add">Thêm mục</button>

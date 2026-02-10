@@ -1,35 +1,35 @@
 const evaluateData = {
   evaluateTitle: "CUSTOMER REVIEWS",
-  evaluateText: "Đánh giá từ khách hàng",
+  evaluateText: "Customer reviews",
   evaluateDescription:
-    "Những phản hồi chân thực về chất lượng và dịch vụ của chúng tôi.",
+    "Those honest reviews about the quality and service of our company.",
   items: [
     {
-      name: "Nguyễn Văn A",
-      position: "Giám đốc dự án",
+      name: "Nguyen Van A",
+      position: "Project manager",
       description:
-        "Đội ngũ chuyên nghiệp, quy trình rõ ràng. Tiến độ và chất lượng đều đạt yêu cầu.",
+        "Professional team, clear process. Progress and quality meet requirements.",
       avatar: "/wp-content/themes/buildpro/assets/images/image_7.jpg",
     },
     {
-      name: "Trần Thị B",
-      position: "Kiến trúc sư",
+      name: "Tran Thi B",
+      position: "Architect",
       description:
-        "Thiết kế tối ưu công năng, vật liệu bền đẹp. Hỗ trợ rất nhiệt tình.",
+        "Optimal functional design, durable materials. Very helpful support.",
       avatar: "/wp-content/themes/buildpro/assets/images/image_9.jpg",
     },
     {
-      name: "Lê Quốc C",
-      position: "Nhà thầu phụ",
+      name: "Le Quoc C",
+      position: "Subcontractor",
       description:
-        "Phối hợp hiệu quả, tiêu chuẩn thi công nghiêm ngặt, an toàn lao động đảm bảo.",
+        "Effective combination, strict construction standards, safe labor.",
       avatar: "/wp-content/themes/buildpro/assets/images/image_10.jpg",
     },
     {
-      name: "Lê Quốc C",
-      position: "Nhà thầu phụ",
+      name: "Le Quoc C",
+      position: "Subcontractor",
       description:
-        "Phối hợp hiệu quả, tiêu chuẩn thi công nghiêm ngặt, an toàn lao động đảm bảo.",
+        "Effective coordination strict construction standards and guaranteed workplace safety",
       avatar: "/wp-content/themes/buildpro/assets/images/image_10.jpg",
     },
   ],

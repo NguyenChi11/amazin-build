@@ -7,7 +7,7 @@ const banners = [
     description:
       "Optimize design and construction for modern office buildings.",
     linkUrl: "/about",
-    linkTitle: "Xem thêm",
+    linkTitle: "Read more",
   },
   {
     image:
@@ -16,7 +16,7 @@ const banners = [
     text: "Modern residential design",
     description: "Beautiful, safe, and energy-efficient home designs.",
     linkUrl: "/services",
-    linkTitle: "Khám phá dịch vụ",
+    linkTitle: "View services",
   },
   {
     image:
@@ -26,7 +26,7 @@ const banners = [
     description:
       "Commercial buildings with high-end materials and detailed craftsmanship.",
     linkUrl: "/portfolio",
-    linkTitle: "Xem dự án",
+    linkTitle: "View projects",
   },
 ];
 window.banners = banners;

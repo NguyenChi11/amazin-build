@@ -170,6 +170,7 @@
           urlInput: urlInput,
           titleInput: titleInput,
           targetSelect: targetSelect,
+          sectionId: "buildpro_banner_section",
         };
         if (
           window.wp &&

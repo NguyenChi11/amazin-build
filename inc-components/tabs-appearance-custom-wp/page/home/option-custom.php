@@ -219,8 +219,21 @@ function buildpro_option_sync_customizer_to_meta()
             );
         }
         $enabled = absint(get_theme_mod('buildpro_option_enabled', 1));
-        update_post_meta($page_id, 'buildpro_option_items', $clean);
-        update_post_meta($page_id, 'buildpro_option_enabled', $enabled);
+        $targets = array();
+        $targets[] = $page_id;
+        $front_id = (int) get_option('page_on_front');
+        if ($front_id > 0) {
+            $targets[] = $front_id;
+        }
+        $pages = get_pages(array('meta_key' => '_wp_page_template', 'meta_value' => 'home-page.php', 'number' => 1));
+        if (!empty($pages)) {
+            $targets[] = (int) $pages[0]->ID;
+        }
+        $targets = array_unique(array_filter(array_map('absint', $targets)));
+        foreach ($targets as $tid) {
+            update_post_meta($tid, 'buildpro_option_items', $clean);
+            update_post_meta($tid, 'buildpro_option_enabled', $enabled);
+        }
     }
 }
 add_action('customize_save_after', 'buildpro_option_sync_customizer_to_meta');

@@ -20,8 +20,8 @@ function buildpro_post_banner_render_meta_box($post)
     </style>';
     echo '<div class="buildpro-post-block">';
     $thumb = $banner_id ? wp_get_attachment_image_url($banner_id, 'medium') : '';
-    echo '<p class="buildpro-post-field"><label>Banner Image</label><input type="hidden" id="buildpro_post_banner_id" name="buildpro_post_banner_id" value="' . esc_attr($banner_id) . '"> <button type="button" class="button" id="buildpro_post_select_banner">Chọn ảnh</button> <button type="button" class="button" id="buildpro_post_remove_banner">Xóa ảnh</button></p>';
-    echo '<div class="image-banner-preview" id="buildpro_post_banner_preview">' . ($thumb ? '<img src="' . esc_url($thumb) . '">' : '<span style="color:#888">Chưa chọn ảnh</span>') . '</div>';
+    echo '<p class="buildpro-post-field"><label>Banner Image</label><input type="hidden" id="buildpro_post_banner_id" name="buildpro_post_banner_id" value="' . esc_attr($banner_id) . '"> <button type="button" class="button" id="buildpro_post_select_banner">Select photo</button> <button type="button" class="button" id="buildpro_post_remove_banner">Remove photo</button></p>';
+    echo '<div class="image-banner-preview" id="buildpro_post_banner_preview">' . ($thumb ? '<img src="' . esc_url($thumb) . '">' : '<span style="color:#888">No banner selected</span>') . '</div>';
     echo '</div>';
     echo '<script>
     (function(){
@@ -33,7 +33,7 @@ function buildpro_post_banner_render_meta_box($post)
         if(selectBtn){
             selectBtn.addEventListener("click", function(e){
                 e.preventDefault();
-                if(!frame){ frame = wp.media({ title: "Chọn ảnh", button: { text: "Sử dụng" }, multiple: false, library: { type: "image" } }); }
+                if(!frame){ frame = wp.media({ title: "Select banner photo", button: { text: "Use photo" }, multiple: false, library: { type: "image" } }); }
                 if(typeof frame.off === "function"){ frame.off("select"); }
                 frame.on("select", function(){
                     var attachment = frame.state().get("selection").first().toJSON();
@@ -48,7 +48,7 @@ function buildpro_post_banner_render_meta_box($post)
             removeBtn.addEventListener("click", function(e){
                 e.preventDefault();
                 input.value = "";
-                preview.innerHTML = "<span style=\\"color:#888\\">Chưa chọn ảnh</span>";
+                preview.innerHTML = "<span style=\\"color:#888\\">No banner selected</span>";
             });
         }
     })();

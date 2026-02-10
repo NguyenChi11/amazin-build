@@ -288,6 +288,7 @@
       var u = window.buildproLinkTarget.urlInput;
       var ti = window.buildproLinkTarget.titleInput;
       var sel = window.buildproLinkTarget.targetSelect;
+      var sectionId = window.buildproLinkTarget.sectionId || "";
       if (u) {
         u.value = url;
         u.dispatchEvent(new Event("input"));
@@ -306,9 +307,17 @@
         wp.customize &&
         typeof wp.customize.section === "function"
       ) {
-        var s = wp.customize.section("buildpro_banner_section");
-        if (s && typeof s.expand === "function") {
-          s.expand();
+        if (sectionId) {
+          var s = wp.customize.section(sectionId);
+          if (s && typeof s.expand === "function") {
+            s.expand();
+          }
+        }
+        if (typeof wp.customize.panel === "function") {
+          var p = wp.customize.panel("buildpro_tools_panel");
+          if (p && typeof p.collapse === "function") {
+            p.collapse();
+          }
         }
       }
     } else {

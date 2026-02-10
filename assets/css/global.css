@@ -4,8 +4,8 @@
 
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent; /* Ẩn hiệu ứng trên trình duyệt WebKit (Chrome, Safari) */
-  -webkit-touch-callout: none; /* Vô hiệu menu chọn văn bản trên iOS */
+  -webkit-tap-highlight-color: transparent; /* Hide apps in your browser. WebKit (Chrome, Safari) */
+  -webkit-touch-callout: none; /* Disable text selection on iOS */
   font-family: "Shopee Display", sans-serif;
 }
 html {
@@ -742,7 +742,7 @@ span[slot="placeholder"] {
   margin-bottom: 0.5rem;
 }
 
-/* CSS Component chung */
+/* CSS Component: Button */
 
 /* Button */
 .component-button {
@@ -889,19 +889,19 @@ button.btn--loading .loader {
   border-width: 0;
 }
 
-/* Ẩn nút tăng/giảm trên tất cả trình duyệt */
+/* Hide button Increase/decrease across all browsers */
 input[type="number"] {
   appearance: textfield;
 }
 
-/* Ẩn trên WebKit (Chrome, Safari, Edge) */
+/* Hide button Increase/decrease on WebKit (Chrome, Safari, Edge) */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Ẩn trên Firefox */
+/* Hide button Increase/decrease on Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
 }

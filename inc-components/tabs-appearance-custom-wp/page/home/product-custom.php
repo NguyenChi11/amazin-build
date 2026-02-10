@@ -219,10 +219,23 @@ if (!function_exists('buildpro_product_sync_customizer_to_meta')) {
         if ($page_id) {
             $title = get_theme_mod('materials_title', '');
             $desc = get_theme_mod('materials_description', '');
-            update_post_meta($page_id, 'materials_title', is_string($title) ? $title : '');
-            update_post_meta($page_id, 'materials_description', is_string($desc) ? $desc : '');
             $enabled = absint(get_theme_mod('materials_enabled', 1));
-            update_post_meta($page_id, 'materials_enabled', $enabled);
+            $targets = array();
+            $targets[] = $page_id;
+            $front_id = (int) get_option('page_on_front');
+            if ($front_id > 0) {
+                $targets[] = $front_id;
+            }
+            $pages = get_pages(array('meta_key' => '_wp_page_template', 'meta_value' => 'home-page.php', 'number' => 1));
+            if (!empty($pages)) {
+                $targets[] = (int) $pages[0]->ID;
+            }
+            $targets = array_unique(array_filter(array_map('absint', $targets)));
+            foreach ($targets as $tid) {
+                update_post_meta($tid, 'materials_title', is_string($title) ? $title : '');
+                update_post_meta($tid, 'materials_description', is_string($desc) ? $desc : '');
+                update_post_meta($tid, 'materials_enabled', $enabled);
+            }
         }
     }
 }

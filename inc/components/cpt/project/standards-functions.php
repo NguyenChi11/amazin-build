@@ -31,13 +31,13 @@ function buildpro_project_standards_render_meta_box($post)
             <input type="hidden" name="project_standards[' . esc_attr($i) . '][image_id]" id="buildpro_project_standards_image_' . esc_attr($i) . '" value="' . esc_attr($img_id) . '">
             <input type="text" name="project_standards[' . esc_attr($i) . '][title]" value="' . esc_attr($title) . '" placeholder="Title" class="regular-text">
             <input type="text" name="project_standards[' . esc_attr($i) . '][description]" value="' . esc_attr($desc) . '" placeholder="Description" class="regular-text">
-            <button type="button" class="button buildpro-remove-standard">Xóa</button>
-            <button type="button" class="button buildpro-select-standard-image" data-index="' . esc_attr($i) . '">Chọn ảnh</button>
+            <button type="button" class="button buildpro-remove-standard">Remove</button>
+            <button type="button" class="button buildpro-select-standard-image" data-index="' . esc_attr($i) . '">Add image</button>
         </div>';
         $i++;
     }
     echo '</div>';
-    echo '<button type="button" class="button button-primary" id="buildpro_project_add_standard">Thêm dòng</button>';
+    echo '<button type="button" class="button button-primary" id="buildpro_project_add_standard">Add row</button>';
     echo '</div>';
     echo '<script>
     (function(){

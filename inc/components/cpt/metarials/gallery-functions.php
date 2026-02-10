@@ -21,7 +21,7 @@ function buildpro_material_gallery_render_meta_box($post)
 	.material-gallery-remove{position:absolute;top:4px;right:4px;background:#ef4444;color:#fff;border:none;border-radius:50%;width:22px;height:22px;line-height:22px;text-align:center;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.2)}
 	</style>';
 	echo '<div id="buildpro_material_tab_gallery" class="buildpro-post-block">';
-	echo '<p class="buildpro-post-field"><input type="hidden" id="buildpro_material_gallery_ids" name="material_gallery_ids" value="' . esc_attr(implode(',', $gallery_ids)) . '"> <button type="button" class="button button-primary" id="buildpro_material_add_gallery">Thêm ảnh</button> <button type="button" class="button" id="buildpro_material_clear_gallery">Xóa gallery</button></p>';
+	echo '<p class="buildpro-post-field"><input type="hidden" id="buildpro_material_gallery_ids" name="material_gallery_ids" value="' . esc_attr(implode(',', $gallery_ids)) . '"> <button type="button" class="button button-primary" id="buildpro_material_add_gallery">Add photo</button> <button type="button" class="button" id="buildpro_material_clear_gallery">Clear gallery</button></p>';
 	echo '<div class="material-gallery" id="buildpro_material_gallery_wrap">';
 	foreach ($gallery_ids as $gid) {
 		$gthumb = wp_get_attachment_image_url($gid, 'thumbnail');
@@ -77,7 +77,7 @@ function buildpro_material_gallery_render_meta_box($post)
 		if(addBtn){
 			addBtn.addEventListener("click", function(e){
 				e.preventDefault();
-				if(!frame){ frame = wp.media({ frame: "select", title: "Chọn ảnh gallery", button: { text: "Thêm vào gallery" }, multiple: "add", library: { type: "image" } }); }
+				if(!frame){ frame = wp.media({ frame: "select", title: "Select gallery photo", button: { text: "Add to gallery" }, multiple: "add", library: { type: "image" } }); }
 				if(typeof frame.off === "function"){ frame.off("select"); }
 				frame.on("select", function(){
 					var selection = frame.state().get("selection").toArray().map(function(m){ return m.toJSON(); });

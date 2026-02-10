@@ -81,7 +81,7 @@ h6 {
   }
 }
 
-/* Custom thanh cuộn */
+/* Custom scrollbar */
 html::-webkit-scrollbar,
 .custom-scroll::-webkit-scrollbar {
   width: 0.45rem;
@@ -98,7 +98,7 @@ html::-webkit-scrollbar-thumb,
   border-radius: 1.5rem;
 }
 
-/* Ẩn thanh cuộn */
+/* Hide scrollbar */
 .scrollbar-hidden {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -116,14 +116,14 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: currentColor !important;
 }
 
-/* Ẩn nút tăng/giảm trên tất cả trình duyệt */
+/* Hide button Increase/decrease across all browsers */
 input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
   -webkit-appearance: textfield;
 }
 
-/* Ẩn trên WebKit (Chrome, Safari, Edge) */
+/* Hide button Increase/decrease on WebKit (Chrome, Safari, Edge) */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;

@@ -37,16 +37,16 @@ function buildpro_post_quote_render_meta_box($post)
             echo '<div class="quote-thumb" data-id="' . esc_attr($img_id) . '"><img src="' . esc_url($u) . '"><button type="button" class="remove">x</button><input type="hidden" name="buildpro_post_quote_gallery[]" value="' . esc_attr($img_id) . '"></div>';
         }
     }
-    echo '</div><button type="button" class="button" id="buildpro_post_add_gallery">Thêm ảnh</button></div>';
+    echo '</div><button type="button" class="button" id="buildpro_post_add_gallery">Add image</button></div>';
     echo '<div class="buildpro-post-field"><label>Quote Repeater</label><div id="buildpro_post_quote_kv">';
     $i = 0;
     foreach ($quote_kv as $row) {
         $k = isset($row['key']) ? sanitize_text_field($row['key']) : '';
         $v = isset($row['value']) ? sanitize_text_field($row['value']) : '';
-        echo '<div class="kv-row" data-index="' . esc_attr($i) . '"><input type="text" name="buildpro_post_quote_kv[' . esc_attr($i) . '][key]" value="' . esc_attr($k) . '" placeholder="Key" class="regular-text"><input type="text" name="buildpro_post_quote_kv[' . esc_attr($i) . '][value]" value="' . esc_attr($v) . '" placeholder="Value" class="regular-text"><button type="button" class="button remove-kv">Xóa</button></div>';
+        echo '<div class="kv-row" data-index="' . esc_attr($i) . '"><input type="text" name="buildpro_post_quote_kv[' . esc_attr($i) . '][key]" value="' . esc_attr($k) . '" placeholder="Key" class="regular-text"><input type="text" name="buildpro_post_quote_kv[' . esc_attr($i) . '][value]" value="' . esc_attr($v) . '" placeholder="Value" class="regular-text"><button type="button" class="button remove-kv">Remove</button></div>';
         $i++;
     }
-    echo '</div><button type="button" class="button button-primary" id="buildpro_post_add_kv">Thêm dòng</button></div>';
+    echo '</div><button type="button" class="button button-primary" id="buildpro_post_add_kv">Add row</button></div>';
     echo '</div>';
     echo '<script>
     (function(){
@@ -56,7 +56,7 @@ function buildpro_post_quote_render_meta_box($post)
         if(addBtn){
             addBtn.addEventListener("click", function(e){
                 e.preventDefault();
-                if(!frame){ frame = wp.media({ title: "Chọn ảnh", button: { text: "Thêm" }, multiple: true, library: { type: "image" } }); }
+                if(!frame){ frame = wp.media({ title: "Select image", button: { text: "Add" }, multiple: true, library: { type: "image" } }); }
                 if(typeof frame.off === "function"){ frame.off("select"); }
                 frame.on("select", function(){
                     var selection = frame.state().get("selection");
@@ -96,7 +96,7 @@ function buildpro_post_quote_render_meta_box($post)
                 var temp = document.createElement("div");
                 temp.className = "kv-row";
                 temp.setAttribute("data-index", idx);
-                temp.innerHTML = "<input type=\\"text\\" name=\\"buildpro_post_quote_kv["+idx+"][key]\\" placeholder=\\"Key\\" class=\\"regular-text\\"><input type=\\"text\\" name=\\"buildpro_post_quote_kv["+idx+"][value]\\" placeholder=\\"Value\\" class=\\"regular-text\\"><button type=\\"button\\" class=\\"button remove-kv\\">Xóa</button>";
+                temp.innerHTML = "<input type=\\"text\\" name=\\"buildpro_post_quote_kv["+idx+"][key]\\" placeholder=\\"Key\\" class=\\"regular-text\\"><input type=\\"text\\" name=\\"buildpro_post_quote_kv["+idx+"][value]\\" placeholder=\\"Value\\" class=\\"regular-text\\"><button type=\\"button\\" class=\\"button remove-kv\\">Remove</button>";
                 wrap.appendChild(temp);
                 bindRow(temp);
             });

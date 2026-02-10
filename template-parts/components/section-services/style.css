@@ -1,10 +1,11 @@
 .section-services {
-  margin: 0rem 3.75rem;
+  padding: 0rem 3.75rem;
   padding: 5.625rem 0rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .section-services__header {
   display: flex;
@@ -104,4 +105,31 @@
 .section-services__item-link-icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+.section-services__hover-outline {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #2563eb;
+  border-radius: 10px;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.section-services:hover .section-services__hover-outline {
+  opacity: 1;
+}
+.section-services .customize-partial-edit-shortcut {
+  position: absolute;
+  right: 3.75rem;
+  top: 2rem;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.section-services:hover .customize-partial-edit-shortcut {
+  opacity: 1;
+  visibility: visible;
 }
