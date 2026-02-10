@@ -1,6 +1,19 @@
 <?php if (!defined('ABSPATH')) {
     exit;
 } ?>
+
+<div class="buildpro-data-block"
+    style="margin-bottom:10px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px">
+    <h4>Trạng thái Section Data</h4>
+    <input type="hidden" id="buildpro_data_enabled" name="buildpro_data_enabled"
+        value="<?php echo isset($enabled) ? (int)$enabled : 1; ?>">
+    <div style="display:flex;gap:8px">
+        <button type="button" class="button button-secondary" id="buildpro_data_disable_btn">Xóa Section</button>
+        <button type="button" class="button button-primary" id="buildpro_data_enable_btn">Thêm Section</button>
+        <span id="buildpro_data_enabled_state" style="align-self:center;color:#374151"></span>
+    </div>
+</div>
+
 <template id="buildpro-data-row-template">
     <div class="buildpro-data-row" data-index="__INDEX__">
         <div class="buildpro-data-grid">

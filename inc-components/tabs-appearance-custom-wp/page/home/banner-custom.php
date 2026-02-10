@@ -390,7 +390,9 @@ function buildpro_data_sync_customizer_to_meta()
                 'text' => isset($item['text']) ? sanitize_text_field($item['text']) : '',
             );
         }
+        $enabled = absint(get_theme_mod('buildpro_data_enabled', 1));
         update_post_meta($page_id, 'buildpro_data_items', $clean);
+        update_post_meta($page_id, 'buildpro_data_enabled', $enabled);
     }
 }
 add_action('customize_save_after', 'buildpro_data_sync_customizer_to_meta');
