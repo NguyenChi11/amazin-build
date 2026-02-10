@@ -9,8 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!hasItems && typeof banners !== "undefined" && Array.isArray(banners)) {
     banners.forEach((b, index) => {
       const item = document.createElement("div");
-      item.className =
-        "section-banner__item" + (index === 0 ? " active" : "");
+      item.className = "section-banner__item" + (index === 0 ? " active" : "");
       const content = document.createElement("div");
       content.className = "section-banner__item-content";
       const h3 = document.createElement("h3");
@@ -48,13 +47,16 @@ document.addEventListener("DOMContentLoaded", function () {
       const img = document.createElement("img");
       img.src = b.image;
       img.alt = b.type || "";
-      img.className =
-        "section-banner__image" + (index === 0 ? " active" : "");
+      img.className = "section-banner__image" + (index === 0 ? " active" : "");
       right.appendChild(img);
       const btn = document.createElement("button");
       btn.className =
         "section-banner__page " +
-        (index === 0 ? "pos-center active" : index === 1 ? "pos-right" : "pos-left");
+        (index === 0
+          ? "pos-center active"
+          : index === 1
+            ? "pos-right"
+            : "pos-left");
       btn.disabled = true;
       btn.dataset.index = String(index);
       btn.setAttribute("aria-label", b.type || "");
@@ -67,28 +69,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const items = document.querySelectorAll(".section-banner__item");
 
-  // Nếu không có item hoặc chỉ có 1 item thì không cần chạy animation
+  // If there are no items or only one item, the animation is not needed.
   if (items.length <= 1) return;
 
   let currentIndex = 0;
-  const duration = 1; // Thời gian chuyển đổi (giây)
-  const intervalTime = 5000; // Thời gian hiển thị mỗi slide (ms)
+  const duration = 1; // Transition duration (seconds)
+  const intervalTime = 5000; // Display duration for each slide (ms)
 
-  // Khởi tạo trạng thái ban đầu (đảm bảo CSS đã set nhưng set lại cho chắc chắn với GSAP)
+  // Initialize initial state (ensure CSS is set but set again for certainty with GSAP)
   gsap.set(items, { y: "100%", opacity: 0, zIndex: 0 });
   gsap.set(items[0], { y: "0%", opacity: 1, zIndex: 1 });
 
   function nextSlide() {
     const currentItem = items[currentIndex];
 
-    // Tính index tiếp theo (vòng tròn: 0 -> 1 -> 2 -> 0)
+    // Calculate the next index (circle: 0 -> 1 -> 2 -> 0)
     let nextIndex = (currentIndex + 1) % items.length;
     const nextItem = items[nextIndex];
 
     // Timeline cho chuyển động mượt mà
     const tl = gsap.timeline();
 
-    // Object A (current) di chuyển xuống (y: 0% -> 100%) và mờ dần
+    // Object A (current) moves down (y: 0% -> 100%) and fades away.
     tl.to(
       currentItem,
       {
@@ -101,14 +103,14 @@ document.addEventListener("DOMContentLoaded", function () {
       0,
     );
 
-    // Object B (next) di chuyển lên (từ y: 100% -> 0%) và hiện dần
-    // Lưu ý: CSS đã set initial y: 100% cho các item ẩn
-    // Cần set lại trạng thái bắt đầu cho nextItem để đảm bảo nó đi từ dưới lên
+    // Object B (next) moves up (from y: 100% -> 0%) and fades in.
+    // Note: CSS already set initial y: 100% for hidden items
+    // Need to set initial state for nextItem to ensure it moves up from bottom
     tl.fromTo(
       nextItem,
       { y: "100%", opacity: 0, zIndex: 1 },
       { y: "0%", opacity: 1, duration: duration, ease: "power2.inOut" },
-      0, // Chạy cùng lúc với animation của currentItem
+      0, // Run simultaneously with currentItem animation
     );
 
     // Cập nhật index
@@ -130,8 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
   if (images.length <= 1) return;
 
   let currentIndex = 0;
-  const duration = 1; // giây
-  const intervalTime = 5000; // ms
+  const duration = 1; // Transition duration (seconds)
+  const intervalTime = 5000; // Display duration for each slide (ms)
   gsap.set(images, {
     x: "100%",
     opacity: 0,
@@ -154,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const tl = gsap.timeline();
 
-    // A: di chuyển từ trái qua phải (ra khỏi khung về phía phải)
+    // A: moves from left to right (out of frame to right)
     tl.to(
       currentImg,
       {

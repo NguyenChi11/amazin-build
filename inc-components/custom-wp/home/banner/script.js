@@ -25,8 +25,8 @@
         e.preventDefault();
         if (!frame) {
           frame = wp.media({
-            title: "Chọn ảnh",
-            button: { text: "Sử dụng ảnh" },
+            title: "Choose Image",
+            button: { text: "Use Image" },
             multiple: false,
           });
         }
@@ -170,7 +170,7 @@
         preview.innerHTML =
           "<img src='" + item.thumb_url + "' style='max-height:80px;'>";
       } else {
-        preview.innerHTML = "<span style='color:#888'>Chưa chọn ảnh</span>";
+        preview.innerHTML = "<span style='color:#888'>No image selected</span>";
       }
     }
     if (typeInput) {
@@ -211,7 +211,7 @@
   function updateEnabledStateText() {
     if (!enabledState || !enabledInput) return;
     var val = parseInt(enabledInput.value || "1", 10) || 0;
-    enabledState.textContent = val === 1 ? "Đang hiển thị" : "Đang ẩn";
+    enabledState.textContent = val === 1 ? "Displaying" : "Hidden";
   }
   if (enabledInput) {
     enabledInput.value =

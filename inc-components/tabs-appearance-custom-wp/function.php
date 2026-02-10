@@ -19,7 +19,7 @@ function buildpro_preview_page_customize_register($wp_customize)
                 echo '<select id="buildpro-preview-select" ';
                 $this->link();
                 echo '>';
-                echo '<option value="0" data-url="">' . esc_html__('— Chọn trang —', 'buildpro') . '</option>';
+                echo '<option value="0" data-url="">' . esc_html__('— Select Preview Page —', 'buildpro') . '</option>';
                 foreach ($pages as $p) {
                     $id = (int) $p->ID;
                     $status = isset($p->post_status) ? $p->post_status : 'publish';
@@ -34,7 +34,7 @@ function buildpro_preview_page_customize_register($wp_customize)
                 foreach ($home_pages as $hp) {
                     $home_ids[] = (int) $hp->ID;
                 }
-                echo '<div style="margin-top:8px"><button type="button" class="button button-primary" id="buildpro-preview-confirm">Xác nhận</button></div>';
+                echo '<div style="margin-top:8px"><button type="button" class="button button-primary" id="buildpro-preview-confirm">Accept</button></div>';
                 echo '<script>(function(){var btn=document.getElementById("buildpro-preview-confirm");var sel=document.getElementById("buildpro-preview-select");if(!btn||!sel)return;btn.addEventListener("click",function(){try{var api=window.parent&&window.parent.wp&&window.parent.wp.customize;var opt=sel.options[sel.selectedIndex];var url=opt?opt.getAttribute("data-url"):"";var id=opt&&opt.value?parseInt(opt.value,10):0;if(!url)return;function addCS(u){try{var uuid=api&&api.settings&&api.settings.changeset&&api.settings.changeset.uuid;if(!uuid)return u;var t=new URL(u,window.location.origin);if(!t.searchParams.get("customize_changeset_uuid")){t.searchParams.set("customize_changeset_uuid",uuid);}return t.toString();}catch(e){return u;}}var target=(function(){var frontId=' . json_encode($front_id) . ';var homeIds=' . json_encode($home_ids) . ';if(id&&(frontId&&id===frontId))return "buildpro_banner_section";if(id&&Array.isArray(homeIds)&&homeIds.indexOf(id)>-1)return "buildpro_banner_section";return "buildpro_header_section";})();var finalUrl=addCS(url);var did=false;if(api&&api.previewer){if(api.previewer.previewUrl&&typeof api.previewer.previewUrl.set==="function"){api.previewer.previewUrl.set(finalUrl);did=true;}else if(typeof api.previewer.previewUrl==="function"){api.previewer.previewUrl(finalUrl);did=true;}else if(api.previewer.url&&typeof api.previewer.url.set==="function"){api.previewer.url.set(finalUrl);did=true;}if(!did){var frame=window.parent&&window.parent.document&&window.parent.document.querySelector("#customize-preview iframe");if(frame){frame.src=finalUrl;did=true;}}if(did){setTimeout(function(){try{if(api.previewer.refresh){api.previewer.refresh();}}catch(e){}},100);}}try{if(api&&api.section){var s=api.section(target);if(s&&s.focus){s.focus();}}}catch(e){} }catch(e){}});})();</script>';
                 echo '<script>(function(){try{var select=document.getElementById("buildpro-preview-select");var btn=document.getElementById("buildpro-preview-confirm");if(!select)return;var api=window.parent&&window.parent.wp&&window.parent.wp.customize;var cfg={frontId:' . json_encode($front_id) . ',homeIds:' . json_encode($home_ids) . '};function isHome(id){id=parseInt(id||0,10);if(!id)return false;return (cfg.frontId&&id===cfg.frontId)||(Array.isArray(cfg.homeIds)&&cfg.homeIds.indexOf(id)>-1);}function appendChangeset(url){try{var uuid=api&&api.settings&&api.settings.changeset&&api.settings.changeset.uuid;if(!uuid)return url;var u=new URL(url,window.location.origin);if(!u.searchParams.get(\"customize_changeset_uuid\")){u.searchParams.set(\"customize_changeset_uuid\",uuid);}return u.toString();}catch(e){return url;}}function go(url){try{if(!url)return;url=appendChangeset(url);var did=false;if(api&&api.previewer){if(api.previewer.previewUrl&&typeof api.previewer.previewUrl.set===\"function\"){api.previewer.previewUrl.set(url);did=true;}else if(typeof api.previewer.previewUrl===\"function\"){api.previewer.previewUrl(url);did=true;}else if(api.previewer.url&&typeof api.previewer.url.set===\"function\"){api.previewer.url.set(url);did=true;}if(!did){var frame=window.parent&&window.parent.document&&window.parent.document.querySelector(\"#customize-preview iframe\");if(frame){frame.src=url;did=true;}}if(did){setTimeout(function(){try{if(api.previewer.refresh){api.previewer.refresh();}}catch(e){}},100);}}}catch(e){}}function setVal(id){try{if(api){var setting=api(\"buildpro_preview_page_id\");if(setting&&typeof setting.set===\"function\"){setting.set(id);}}}catch(e){}}function focus(id){try{if(!api||!api.section)return;var target=isHome(id)?\"buildpro_banner_section\":\"buildpro_header_section\";var s=api.section(target);if(s&&s.focus){s.focus();}}catch(e){}}function current(){var opt=select.options[select.selectedIndex];return{url:(opt&&opt.getAttribute(\"data-url\"))||\"\",id:opt&&opt.value?parseInt(opt.value,10):0};}function onChange(){try{var cur=current();if(!cur.url)return;setVal(cur.id);go(cur.url);focus(cur.id);}catch(e){}}select.addEventListener(\"change\",onChange);btn.addEventListener(\"click\",onChange);}catch(e){}})();</script>';
             }
@@ -42,7 +42,7 @@ function buildpro_preview_page_customize_register($wp_customize)
     }
     $default_page = (int) get_option('page_on_front');
     $wp_customize->add_section('buildpro_preview_page_section', array(
-        'title'    => __('Chọn Trang', 'buildpro'),
+        'title'    => __('Preview Page', 'buildpro'),
         'priority' => 20,
     ));
     $wp_customize->add_setting('buildpro_preview_page_id', array(
@@ -52,8 +52,8 @@ function buildpro_preview_page_customize_register($wp_customize)
     ));
     if (class_exists('BuildPro_Preview_Page_Control')) {
         $wp_customize->add_control(new BuildPro_Preview_Page_Control($wp_customize, 'buildpro_preview_page_id', array(
-            'label'       => __('Chọn trang xem trước', 'buildpro'),
-            'description' => __('Chọn trang để xem trước trong Customizer. Sidebar sẽ cập nhật theo trang.', 'buildpro'),
+            'label'       => __('Preview Page', 'buildpro'),
+            'description' => __('Select the page to preview in the Customizer. The sidebar will update accordingly.', 'buildpro'),
             'section'     => 'buildpro_preview_page_section',
         )));
     }

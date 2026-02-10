@@ -136,7 +136,7 @@ function buildpro_option_customize_register($wp_customize)
         'sanitize_callback' => 'absint',
     ));
     $wp_customize->add_control('buildpro_option_enabled', array(
-        'label' => __('Hiển thị Section Option', 'buildpro'),
+        'label' => __('Enable Section Option', 'buildpro'),
         'section' => 'buildpro_option_section',
         'type' => 'checkbox',
     ));
@@ -147,8 +147,8 @@ function buildpro_option_customize_register($wp_customize)
     ));
     if (class_exists('BuildPro_Option_Repeater_Control')) {
         $wp_customize->add_control(new BuildPro_Option_Repeater_Control($wp_customize, 'buildpro_option_items', array(
-            'label' => __('Nội dung Option', 'buildpro'),
-            'description' => __('Thêm/sửa các mục Option hiển thị ở Trang chủ.', 'buildpro'),
+            'label' => __('Option Items', 'buildpro'),
+            'description' => __('Add/Edit Option items to display on the home page.', 'buildpro'),
             'section' => 'buildpro_option_section',
         )));
     }

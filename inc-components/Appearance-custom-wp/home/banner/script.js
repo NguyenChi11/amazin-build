@@ -86,7 +86,7 @@
         if (!resultsBox) return;
         if (!items || !items.length) {
           resultsBox.innerHTML =
-            "<p style='color:#888;margin:6px'>Không có kết quả</p>";
+            "<p style='color:#888;margin:6px'>No results found</p>";
           return;
         }
         var html = items
@@ -190,8 +190,8 @@
           e.preventDefault();
           if (!frame) {
             frame = wp.media({
-              title: "Chọn ảnh",
-              button: { text: "Sử dụng ảnh" },
+              title: "Select image",
+              button: { text: "Use image" },
               multiple: false,
             });
           }
@@ -254,25 +254,25 @@
         '">' +
         '  <div class="buildpro-banner-grid">' +
         '    <div class="buildpro-banner-block">' +
-        "      <h4>Hình ảnh</h4>" +
+        "      <h4>Image</h4>" +
         '      <div class="buildpro-banner-field">' +
         '        <input type="hidden" class="banner-image-id" data-field="image_id" value="">' +
-        '        <button type="button" class="button select-banner-image">Chọn ảnh</button>' +
-        '        <button type="button" class="button remove-banner-image">Xóa ảnh</button>' +
+        '        <button type="button" class="button select-banner-image">Select image</button>' +
+        '        <button type="button" class="button remove-banner-image">Remove image</button>' +
         "      </div>" +
-        '      <div class="banner-image-preview" style="margin-top:8px;min-height:84px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px dashed #ddd;border-radius:6px"><span style="color:#888">Chưa chọn ảnh</span></div>' +
+        '      <div class="banner-image-preview" style="margin-top:8px;min-height:84px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px dashed #ddd;border-radius:6px"><span style="color:#888">No image selected</span></div>' +
         "    </div>" +
         '    <div class="buildpro-banner-block">' +
-        "      <h4>Nội dung</h4>" +
+        "      <h4>Content</h4>" +
         '      <p class="buildpro-banner-field"><label>Type</label><input type="text" class="regular-text" data-field="type" value=""></p>' +
         '      <p class="buildpro-banner-field"><label>Text</label><input type="text" class="regular-text" data-field="text" value=""></p>' +
-        '      <p class="buildpro-banner-field"><label>Mô tả</label><textarea rows="4" class="large-text" data-field="description"></textarea></p>' +
-        "      <h4>Liên kết</h4>" +
-        '      <p class="buildpro-banner-field"><label>Link URL</label><input type="url" class="regular-text" data-field="link_url" value="" placeholder="https://..."> <button type="button" class="button choose-link">Chọn link</button></p>' +
-        '      <p class="buildpro-banner-field"><label>Link Target</label><select data-field="link_target"><option value="">Mặc định</option><option value="_blank">Mở tab mới</option></select></p>' +
+        '      <p class="buildpro-banner-field"><label>Description</label><textarea rows="4" class="large-text" data-field="description"></textarea></p>' +
+        "      <h4>Link</h4>" +
+        '      <p class="buildpro-banner-field"><label>Link URL</label><input type="url" class="regular-text" data-field="link_url" value="" placeholder="https://..."> <button type="button" class="button choose-link">Choose link</button></p>' +
+        '      <p class="buildpro-banner-field"><label>Link Target</label><select data-field="link_target"><option value="">Default</option><option value="_blank">Open in new tab</option></select></p>' +
         "    </div>" +
         "  </div>" +
-        '  <div class="buildpro-banner-actions"><button type="button" class="button remove-banner-row">Xóa mục</button></div>' +
+        '  <div class="buildpro-banner-actions"><button type="button" class="button remove-banner-row">Remove item</button></div>' +
         "</div>";
       var temp = document.createElement("div");
       temp.innerHTML = html;

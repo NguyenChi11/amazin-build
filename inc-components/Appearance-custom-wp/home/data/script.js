@@ -60,7 +60,7 @@
         '      <p class="buildpro-data-field"><label>Text</label><input type="text" class="regular-text" data-field="text" value=""></p>' +
         "    </div>" +
         "  </div>" +
-        '  <div class="buildpro-data-actions"><button type="button" class="button remove-data-row">Xóa mục</button></div>' +
+        '  <div class="buildpro-data-actions"><button type="button" class="button remove-data-row">Delete item</button></div>' +
         "</div>";
       var temp = document.createElement("div");
       temp.innerHTML = html;

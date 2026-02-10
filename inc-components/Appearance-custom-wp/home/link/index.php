@@ -2,12 +2,12 @@
     <p class="buildpro-banner-field"><label>URL</label><input type="url" id="buildpro-link-url" class="regular-text"
             placeholder="https://..."></p>
     <p class="buildpro-banner-field"><label>Text</label><input type="text" id="buildpro-link-text" class="regular-text"
-            placeholder="Văn bản liên kết"></p>
-    <p class="buildpro-banner-field"><label><input type="checkbox" id="buildpro-link-target"> Mở tab mới
+            placeholder="Link text"></p>
+    <p class="buildpro-banner-field"><label><input type="checkbox" id="buildpro-link-target"> Open in new tab
             (_blank)</label></p>
-    <h4>Hoặc liên kết tới nội dung có sẵn</h4>
-    <p class="buildpro-banner-field"><label>Tìm kiếm</label><input type="text" id="buildpro-link-search"
-            class="regular-text" placeholder="Nhập từ khóa..."></p>
+    <h4>Or link to existing content</h4>
+    <p class="buildpro-banner-field"><label>Search</label><input type="text" id="buildpro-link-search"
+            class="regular-text" placeholder="Enter keyword..."></p>
     <?php
     $__items = array();
     $__pages = get_pages(array('number' => 0));
@@ -52,10 +52,10 @@
                 echo '<div class="result"><div><div>' . esc_html($t) . ($ty ? '<span class="chip">' . esc_html(strtoupper($ty)) . '</span>' : '') . '</div><div class="meta">' . esc_html($u) . '</div></div><div><button type="button" class="button buildpro-link-pick" data-url="' . esc_url($u) . '" data-title="' . esc_attr($t) . '">Chọn</button></div></div>';
             }
         } else {
-            echo '<p style="color:#888;margin:6px">Không có kết quả</p>';
+            echo '<p style="color:#888;margin:6px">No results found</p>';
         } ?>
     </div>
-    <div class="actions"><button type="button" class="button button-primary" id="buildpro-link-apply">Áp dụng</button>
-        <button type="button" class="button" id="buildpro-link-close">Đóng</button>
+    <div class="actions"><button type="button" class="button button-primary" id="buildpro-link-apply">Apply</button>
+        <button type="button" class="button" id="buildpro-link-close">Close</button>
     </div>
 </div>

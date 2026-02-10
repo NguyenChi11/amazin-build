@@ -112,7 +112,7 @@ function buildpro_banner_customize_register($wp_customize)
         'sanitize_callback' => 'absint',
     ));
     $wp_customize->add_control('buildpro_banner_enabled', array(
-        'label' => __('Hiển thị Banner', 'buildpro'),
+        'label' => __('Enable Banner', 'buildpro'),
         'section' => 'buildpro_banner_section',
         'type' => 'checkbox',
     ));
@@ -123,11 +123,11 @@ function buildpro_banner_customize_register($wp_customize)
     ));
     if (class_exists('BuildPro_Customize_Button_Control')) {
         $wp_customize->add_control(new BuildPro_Customize_Button_Control($wp_customize, 'buildpro_banner_edit_link', array(
-            'label' => __('Sửa Banner', 'buildpro'),
-            'description' => __('Mở trang chỉnh sửa Banner của Trang chủ.', 'buildpro'),
+            'label' => __('Edit Banner', 'buildpro'),
+            'description' => __('Open the Banner editor for the Front Page.', 'buildpro'),
             'section' => 'buildpro_banner_section',
             'button_url' => $edit_url,
-            'button_text' => __('Mở trang chỉnh sửa', 'buildpro'),
+            'button_text' => __('Edit Banner', 'buildpro'),
         )));
     }
     $wp_customize->add_setting('buildpro_banner_items', array(
@@ -137,8 +137,8 @@ function buildpro_banner_customize_register($wp_customize)
     ));
     if (class_exists('BuildPro_Banner_Repeater_Control')) {
         $wp_customize->add_control(new BuildPro_Banner_Repeater_Control($wp_customize, 'buildpro_banner_items', array(
-            'label' => __('Nội dung Banner', 'buildpro'),
-            'description' => __('Thêm/sửa các mục Banner hiển thị ở Trang chủ.', 'buildpro'),
+            'label' => __('Banner Items', 'buildpro'),
+            'description' => __('Add/Edit Banner items to display on the Front Page.', 'buildpro'),
             'section' => 'buildpro_banner_section',
         )));
     }
@@ -159,12 +159,12 @@ function buildpro_banner_customize_register($wp_customize)
         'sanitize_callback' => 'absint',
     ));
     $wp_customize->add_control('buildpro_banner_show_nav', array(
-        'label' => __('Hiển thị nút điều hướng', 'buildpro'),
+        'label' => __('Show Navigation Buttons', 'buildpro'),
         'section' => 'buildpro_banner_section',
         'type' => 'checkbox',
     ));
     $wp_customize->add_section('buildpro_link_picker_section', array(
-        'title' => __('Danh sách Link', 'buildpro'),
+        'title' => __('Link Picker', 'buildpro'),
         'priority' => 26,
         'active_callback' => 'buildpro_customizer_is_home_preview',
     ));
@@ -175,8 +175,8 @@ function buildpro_banner_customize_register($wp_customize)
     ));
     if (class_exists('BuildPro_Link_List_Control')) {
         $wp_customize->add_control(new BuildPro_Link_List_Control($wp_customize, 'buildpro_link_picker_dummy', array(
-            'label' => __('Chọn liên kết', 'buildpro'),
-            'description' => __('Danh sách trang và bài viết để chọn làm liên kết.', 'buildpro'),
+            'label' => __('Link Picker', 'buildpro'),
+            'description' => __('List of pages and posts to select as links.', 'buildpro'),
             'section' => 'buildpro_link_picker_section',
         )));
     }

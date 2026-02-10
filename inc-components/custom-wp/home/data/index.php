@@ -8,8 +8,8 @@
     <input type="hidden" id="buildpro_data_enabled" name="buildpro_data_enabled"
         value="<?php echo isset($enabled) ? (int)$enabled : 1; ?>">
     <div style="display:flex;gap:8px">
-        <button type="button" class="button button-secondary" id="buildpro_data_disable_btn">Xóa Section</button>
-        <button type="button" class="button button-primary" id="buildpro_data_enable_btn">Thêm Section</button>
+        <button type="button" class="button button-secondary" id="buildpro_data_disable_btn">Remove Section</button>
+        <button type="button" class="button button-primary" id="buildpro_data_enable_btn">Add Section</button>
         <span id="buildpro_data_enabled_state" style="align-self:center;color:#374151"></span>
     </div>
 </div>
@@ -28,8 +28,8 @@
                         name="buildpro_data_items[__INDEX__][text]" class="regular-text" value=""></p>
             </div>
         </div>
-        <div class="buildpro-data-actions"><button type="button" class="button remove-data-row">Xóa mục</button></div>
+        <div class="buildpro-data-actions"><button type="button" class="button remove-data-row">Remove Item</button></div>
     </div>
 </template>
 <div id="buildpro-data-wrapper"></div>
-<button type="button" class="button button-primary" id="buildpro-data-add">Thêm mục</button>
+<button type="button" class="button button-primary" id="buildpro-data-add">Add Item</button>

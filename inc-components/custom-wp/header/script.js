@@ -15,8 +15,8 @@
         return;
       }
       frame = wp.media({
-        title: "Chọn ảnh logo",
-        button: { text: "Sử dụng ảnh" },
+        title: "Select Header Logo",
+        button: { text: "Use Image" },
         multiple: false,
       });
       frame.on("select", function () {

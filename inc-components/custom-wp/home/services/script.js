@@ -78,7 +78,7 @@
       removeIconBtn.addEventListener("click", function (e) {
         e.preventDefault();
         input.value = "";
-        preview.innerHTML = '<span style="color:#888">Chưa chọn icon</span>';
+        preview.innerHTML = '<span style="color:#888">No Icon Selected</span>';
       });
     }
     function openLinkPicker() {

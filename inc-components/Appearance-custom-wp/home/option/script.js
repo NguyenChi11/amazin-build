@@ -1,4 +1,4 @@
-;(function () {
+(function () {
   function init() {
     var hidden = document.getElementById("buildpro-option-data");
     var wrapper = document.getElementById("buildpro-option-wrapper");
@@ -12,8 +12,7 @@
         var iconInput = row.querySelector("[data-field='icon_id']");
         var obj = { icon_id: 0, text: "", description: "" };
         obj.icon_id =
-          parseInt(iconInput && iconInput.value ? iconInput.value : 0, 10) ||
-          0;
+          parseInt(iconInput && iconInput.value ? iconInput.value : 0, 10) || 0;
         var textInput = row.querySelector("[data-field='text']");
         var descInput = row.querySelector("[data-field='description']");
         obj.text = textInput && textInput.value ? textInput.value : "";
@@ -70,8 +69,8 @@
           e.preventDefault();
           if (!frame) {
             frame = wp.media({
-              title: "Chọn icon",
-              button: { text: "Sử dụng" },
+              title: "Select icon",
+              button: { text: "Use" },
               multiple: false,
             });
           }
@@ -122,25 +121,25 @@
         '">' +
         '  <div class="buildpro-option-tabs">' +
         "    <button type='button' class='buildpro-option-tab active' data-tab='icon'>Icon</button>" +
-        "    <button type='button' class='buildpro-option-tab' data-tab='content'>Nội dung</button>" +
+        "    <button type='button' class='buildpro-option-tab' data-tab='content'>Content</button>" +
         "  </div>" +
         '  <div class="buildpro-option-grid">' +
         '    <div class="buildpro-option-block tab-content" data-tab="icon" style="display:block">' +
         "      <h4>Icon</h4>" +
         '      <div class="buildpro-option-field">' +
         '        <input type="hidden" class="option-icon-id" data-field="icon_id" value="">' +
-        '        <button type="button" class="button select-option-icon">Chọn icon</button>' +
-        '        <button type="button" class="button remove-option-icon">Xóa icon</button>' +
+        '        <button type="button" class="button select-option-icon">Select icon</button>' +
+        '        <button type="button" class="button remove-option-icon">Remove icon</button>' +
         "      </div>" +
-        '      <div class="option-icon-preview" style="margin-top:8px;min-height:84px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px dashed #ddd;border-radius:6px"><span style="color:#888">Chưa chọn icon</span></div>' +
+        '      <div class="option-icon-preview" style="margin-top:8px;min-height:84px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px dashed #ddd;border-radius:6px"><span style="color:#888">No icon selected</span></div>' +
         "    </div>" +
         '    <div class="buildpro-option-block tab-content" data-tab="content" style="display:none">' +
-        "      <h4>Nội dung</h4>" +
+        "      <h4>Content</h4>" +
         '      <p class="buildpro-option-field"><label>Text</label><input type="text" class="regular-text" data-field="text" value=""></p>' +
-        '      <p class="buildpro-option-field"><label>Mô tả</label><textarea rows="4" class="large-text" data-field="description"></textarea></p>' +
+        '      <p class="buildpro-option-field"><label>Description</label><textarea rows="4" class="large-text" data-field="description"></textarea></p>' +
         "    </div>" +
         "  </div>" +
-        '  <div class="buildpro-option-actions"><button type="button" class="button remove-option-row">Xóa mục</button></div>' +
+        '  <div class="buildpro-option-actions"><button type="button" class="button remove-option-row">Remove item</button></div>' +
         "</div>";
       var temp = document.createElement("div");
       temp.innerHTML = html;

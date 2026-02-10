@@ -65,15 +65,15 @@ document.addEventListener("DOMContentLoaded", function () {
     spaceBetween: spacing,
     loop: true,
 
-    // 👉 CUỘN LIÊN TỤC
-    speed: 6000, // càng lớn càng mượt
+    // 👉 Scroll horizontally
+    speed: 6000, // Larger values make the scroll slower
     autoplay: {
-      delay: 0, // quan trọng: không delay
+      delay: 0, // Important: no delay
       disableOnInteraction: false,
       pauseOnMouseEnter: false,
     },
 
-    freeMode: true, // cho phép trượt mượt
+    freeMode: true, // Allows smooth horizontal scrolling
     freeModeMomentum: false,
     breakpoints: {
       0: { slidesPerView: 1 },

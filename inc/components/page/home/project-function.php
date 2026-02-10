@@ -33,8 +33,8 @@ function buildpro_portfolio_render_meta_box($post)
     .buildpro-portfolio-block .large-text{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:6px}
     </style>';
     echo '<div id="buildpro_portfolio_meta" class="buildpro-portfolio-block">';
-    echo '<p class="buildpro-portfolio-field"><label>Tiêu đề Portfolio</label><input type="text" name="projects_title" class="regular-text" value="' . esc_attr($title) . '" placeholder="PROJECTS"></p>';
-    echo '<p class="buildpro-portfolio-field"><label>Mô tả</label><textarea name="projects_description" rows="4" class="large-text" placeholder="Mô tả ngắn">' . esc_textarea($desc) . '</textarea></p>';
+    echo '<p class="buildpro-portfolio-field"><label>Portfolio Title</label><input type="text" name="projects_title" class="regular-text" value="' . esc_attr($title) . '" placeholder="PROJECTS"></p>';
+    echo '<p class="buildpro-portfolio-field"><label>Description</label><textarea name="projects_description" rows="4" class="large-text" placeholder="Short Description">' . esc_textarea($desc) . '</textarea></p>';
     echo '</div>';
 }
 

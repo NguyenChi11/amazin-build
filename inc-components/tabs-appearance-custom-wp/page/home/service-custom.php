@@ -198,7 +198,7 @@ function buildpro_services_customize_register($wp_customize)
         'sanitize_callback' => 'sanitize_text_field',
     ));
     $wp_customize->add_control('buildpro_service_title', array(
-        'label' => __('Tiêu đề Services', 'buildpro'),
+        'label' => __('Services Title', 'buildpro'),
         'section' => 'buildpro_services_section',
         'type' => 'text',
     ));
@@ -209,7 +209,7 @@ function buildpro_services_customize_register($wp_customize)
         'sanitize_callback' => 'sanitize_textarea_field',
     ));
     $wp_customize->add_control('buildpro_service_desc', array(
-        'label' => __('Mô tả Services', 'buildpro'),
+        'label' => __('Services Description', 'buildpro'),
         'section' => 'buildpro_services_section',
         'type' => 'textarea',
     ));
@@ -221,8 +221,8 @@ function buildpro_services_customize_register($wp_customize)
     ));
     if (class_exists('BuildPro_Services_Repeater_Control')) {
         $wp_customize->add_control(new BuildPro_Services_Repeater_Control($wp_customize, 'buildpro_service_items', array(
-            'label' => __('Các dịch vụ hiển thị', 'buildpro'),
-            'description' => __('Thêm/sửa các mục Services hiển thị ở Trang chủ.', 'buildpro'),
+            'label' => __('Services Items', 'buildpro'),
+            'description' => __('Add/Edit Services Items to display on the home page.', 'buildpro'),
             'section' => 'buildpro_services_section',
         )));
     }

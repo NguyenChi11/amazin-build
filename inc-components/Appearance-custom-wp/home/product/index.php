@@ -2,9 +2,9 @@
     exit;
 } ?>
 <div class="buildpro-product-control">
-    <p class="description">Cấu hình tiêu đề và mô tả của phần Materials.</p>
+    <p class="description">Configure the title and description of the Products section.</p>
     <ul class="buildpro-product-control__hints">
-        <li>Thay đổi sẽ hiển thị ngay trong khung Preview.</li>
-        <li>Nhấn Publish để lưu về trang chủ.</li>
+        <li>Changes will be displayed immediately in the Preview.</li>
+        <li>Click Publish to save to the home page.</li>
     </ul>
 </div>

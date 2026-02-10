@@ -132,7 +132,7 @@ function buildpro_product_customize_register($wp_customize)
         'sanitize_callback' => 'sanitize_text_field',
     ));
     $wp_customize->add_control('materials_title', array(
-        'label' => __('Tiêu đề Materials', 'buildpro'),
+        'label' => __('Materials Title', 'buildpro'),
         'section' => 'buildpro_product_section',
         'type' => 'text',
     ));
@@ -143,7 +143,7 @@ function buildpro_product_customize_register($wp_customize)
         'sanitize_callback' => 'sanitize_textarea_field',
     ));
     $wp_customize->add_control('materials_description', array(
-        'label' => __('Mô tả Materials', 'buildpro'),
+        'label' => __('Materials Description', 'buildpro'),
         'section' => 'buildpro_product_section',
         'type' => 'textarea',
     ));

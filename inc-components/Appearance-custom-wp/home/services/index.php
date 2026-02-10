@@ -18,60 +18,60 @@
         $link_target = isset($item['link_target']) ? sanitize_text_field($item['link_target']) : '';
         $thumb = $icon_id ? wp_get_attachment_image_url($icon_id, 'thumbnail') : '';
     ?>
-    <div class="buildpro-services-row" data-index="<?php echo esc_attr($index); ?>">
-        <div class="buildpro-services-grid">
-            <div class="buildpro-services-block">
-                <h4>Icon</h4>
-                <div class="buildpro-services-field">
-                    <input type="hidden" class="services-icon-id" data-field="icon_id"
-                        value="<?php echo esc_attr($icon_id); ?>">
-                    <button type="button" class="button select-services-icon">Chọn icon</button>
-                    <button type="button" class="button remove-services-icon">Xóa icon</button>
+        <div class="buildpro-services-row" data-index="<?php echo esc_attr($index); ?>">
+            <div class="buildpro-services-grid">
+                <div class="buildpro-services-block">
+                    <h4>Icon</h4>
+                    <div class="buildpro-services-field">
+                        <input type="hidden" class="services-icon-id" data-field="icon_id"
+                            value="<?php echo esc_attr($icon_id); ?>">
+                        <button type="button" class="button select-services-icon">Select icon</button>
+                        <button type="button" class="button remove-services-icon">Remove icon</button>
+                    </div>
+                    <div class="services-icon-preview">
+                        <?php echo $thumb ? '<img src="' . esc_url($thumb) . '" style="max-height:80px;">' : '<span style="color:#888">Chưa chọn icon</span>'; ?>
+                    </div>
                 </div>
-                <div class="services-icon-preview">
-                    <?php echo $thumb ? '<img src="' . esc_url($thumb) . '" style="max-height:80px;">' : '<span style="color:#888">Chưa chọn icon</span>'; ?>
+                <div class="buildpro-services-block">
+                    <h4>Content</h4>
+                    <p class="buildpro-services-field">
+                        <label>Title</label>
+                        <input type="text" class="regular-text" data-field="title" value="<?php echo esc_attr($title); ?>">
+                    </p>
+                    <p class="buildpro-services-field">
+                        <label>Description</label>
+                        <textarea rows="4" class="large-text"
+                            data-field="description"><?php echo esc_textarea($desc); ?></textarea>
+                    </p>
+                    <h4>Link</h4>
+                    <p class="buildpro-services-field">
+                        <label>Link URL</label>
+                        <input type="url" class="regular-text" data-field="link_url"
+                            value="<?php echo esc_attr($link_url); ?>" placeholder="https://...">
+                        <button type="button" class="button choose-link">Choose link</button>
+                    </p>
+                    <p class="buildpro-services-field">
+                        <label>Link Title</label>
+                        <input type="text" class="regular-text" data-field="link_title"
+                            value="<?php echo esc_attr($link_title); ?>" placeholder="View Details">
+                    </p>
+                    <p class="buildpro-services-field">
+                        <label>Link Target</label>
+                        <select class="regular-select" data-field="link_target">
+                            <option value="" <?php selected($link_target, '', true); ?>>Default</option>
+                            <option value="_blank" <?php selected($link_target, '_blank', true); ?>>Open in new tab</option>
+                        </select>
+                    </p>
                 </div>
             </div>
-            <div class="buildpro-services-block">
-                <h4>Nội dung</h4>
-                <p class="buildpro-services-field">
-                    <label>Title</label>
-                    <input type="text" class="regular-text" data-field="title" value="<?php echo esc_attr($title); ?>">
-                </p>
-                <p class="buildpro-services-field">
-                    <label>Mô tả</label>
-                    <textarea rows="4" class="large-text"
-                        data-field="description"><?php echo esc_textarea($desc); ?></textarea>
-                </p>
-                <h4>Liên kết</h4>
-                <p class="buildpro-services-field">
-                    <label>Link URL</label>
-                    <input type="url" class="regular-text" data-field="link_url"
-                        value="<?php echo esc_attr($link_url); ?>" placeholder="https://...">
-                    <button type="button" class="button choose-link">Chọn link</button>
-                </p>
-                <p class="buildpro-services-field">
-                    <label>Link Title</label>
-                    <input type="text" class="regular-text" data-field="link_title"
-                        value="<?php echo esc_attr($link_title); ?>" placeholder="View Details">
-                </p>
-                <p class="buildpro-services-field">
-                    <label>Link Target</label>
-                    <select class="regular-select" data-field="link_target">
-                        <option value="" <?php selected($link_target, '', true); ?>>Mặc định</option>
-                        <option value="_blank" <?php selected($link_target, '_blank', true); ?>>Mở tab mới</option>
-                    </select>
-                </p>
+            <div class="buildpro-services-actions">
+                <button type="button" class="button remove-services-row">Remove item</button>
             </div>
-        </div>
-        <div class="buildpro-services-actions">
-            <button type="button" class="button remove-services-row">Xóa mục</button>
-        </div>
-        <button type="button" class="button button-primary" id="buildpro_service_enable_btn">Thêm Section</button>
-    <?php
+            <button type="button" class="button button-primary" id="buildpro_service_enable_btn">Add item</button>
+        <?php
         $index++;
     }
-    ?>
+        ?>
         <span id="buildpro_service_enabled_state" style="align-self:center;color:#374151"></span>
-<button type="button" class="button button-primary" id="buildpro-services-add">Thêm mục</button>
-</div>
+        <button type="button" class="button button-primary" id="buildpro-services-add">Add item</button>
+        </div>

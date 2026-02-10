@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="buildpro-data-actions">
-                <button type="button" class="button remove-data-row">Xóa mục</button>
+                <button type="button" class="button remove-data-row">Delete item</button>
             </div>
         </div>
     <?php
@@ -37,4 +37,4 @@
     }
     ?>
 </div>
-<button type="button" class="button button-primary" id="buildpro-data-add">Thêm mục</button>
+<button type="button" class="button button-primary" id="buildpro-data-add">Add item</button>

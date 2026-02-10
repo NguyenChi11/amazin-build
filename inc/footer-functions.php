@@ -105,15 +105,15 @@ function buildpro_footer_admin_page()
         $lp_title = isset($lp['title']) ? sanitize_text_field($lp['title']) : '';
         $lp_target = isset($lp['target']) ? sanitize_text_field($lp['target']) : '';
         echo '<div class="buildpro-block" data-index="' . esc_attr($lp_index) . '">';
-        echo '<p class="buildpro-field"><label>Link URL</label><input type="url" name="footer_list_pages[' . esc_attr($lp_index) . '][url]" class="regular-text" value="' . esc_attr($lp_url) . '" placeholder="https://..."> <button type="button" class="button choose-link">Chọn link</button></p>';
+        echo '<p class="buildpro-field"><label>Link URL</label><input type="url" name="footer_list_pages[' . esc_attr($lp_index) . '][url]" class="regular-text" value="' . esc_attr($lp_url) . '" placeholder="https://..."> <button type="button" class="button choose-link">Choose link</button></p>';
         echo '<p class="buildpro-field"><label>Link Title</label><input type="text" name="footer_list_pages[' . esc_attr($lp_index) . '][title]" class="regular-text" value="' . esc_attr($lp_title) . '"></p>';
-        echo '<p class="buildpro-field"><label>Link Target</label><select name="footer_list_pages[' . esc_attr($lp_index) . '][target]"><option value="" ' . selected($lp_target, '', false) . '>Mặc định</option><option value="_blank" ' . selected($lp_target, '_blank', false) . '>Mở tab mới</option></select></p>';
-        echo '<div class="buildpro-actions"><button type="button" class="button remove-row">Xóa mục</button></div>';
+        echo '<p class="buildpro-field"><label>Link Target</label><select name="footer_list_pages[' . esc_attr($lp_index) . '][target]"><option value="" ' . selected($lp_target, '', false) . '>Mặc định</option><option value="_blank" ' . selected($lp_target, '_blank', false) . '>Open new tabs</option></select></p>';
+        echo '<div class="buildpro-actions"><button type="button" class="button remove-row">Remove item</button></div>';
         echo '</div>';
         $lp_index++;
     }
     echo '</div>';
-    echo '<button type="button" class="button button-primary" id="footer-list-pages-add">Thêm mục</button>';
+    echo '<button type="button" class="button button-primary" id="footer-list-pages-add">Add item</button>';
     echo '</div>';
     echo '</div>';
     echo '<div id="tab-contact" class="buildpro-footer-section">';
@@ -135,12 +135,12 @@ function buildpro_footer_admin_page()
         $cl_title = isset($cl['title']) ? sanitize_text_field($cl['title']) : '';
         $cl_target = isset($cl['target']) ? sanitize_text_field($cl['target']) : '';
         echo '<div class="buildpro-block" data-index="' . esc_attr($cl_index) . '">';
-        echo '<p class="buildpro-field"><label>Icon</label><input type="hidden" name="footer_contact_links[' . esc_attr($cl_index) . '][icon_id]" value="' . esc_attr($cl_icon_id) . '"> <button type="button" class="button select-contact-icon">Chọn ảnh</button> <button type="button" class="button remove-contact-icon">Xóa ảnh</button></p>';
-        echo '<div class="image-preview contact-icon-preview">' . ($cl_icon_thumb ? '<img src="' . esc_url($cl_icon_thumb) . '" style="max-height:80px;">' : '<span style="color:#888">Chưa chọn ảnh</span>') . '</div>';
-        echo '<p class="buildpro-field"><label>Link URL</label><input type="url" name="footer_contact_links[' . esc_attr($cl_index) . '][url]" class="regular-text" value="' . esc_attr($cl_url) . '" placeholder="https://..."> <button type="button" class="button choose-link">Chọn link</button></p>';
+        echo '<p class="buildpro-field"><label>Icon</label><input type="hidden" name="footer_contact_links[' . esc_attr($cl_index) . '][icon_id]" value="' . esc_attr($cl_icon_id) . '"> <button type="button" class="button select-contact-icon">Selected photo</button> <button type="button" class="button remove-contact-icon">Xóa ảnh</button></p>';
+        echo '<div class="image-preview contact-icon-preview">' . ($cl_icon_thumb ? '<img src="' . esc_url($cl_icon_thumb) . '" style="max-height:80px;">' : '<span style="color:#888">No photo selected yet</span>') . '</div>';
+        echo '<p class="buildpro-field"><label>Link URL</label><input type="url" name="footer_contact_links[' . esc_attr($cl_index) . '][url]" class="regular-text" value="' . esc_attr($cl_url) . '" placeholder="https://..."> <button type="button" class="button choose-link">Choose link</button></p>';
         echo '<p class="buildpro-field"><label>Link Title</label><input type="text" name="footer_contact_links[' . esc_attr($cl_index) . '][title]" class="regular-text" value="' . esc_attr($cl_title) . '"></p>';
-        echo '<p class="buildpro-field"><label>Link Target</label><select name="footer_contact_links[' . esc_attr($cl_index) . '][target]"><option value="" ' . selected($cl_target, '', false) . '>Mặc định</option><option value="_blank" ' . selected($cl_target, '_blank', false) . '>Mở tab mới</option></select></p>';
-        echo '<div class="buildpro-actions"><button type="button" class="button remove-row">Xóa mục</button></div>';
+        echo '<p class="buildpro-field"><label>Link Target</label><select name="footer_contact_links[' . esc_attr($cl_index) . '][target]"><option value="" ' . selected($cl_target, '', false) . '>Default</option><option value="_blank" ' . selected($cl_target, '_blank', false) . '>Open new tabs</option></select></p>';
+        echo '<div class="buildpro-actions"><button type="button" class="button remove-row">Remove item</button></div>';
         echo '</div>';
         $cl_index++;
     }
@@ -156,41 +156,41 @@ function buildpro_footer_admin_page()
     echo '<div id="tab-policy" class="buildpro-footer-section">';
     echo '<div class="buildpro-block"><h3>Policy</h3>';
     echo '<p class="buildpro-field"><label>Text</label><input type="text" name="footer_policy_text" class="regular-text" value="' . esc_attr($policy_text) . '"></p>';
-    echo '<p class="buildpro-field"><label>Link URL</label><input type="url" id="footer_policy_link_url" name="footer_policy_link[url]" class="regular-text" value="' . esc_attr($policy_link['url']) . '" placeholder="https://..."> <button type="button" class="button choose-link-single" data-url="#footer_policy_link_url" data-title="#footer_policy_link_title" data-target="#footer_policy_link_target">Chọn link</button></p>';
+    echo '<p class="buildpro-field"><label>Link URL</label><input type="url" id="footer_policy_link_url" name="footer_policy_link[url]" class="regular-text" value="' . esc_attr($policy_link['url']) . '" placeholder="https://..."> <button type="button" class="button choose-link-single" data-url="#footer_policy_link_url" data-title="#footer_policy_link_title" data-target="#footer_policy_link_target">Choose link</button></p>';
     echo '<p class="buildpro-field"><label>Link Title</label><input type="text" id="footer_policy_link_title" name="footer_policy_link[title]" class="regular-text" value="' . esc_attr($policy_link['title']) . '"></p>';
-    echo '<p class="buildpro-field"><label>Link Target</label><select id="footer_policy_link_target" name="footer_policy_link[target]"><option value="" ' . selected($policy_link['target'], '', false) . '>Mặc định</option><option value="_blank" ' . selected($policy_link['target'], '_blank', false) . '>Mở tab mới</option></select></p>';
+    echo '<p class="buildpro-field"><label>Link Target</label><select id="footer_policy_link_target" name="footer_policy_link[target]"><option value="" ' . selected($policy_link['target'], '', false) . '>Default</option><option value="_blank" ' . selected($policy_link['target'], '_blank', false) . '>Open new tabs</option></select></p>';
     echo '</div>';
     echo '</div>';
     echo '<div id="tab-servicer" class="buildpro-footer-section">';
     echo '<div class="buildpro-block"><h3>Servicer</h3>';
     echo '<p class="buildpro-field"><label>Text</label><input type="text" name="footer_servicer_text" class="regular-text" value="' . esc_attr($servicer_text) . '"></p>';
-    echo '<p class="buildpro-field"><label>Link URL</label><input type="url" id="footer_servicer_link_url" name="footer_servicer_link[url]" class="regular-text" value="' . esc_attr($servicer_link['url']) . '" placeholder="https://..."> <button type="button" class="button choose-link-single" data-url="#footer_servicer_link_url" data-title="#footer_servicer_link_title" data-target="#footer_servicer_link_target">Chọn link</button></p>';
+    echo '<p class="buildpro-field"><label>Link URL</label><input type="url" id="footer_servicer_link_url" name="footer_servicer_link[url]" class="regular-text" value="' . esc_attr($servicer_link['url']) . '" placeholder="https://..."> <button type="button" class="button choose-link-single" data-url="#footer_servicer_link_url" data-title="#footer_servicer_link_title" data-target="#footer_servicer_link_target">Choose link</button></p>';
     echo '<p class="buildpro-field"><label>Link Title</label><input type="text" id="footer_servicer_link_title" name="footer_servicer_link[title]" class="regular-text" value="' . esc_attr($servicer_link['title']) . '"></p>';
-    echo '<p class="buildpro-field"><label>Link Target</label><select id="footer_servicer_link_target" name="footer_servicer_link[target]"><option value="" ' . selected($servicer_link['target'], '', false) . '>Mặc định</option><option value="_blank" ' . selected($servicer_link['target'], '_blank', false) . '>Mở tab mới</option></select></p>';
+    echo '<p class="buildpro-field"><label>Link Target</label><select id="footer_servicer_link_target" name="footer_servicer_link[target]"><option value="" ' . selected($servicer_link['target'], '', false) . '>Default</option><option value="_blank" ' . selected($servicer_link['target'], '_blank', false) . '>Open new tabs</option></select></p>';
     echo '</div>';
     echo '</div>';
     echo '</div>';
     submit_button('submit change');
     echo '<div id="buildpro-custom-link-backdrop"></div>';
     echo '<div id="buildpro-custom-link-modal">';
-    echo '<div class="buildpro-custom-link-header">Chọn link</div>';
+    echo '<div class="buildpro-custom-link-header">Choose link</div>';
     echo '<div class="buildpro-custom-link-body">';
     echo '<div class="buildpro-custom-link-grid">';
     echo '<div>';
     echo '<p class="buildpro-custom-link-row"><label>URL</label><input type="url" id="buildpro_custom_link_url" class="regular-text" placeholder="https://..."></p>';
     echo '<p class="buildpro-custom-link-row"><label>Link Text</label><input type="text" id="buildpro_custom_link_title" class="regular-text" placeholder=""></p>';
-    echo '<p class="buildpro-custom-link-row"><label><input type="checkbox" id="buildpro_custom_link_target"> Mở tab mới</label></p>';
+    echo '<p class="buildpro-custom-link-row"><label><input type="checkbox" id="buildpro_custom_link_target"> Open new tabs</label></p>';
     echo '</div>';
     echo '<div>';
-    echo '<p class="buildpro-custom-link-row"><label>Tìm kiếm</label><input type="search" id="buildpro_custom_link_search" class="regular-text" placeholder="Nhập từ khóa..."></p>';
-    echo '<p class="buildpro-custom-link-row"><label>Nguồn</label><select id="buildpro_custom_link_source"><option value="all">Tất cả</option><option value="page">Trang</option><option value="post">Bài viết</option></select></p>';
+    echo '<p class="buildpro-custom-link-row"><label>Search</label><input type="search" id="buildpro_custom_link_search" class="regular-text" placeholder="Enter keyword..."></p>';
+    echo '<p class="buildpro-custom-link-row"><label>Source</label><select id="buildpro_custom_link_source"><option value="all">All</option><option value="page">Page</option><option value="post">Post</option></select></p>';
     echo '<div id="buildpro_custom_link_results"></div>';
     echo '</div>';
     echo '</div>';
     echo '</div>';
     echo '<div class="buildpro-custom-link-actions">';
-    echo '<button type="button" class="button" id="buildpro_custom_link_cancel">Hủy</button>';
-    echo '<button type="button" class="button button-primary" id="buildpro_custom_link_apply">Chọn</button>';
+    echo '<button type="button" class="button" id="buildpro_custom_link_cancel">Cancel</button>';
+    echo '<button type="button" class="button button-primary" id="buildpro_custom_link_apply">Apply</button>';
     echo '</div>';
     echo '</div>';
     echo '</form>';
@@ -219,7 +219,7 @@ function buildpro_footer_admin_page()
             if(btn){
                 btn.addEventListener("click", function(e){
                     e.preventDefault();
-                    if(!frame){ frame = wp.media({ title: "Chọn ảnh", button: { text: "Sử dụng ảnh" }, multiple: false }); }
+                    if(!frame){ frame = wp.media({ title: "Choose image", button: { text: "Use image" }, multiple: false }); }
                     if(typeof frame.off === "function"){ frame.off("select"); }
                     frame.on("select", function(){
                         var attachment = frame.state().get("selection").first().toJSON();
@@ -234,7 +234,7 @@ function buildpro_footer_admin_page()
                 removeBtn.addEventListener("click", function(e){
                     e.preventDefault();
                     input.value = "";
-                    preview.innerHTML = "<span style=\'color:#888\'>Chưa chọn ảnh</span>";
+                    preview.innerHTML = "<span style=\'color:#888\'>No image selected</span>";
                 });
             }
         }
@@ -354,16 +354,16 @@ function buildpro_footer_admin_page()
             var qpages = "/wp-json/wp/v2/pages?per_page=20&orderby=date&order=desc";
             var qposts = "/wp-json/wp/v2/posts?per_page=20&orderby=date&order=desc";
             Promise.all([fetchJSON(qpages), fetchJSON(qposts)]).then(function(res){
-                var pages = res[0].map(function(it){ return { title:(it.title && it.title.rendered) ? it.title.rendered : (it.slug || "Trang"), url: it.link, type:"PAGE", date:new Date(it.date) }; });
-                var posts = res[1].map(function(it){ return { title:(it.title && it.title.rendered) ? it.title.rendered : (it.slug || "Bài viết"), url: it.link, type:"POST", date:new Date(it.date) }; });
+                var pages = res[0].map(function(it){ return { title:(it.title && it.title.rendered) ? it.title.rendered : (it.slug || "Page"), url: it.link, type:"PAGE", date:new Date(it.date) }; });
+                var posts = res[1].map(function(it){ return { title:(it.title && it.title.rendered) ? it.title.rendered : (it.slug || "Post"), url: it.link, type:"POST", date:new Date(it.date) }; });
                 var all = pages.concat(posts).sort(function(a,b){ return b.date - a.date; });
                 renderItems(all);
             });
         }
         function searchContent(q, source){
             var qparam = q ? "&search=" + encodeURIComponent(q) : "";
-            if(source === "page"){ fetchJSON("/wp-json/wp/v2/pages?per_page=20" + qparam).then(function(items){ renderItems(items.map(function(it){ return { title:(it.title && it.title.rendered)?it.title.rendered:(it.slug||"Trang"), url:it.link, type:"PAGE" }; })); }); }
-            else if(source === "post"){ fetchJSON("/wp-json/wp/v2/posts?per_page=20" + qparam).then(function(items){ renderItems(items.map(function(it){ return { title:(it.title && it.title.rendered)?it.title.rendered:(it.slug||"Bài viết"), url:it.link, type:"POST" }; })); }); }
+            if(source === "page"){ fetchJSON("/wp-json/wp/v2/pages?per_page=20" + qparam).then(function(items){ renderItems(items.map(function(it){ return { title:(it.title && it.title.rendered)?it.title.rendered:(it.slug||"Page"), url:it.link, type:"PAGE" }; })); }); }
+            else if(source === "post"){ fetchJSON("/wp-json/wp/v2/posts?per_page=20" + qparam).then(function(items){ renderItems(items.map(function(it){ return { title:(it.title && it.title.rendered)?it.title.rendered:(it.slug||"Post"), url:it.link, type:"POST" }; })); }); }
             else { fetchJSON("/wp-json/wp/v2/search?per_page=20" + (q ? ("&search="+encodeURIComponent(q)) : "")).then(function(items){ renderItems(items.map(function(it){ return { title: it.title || it.url, url: it.url, type: (it.type === "post" ? (it.subtype || "POST").toUpperCase() : "LINK") }; })); }); }
         }
         var cancelBtn = document.getElementById("buildpro_custom_link_cancel");
@@ -412,7 +412,7 @@ function buildpro_footer_admin_page()
             if(selectIconBtn){
                 selectIconBtn.addEventListener("click", function(e){
                     e.preventDefault();
-                    if(!iconFrame){ iconFrame = wp.media({ title: "Chọn ảnh", button: { text: "Sử dụng ảnh" }, multiple: false }); }
+                    if(!iconFrame){ iconFrame = wp.media({ title: "Select Image", button: { text: "Use Image" }, multiple: false }); }
                     if(typeof iconFrame.off === "function"){ iconFrame.off("select"); }
                     iconFrame.on("select", function(){
                         var attachment = iconFrame.state().get("selection").first().toJSON();
@@ -427,7 +427,7 @@ function buildpro_footer_admin_page()
                 removeIconBtn.addEventListener("click", function(e){
                     e.preventDefault();
                     if(iconInput){ iconInput.value = ""; }
-                    if(iconPreview){ iconPreview.innerHTML = "<span style=\'color:#888\'>Chưa chọn ảnh</span>"; }
+                    if(iconPreview){ iconPreview.innerHTML = "<span style=\'color:#888\'>No Image Selected</span>"; }
                 });
             }
         }
@@ -441,10 +441,10 @@ function buildpro_footer_admin_page()
                 var idx = wrapper.querySelectorAll(".buildpro-block").length;
                 var html = ""
                 + "<div class=\'buildpro-block\' data-index=\'"+idx+"\'>"
-                + "  <p class=\'buildpro-field\'><label>Link URL</label><input type=\'url\' name=\'footer_list_pages["+idx+"][url]\' class=\'regular-text\' value=\'\' placeholder=\'https://...\'> <button type=\'button\' class=\'button choose-link\'>Chọn link</button></p>"
+                + "  <p class=\'buildpro-field\'><label>Link URL</label><input type=\'url\' name=\'footer_list_pages["+idx+"][url]\' class=\'regular-text\' value=\'\' placeholder=\'https://...\'> <button type=\'button\' class=\'button choose-link\'>Choose Link</button></p>"
                 + "  <p class=\'buildpro-field\'><label>Link Title</label><input type=\'text\' name=\'footer_list_pages["+idx+"][title]\' class=\'regular-text\' value=\'\'></p>"
-                + "  <p class=\'buildpro-field\'><label>Link Target</label><select name=\'footer_list_pages["+idx+"][target]\'><option value=\'\'>Mặc định</option><option value=\'_blank\'>Mở tab mới</option></select></p>"
-                + "  <div class=\'buildpro-actions\'><button type=\'button\' class=\'button remove-row\'>Xóa mục</button></div>"
+                + "  <p class=\'buildpro-field\'><label>Link Target</label><select name=\'footer_list_pages["+idx+"][target]\'><option value=\'\'>Same Tab</option><option value=\'_blank\'>Open New Tab</option></select></p>"
+                + "  <div class=\'buildpro-actions\'><button type=\'button\' class=\'button remove-row\'>Remove Item</button></div>"
                 + "</div>";
                 var temp = document.createElement("div");
                 temp.innerHTML = html;
@@ -461,12 +461,12 @@ function buildpro_footer_admin_page()
                 var idx = wrapper.querySelectorAll(".buildpro-block").length;
                 var html = ""
                 + "<div class=\'buildpro-block\' data-index=\'"+idx+"\'>"
-                + "  <p class=\'buildpro-field\'><label>Icon</label><input type=\'hidden\' name=\'footer_contact_links["+idx+"][icon_id]\' value=\'\'> <button type=\'button\' class=\'button select-contact-icon\'>Chọn ảnh</button> <button type=\'button\' class=\'button remove-contact-icon\'>Xóa ảnh</button></p>"
-                + "  <div class=\'image-preview contact-icon-preview\'><span style=\'color:#888\'>Chưa chọn ảnh</span></div>"
-                + "  <p class=\'buildpro-field\'><label>Link URL</label><input type=\'url\' name=\'footer_contact_links["+idx+"][url]\' class=\'regular-text\' value=\'\' placeholder=\'https://...\'> <button type=\'button\' class=\'button choose-link\'>Chọn link</button></p>"
+                + "  <p class=\'buildpro-field\'><label>Icon</label><input type=\'hidden\' name=\'footer_contact_links["+idx+"][icon_id]\' value=\'\'> <button type=\'button\' class=\'button select-contact-icon\'>Selected photo</button> <button type=\'button\' class=\'button remove-contact-icon\'>Remove photo</button></p>"
+                + "  <div class=\'image-preview contact-icon-preview\'><span style=\'color:#888\'>No Image Selected</span></div>"
+                + "  <p class=\'buildpro-field\'><label>Link URL</label><input type=\'url\' name=\'footer_contact_links["+idx+"][url]\' class=\'regular-text\' value=\'\' placeholder=\'https://...\'> <button type=\'button\' class=\'button choose-link\'>Choose Link</button></p>"
                 + "  <p class=\'buildpro-field\'><label>Link Title</label><input type=\'text\' name=\'footer_contact_links["+idx+"][title]\' class=\'regular-text\' value=\'\'></p>"
-                + "  <p class=\'buildpro-field\'><label>Link Target</label><select name=\'footer_contact_links["+idx+"][target]\'><option value=\'\'>Mặc định</option><option value=\'_blank\'>Mở tab mới</option></select></p>"
-                + "  <div class=\'buildpro-actions\'><button type=\'button\' class=\'button remove-row\'>Xóa mục</button></div>"
+                + "  <p class=\'buildpro-field\'><label>Link Target</label><select name=\'footer_contact_links["+idx+"][target]\'><option value=\'\'>Same Tab</option><option value=\'_blank\'>Open New Tab</option></select></p>"
+                + "  <div class=\'buildpro-actions\'><button type=\'button\' class=\'button remove-row\'>Remove Item</button></div>"
                 + "</div>";
                 var temp = document.createElement("div");
                 temp.innerHTML = html;

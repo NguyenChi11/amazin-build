@@ -21,8 +21,8 @@
         e.preventDefault();
         if (!frame) {
           frame = wp.media({
-            title: "Chọn icon",
-            button: { text: "Sử dụng" },
+            title: "Select Option Icon",
+            button: { text: "Use Icon" },
             multiple: false,
           });
         }
@@ -76,7 +76,7 @@
         preview.innerHTML =
           "<img src='" + item.thumb_url + "' style='max-height:80px;'>";
       } else {
-        preview.innerHTML = "<span style='color:#888'>Chưa chọn icon</span>";
+        preview.innerHTML = "<span style='color:#888'>No Icon Selected</span>";
       }
     }
     if (textInput) {
@@ -105,7 +105,7 @@
   function updateEnabledStateText() {
     if (!enabledState || !enabledInput) return;
     var val = parseInt(enabledInput.value || "1", 10) || 0;
-    enabledState.textContent = val === 1 ? "Đang hiển thị" : "Đang ẩn";
+    enabledState.textContent = val === 1 ? "Enabled" : "Disabled";
   }
   if (enabledInput) {
     enabledInput.value =

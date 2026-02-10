@@ -58,7 +58,7 @@ function buildpro_evaluate_render_meta_box($post)
         echo '<div class="buildpro-evaluate-grid">';
         echo '<div class="buildpro-evaluate-col">';
         echo '<p class="buildpro-evaluate-field"><label>Avatar</label><input type="hidden" class="evaluate-avatar-id" name="buildpro_evaluate_items[' . esc_attr($index) . '][avatar_id]" value="' . esc_attr($avatar_id) . '"> <button type="button" class="button evaluate-select-avatar">Chọn ảnh</button> <button type="button" class="button evaluate-remove-avatar">Xóa ảnh</button></p>';
-        echo '<div class="evaluate-avatar-preview">' . ($thumb ? '<img src="' . esc_url($thumb) . '" style="max-height:112px">' : '<span style="color:#888">Chưa chọn ảnh</span>') . '</div>';
+        echo '<div class="evaluate-avatar-preview">' . ($thumb ? '<img src="' . esc_url($thumb) . '" style="max-height:112px">' : '<span style="color:#888">No photo selected yet</span>') . '</div>';
         echo '</div>';
         echo '<div class="buildpro-evaluate-col">';
         echo '<p class="buildpro-evaluate-field"><label>Name</label><input type="text" name="buildpro_evaluate_items[' . esc_attr($index) . '][name]" class="regular-text" value="' . esc_attr($name) . '" placeholder="Name"></p>';
@@ -70,7 +70,7 @@ function buildpro_evaluate_render_meta_box($post)
         echo '</div>';
         $index++;
     }
-    echo '<button type="button" class="button button-primary" id="buildpro_evaluate_add_row">Thêm dòng</button>';
+    echo '<button type="button" class="button button-primary" id="buildpro_evaluate_add_row">Add a row</button>';
     echo '</div>';
     echo '<script>
     (function(){
@@ -86,7 +86,7 @@ function buildpro_evaluate_render_meta_box($post)
             if(selBtn){
                 selBtn.addEventListener("click", function(e){
                     e.preventDefault();
-                    var frame = wp.media({ title: "Chọn ảnh", button: { text: "Sử dụng" }, multiple: false, library: { type: "image" } });
+                    var frame = wp.media({ title: "Select a photo", button: { text: "Use this photo" }, multiple: false, library: { type: "image" } });
                     frame.on("select", function(){
                         var a = frame.state().get("selection").first().toJSON();
                         input.value = a.id;
@@ -100,7 +100,7 @@ function buildpro_evaluate_render_meta_box($post)
                 rmBtn.addEventListener("click", function(e){
                     e.preventDefault();
                     input.value = "";
-                    prev.innerHTML = "<span style=\\"color:#888\\">Chưa chọn ảnh</span>";
+                    prev.innerHTML = "<span style=\\"color:#888\\">No photo selected yet</span>";
                 });
             }
         }
@@ -112,7 +112,7 @@ function buildpro_evaluate_render_meta_box($post)
                 var html = "<div class=\\"buildpro-evaluate-row\\" data-index=\\""+idx+"\\">"
                     + "<div class=\\"buildpro-evaluate-grid\\">"
                     + "<div class=\\"buildpro-evaluate-col\\">"
-                    + "<p class=\\"buildpro-evaluate-field\\"><label>Avatar</label><input type=\\"hidden\\" class=\\"evaluate-avatar-id\\" name=\\"buildpro_evaluate_items["+idx+"][avatar_id]\\" value=\\"\\"> <button type=\\"button\\" class=\\"button evaluate-select-avatar\\">Chọn ảnh</button> <button type=\\"button\\" class=\\"button evaluate-remove-avatar\\">Xóa ảnh</button></p>"
+                    + "<p class=\\"buildpro-evaluate-field\\"><label>Avatar</label><input type=\\"hidden\\" class=\\"evaluate-avatar-id\\" name=\\"buildpro_evaluate_items["+idx+"][avatar_id]\\" value=\\"\\"> <button type=\\"button\\" class=\\"button evaluate-select-avatar\\">Select photo</button> <button type=\\"button\\" class=\\"button evaluate-remove-avatar\\">Remove photo</button></p>"
                     + "<div class=\\"evaluate-avatar-preview\\"><span style=\\"color:#888\\">Chưa chọn ảnh</span></div>"
                     + "</div>"
                     + "<div class=\\"buildpro-evaluate-col\\">"

@@ -63,40 +63,40 @@ if ($query->have_posts()) {
     </div>
     <div class="section-portfolio__list">
         <?php foreach ($portfolio_items as $item): ?>
-        <a class="section-portfolio__item" href="<?php echo esc_url($item['link_url']); ?>"
-            <?php echo $item['link_target'] ? 'target="' . esc_attr($item['link_target']) . '"' : ''; ?>>
-            <div class="section-portfolio__item-image">
-                <?php
+            <a class="section-portfolio__item" href="<?php echo esc_url($item['link_url']); ?>"
+                <?php echo $item['link_target'] ? 'target="' . esc_attr($item['link_target']) . '"' : ''; ?>>
+                <div class="section-portfolio__item-image">
+                    <?php
                     $img_url = $item['image_id'] ? wp_get_attachment_image_url($item['image_id'], 'full') : '';
                     ?>
-                <?php if ($img_url): ?>
-                <div class="section-portfolio__item-bg"
-                    style="background-image: url('<?php echo esc_url($img_url); ?>');"></div>
-                <?php else: ?>
-                <div class="section-portfolio__item-bg"></div>
-                <?php endif; ?>
-            </div>
-            <div class="section-portfolio__item-content">
-                <p class="section-portfolio__item-text"><?php echo $item['text']; ?></p>
-                <h3 class="section-portfolio__item-name"><?php echo $item['name']; ?></h3>
-                <div class="section-portfolio__item-location-wrapper">
-                    <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/icon_location.png')); ?>"
-                        alt="location" class="section-portfolio__item-location-icon">
-                    <p class="section-portfolio__item-location"><?php echo esc_html($item['location']); ?></p>
+                    <?php if ($img_url): ?>
+                        <div class="section-portfolio__item-bg"
+                            style="background-image: url('<?php echo esc_url($img_url); ?>');"></div>
+                    <?php else: ?>
+                        <div class="section-portfolio__item-bg"></div>
+                    <?php endif; ?>
                 </div>
-            </div>
-        </a>
+                <div class="section-portfolio__item-content">
+                    <p class="section-portfolio__item-text"><?php echo $item['text']; ?></p>
+                    <h3 class="section-portfolio__item-name"><?php echo $item['name']; ?></h3>
+                    <div class="section-portfolio__item-location-wrapper">
+                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/icon_location.png')); ?>"
+                            alt="location" class="section-portfolio__item-location-icon">
+                        <p class="section-portfolio__item-location"><?php echo esc_html($item['location']); ?></p>
+                    </div>
+                </div>
+            </a>
         <?php endforeach; ?>
     </div>
     <div class="section-portfolio__page-link">
         <a class="section-portfolio__page-link-text"
             href="<?php echo esc_url(get_post_type_archive_link('project')); ?>">
-            Xem danh sách sản phẩm
+            View All Projects
         </a>
         <img class="section-banner__item-button-icon"
             src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/Arrow_Right.png')); ?>" alt="Arrow Right">
     </div>
     <?php if (empty($portfolio_items)): ?>
-    <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/project-data.js')); ?>"></script>
+        <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/project-data.js')); ?>"></script>
     <?php endif; ?>
 </section>

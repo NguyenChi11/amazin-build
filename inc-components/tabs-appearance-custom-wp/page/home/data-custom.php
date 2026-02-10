@@ -129,7 +129,7 @@ function buildpro_data_customize_register($wp_customize)
         'sanitize_callback' => 'absint',
     ));
     $wp_customize->add_control('buildpro_data_enabled', array(
-        'label' => __('Hiển thị Section Data', 'buildpro'),
+        'label' => __('Enable Section Data', 'buildpro'),
         'section' => 'buildpro_data_section',
         'type' => 'checkbox',
     ));
@@ -140,8 +140,8 @@ function buildpro_data_customize_register($wp_customize)
     ));
     if (class_exists('BuildPro_Data_Repeater_Control')) {
         $wp_customize->add_control(new BuildPro_Data_Repeater_Control($wp_customize, 'buildpro_data_items', array(
-            'label' => __('Nội dung Data', 'buildpro'),
-            'description' => __('Thêm/sửa các mục Data hiển thị ở Trang chủ.', 'buildpro'),
+            'label' => __('Data Items', 'buildpro'),
+            'description' => __('Add/Edit Data items to display on the home page.', 'buildpro'),
             'section' => 'buildpro_data_section',
         )));
     }
