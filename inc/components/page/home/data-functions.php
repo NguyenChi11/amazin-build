@@ -17,76 +17,36 @@ function buildpro_data_render_meta_box($post)
     wp_nonce_field('buildpro_data_meta_save', 'buildpro_data_meta_nonce');
     $items = get_post_meta($post->ID, 'buildpro_data_items', true);
     $items = is_array($items) ? $items : array();
-    echo '<style>
-    .buildpro-data-row{border:1px solid #ddd;padding:12px;margin:12px 0;background:#fff;border-radius:6px}
-    .buildpro-data-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-    .buildpro-data-block{background:#f7f7f7;padding:10px;border-radius:6px}
-    .buildpro-data-block h4{margin:0 0 8px;font-size:13px}
-    .buildpro-data-field{margin:8px 0}
-    .buildpro-data-field label{display:block;margin-bottom:4px}
-    .buildpro-data-actions{margin-top:10px;text-align:right}
-    </style>';
-    echo '<div id="buildpro-data-wrapper">';
-    $index = 0;
-    foreach ($items as $item) {
-        $number = isset($item['number']) ? sanitize_text_field($item['number']) : '';
-        $text = isset($item['text']) ? sanitize_text_field($item['text']) : '';
-        echo '<div class="buildpro-data-row" data-index="' . esc_attr($index) . '"><div class="buildpro-data-grid">';
-        echo '<div class="buildpro-data-block">';
-        echo '<h4>Number</h4>';
-        echo '<p class="buildpro-data-field"><label>Number</label><input type="text" name="buildpro_data_items[' . esc_attr($index) . '][number]" class="regular-text" value="' . esc_attr($number) . '" placeholder="123+"></p>';
-        echo '</div>';
-        echo '<div class="buildpro-data-block">';
-        echo '<h4>Text</h4>';
-        echo '<p class="buildpro-data-field"><label>Text</label><input type="text" name="buildpro_data_items[' . esc_attr($index) . '][text]" class="regular-text" value="' . esc_attr($text) . '" placeholder="Mô tả ngắn"></p>';
-        echo '</div>';
-        echo '</div><div class="buildpro-data-actions"><button type="button" class="button remove-data-row">Xóa mục</button></div></div>';
-        $index++;
+    $prepared = array();
+    foreach ($items as $it) {
+        $prepared[] = array(
+            'number' => isset($it['number']) ? (string) $it['number'] : '',
+            'text' => isset($it['text']) ? (string) $it['text'] : '',
+        );
     }
-    echo '</div>';
-    echo '<button type="button" class="button button-primary" id="buildpro-data-add">Thêm mục</button>';
-    echo '<script>
-	(function(){
-		var wrapper = document.getElementById("buildpro-data-wrapper");
-		var addBtn = document.getElementById("buildpro-data-add");
-		function bindRow(row){
-			var removeRowBtn = row.querySelector(".remove-data-row");
-			if(removeRowBtn){
-				removeRowBtn.addEventListener("click", function(e){
-					e.preventDefault();
-					row.parentNode.removeChild(row);
-				});
-			}
-		}
-		Array.prototype.forEach.call(wrapper.querySelectorAll(".buildpro-data-row"), bindRow);
-		if(addBtn){
-			addBtn.addEventListener("click", function(e){
-				e.preventDefault();
-				var idx = wrapper.querySelectorAll(".buildpro-data-row").length;
-                var html = \'\' 
-                + \'<div class="buildpro-data-row" data-index="\' + idx + \'">\'
-                + \'  <div class="buildpro-data-grid">\'
-                + \'    <div class="buildpro-data-block">\'
-                + \'      <h4>Number</h4>\'
-                + \'      <p class="buildpro-data-field"><label>Number</label><input type="text" name="buildpro_data_items[\' + idx + \'][number]" class="regular-text" value="" placeholder="123+"></p>\'
-                + \'    </div>\'
-                + \'    <div class="buildpro-data-block">\'
-                + \'      <h4>Text</h4>\'
-                + \'      <p class="buildpro-data-field"><label>Text</label><input type="text" name="buildpro_data_items[\' + idx + \'][text]" class="regular-text" value="" placeholder="Mô tả ngắn"></p>\'
-                + \'    </div>\'
-                + \'  </div>\'
-                + \'  <div class="buildpro-data-actions"><button type="button" class="button remove-data-row">Xóa mục</button></div>\'
-                + \'</div>\';
-				var temp = document.createElement("div");
-				temp.innerHTML = html;
-				var row = temp.firstElementChild;
-				wrapper.appendChild(row);
-				bindRow(row);
-			});
-		}
-	})();
-	</script>';
+    $template_file = get_template_directory() . '/inc-components/custom-wp/home/data/index.php';
+    if (file_exists($template_file)) {
+        include $template_file;
+    }
+    wp_add_inline_script(
+        'buildpro-data-script',
+        'window.buildproDataData=' . wp_json_encode(array('items' => $prepared)) . ';',
+        'before'
+    );
 }
+
+function buildpro_data_admin_enqueue($hook)
+{
+    if ($hook === 'post.php' || $hook === 'post-new.php') {
+        $base_dir = get_template_directory() . '/inc-components/custom-wp/home/data';
+        $base_uri = get_template_directory_uri() . '/inc-components/custom-wp/home/data';
+        $style_ver = file_exists($base_dir . '/style.css') ? filemtime($base_dir . '/style.css') : false;
+        $script_ver = file_exists($base_dir . '/script.js') ? filemtime($base_dir . '/script.js') : false;
+        wp_enqueue_style('buildpro-data-style', $base_uri . '/style.css', array(), $style_ver);
+        wp_enqueue_script('buildpro-data-script', $base_uri . '/script.js', array(), $script_ver, true);
+    }
+}
+add_action('admin_enqueue_scripts', 'buildpro_data_admin_enqueue');
 
 function buildpro_save_data_meta($post_id)
 {
