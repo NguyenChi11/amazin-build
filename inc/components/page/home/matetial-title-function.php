@@ -17,17 +17,18 @@ function buildpro_materials_render_meta_box($post)
     wp_nonce_field('buildpro_materials_meta_save', 'buildpro_materials_meta_nonce');
     $materials_title = get_post_meta($post->ID, 'materials_title', true);
     $materials_description = get_post_meta($post->ID, 'materials_description', true);
-    echo '<style>
-    .buildpro-materials-block{background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.05);padding:16px;margin-top:8px}
-    .buildpro-materials-field{margin:10px 0}
-    .buildpro-materials-field label{display:block;font-weight:600;margin-bottom:6px;color:#374151}
-    .buildpro-materials-block .regular-text{width:100%;max-width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:6px}
-    .buildpro-materials-block .large-text{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:6px}
-    </style>';
-    echo '<div class="buildpro-materials-block" id="buildpro-materials-meta-box">';
-    echo '<p class="buildpro-materials-field"><label>Tiêu đề Materials</label><input type="text" name="materials_title" class="regular-text" value="' . esc_attr($materials_title) . '" placeholder="MATERIALS"></p>';
-    echo '<p class="buildpro-materials-field"><label>Mô tả</label><textarea name="materials_description" rows="4" class="large-text" placeholder="Mô tả ngắn">' . esc_textarea($materials_description) . '</textarea></p>';
-    echo '</div>';
+    $materials_enabled = get_post_meta($post->ID, 'materials_enabled', true);
+    $materials_enabled = $materials_enabled === '' ? 1 : (int)$materials_enabled;
+    $materials_enabled = absint(get_theme_mod('materials_enabled', $materials_enabled));
+    $template_file = get_template_directory() . '/inc-components/custom-wp/home/product/index.php';
+    if (file_exists($template_file)) {
+        include $template_file;
+    }
+    wp_add_inline_script(
+        'buildpro-materials-script',
+        'window.buildproMaterialsData=' . wp_json_encode(array('enabled' => $materials_enabled)) . ';',
+        'before'
+    );
 }
 
 function buildpro_save_materials_meta($post_id)
@@ -43,7 +44,25 @@ function buildpro_save_materials_meta($post_id)
     }
     $materials_title = isset($_POST['materials_title']) ? sanitize_text_field($_POST['materials_title']) : '';
     $materials_description = isset($_POST['materials_description']) ? sanitize_textarea_field($_POST['materials_description']) : '';
+    $materials_enabled = isset($_POST['materials_enabled']) ? absint($_POST['materials_enabled']) : 1;
     update_post_meta($post_id, 'materials_title', $materials_title);
     update_post_meta($post_id, 'materials_description', $materials_description);
+    update_post_meta($post_id, 'materials_enabled', $materials_enabled);
+    set_theme_mod('materials_title', $materials_title);
+    set_theme_mod('materials_description', $materials_description);
+    set_theme_mod('materials_enabled', $materials_enabled);
 }
 add_action('save_post_page', 'buildpro_save_materials_meta');
+
+function buildpro_materials_admin_enqueue($hook)
+{
+    if ($hook === 'post.php' || $hook === 'post-new.php') {
+        $base_dir = get_template_directory() . '/inc-components/custom-wp/home/product';
+        $base_uri = get_template_directory_uri() . '/inc-components/custom-wp/home/product';
+        $style_ver = file_exists($base_dir . '/style.css') ? filemtime($base_dir . '/style.css') : false;
+        $script_ver = file_exists($base_dir . '/script.js') ? filemtime($base_dir . '/script.js') : false;
+        wp_enqueue_style('buildpro-materials-style', $base_uri . '/style.css', array(), $style_ver);
+        wp_enqueue_script('buildpro-materials-script', $base_uri . '/script.js', array(), $script_ver, true);
+    }
+}
+add_action('admin_enqueue_scripts', 'buildpro_materials_admin_enqueue');

@@ -1,7 +1,21 @@
 <?php
 $page_id = get_queried_object_id();
+$materials_enabled = get_post_meta($page_id, 'materials_enabled', true);
+$materials_enabled = $materials_enabled === '' ? 1 : (int)$materials_enabled;
 $materials_title = get_post_meta($page_id, 'materials_title', true);
 $materials_description = get_post_meta($page_id, 'materials_description', true);
+if (is_customize_preview()) {
+    $mod_title = get_theme_mod('materials_title', $materials_title);
+    $mod_desc = get_theme_mod('materials_description', $materials_description);
+    $mod_enabled = get_theme_mod('materials_enabled', 1);
+    $materials_enabled = (int)$mod_enabled;
+    if ($mod_title !== '') {
+        $materials_title = $mod_title;
+    }
+    if ($mod_desc !== '') {
+        $materials_description = $mod_desc;
+    }
+}
 
 $items = [];
 $query = new WP_Query(array(
@@ -33,7 +47,22 @@ if ($query->have_posts()) {
     wp_reset_postdata();
 }
 ?>
-<section class="section-product">
+<?php $style = $materials_enabled !== 1 ? ' style="display:none"' : ''; ?>
+<section class="section-product" <?php echo $style; ?>>
+    <?php if (is_customize_preview()): ?>
+        <div class="section-product__hover-outline"></div>
+
+        <script>
+            (function() {
+                var btn = document.querySelector('.section-product__customize-button');
+                if (btn && window.parent && window.parent.wp && window.parent.wp.customize) {
+                    btn.addEventListener('click', function() {
+                        window.parent.wp.customize.section('buildpro_product_section').focus();
+                    });
+                }
+            })();
+        </script>
+    <?php endif; ?>
     <div class="section-product__header">
         <h2 class="section-product__title" data-has-meta="<?php echo $materials_title !== '' ? '1' : '0'; ?>">
             <?php echo esc_html($materials_title ?: 'MATERIALS'); ?>
@@ -45,25 +74,25 @@ if ($query->have_posts()) {
     </div>
     <div class="section-product__list">
         <?php foreach ($items as $item): ?>
-        <a class="section-product__item" href="<?php echo esc_url($item['link']); ?>">
-            <div class="section-product__item-image">
-                <?php if (!empty($item['image'])): ?>
-                <img src="<?php echo esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>">
-                <?php endif; ?>
-            </div>
-            <div class="section-product__item-content">
-                <h3 class="section-product__item-title"><?php echo esc_html($item['title']); ?></h3>
-                <div class="section-product__item-bottom">
-                    <p class="section-product__item-price">
-                        <span>$</span><?php echo esc_html($item['price']); ?><span>/ton</span>
-                    </p>
-                    <button class="section-product__item-cta">Request a Quote</button>
+            <a class="section-product__item" href="<?php echo esc_url($item['link']); ?>">
+                <div class="section-product__item-image">
+                    <?php if (!empty($item['image'])): ?>
+                        <img src="<?php echo esc_url($item['image']); ?>" alt="<?php echo esc_attr($item['title']); ?>">
+                    <?php endif; ?>
                 </div>
-            </div>
-        </a>
+                <div class="section-product__item-content">
+                    <h3 class="section-product__item-title"><?php echo esc_html($item['title']); ?></h3>
+                    <div class="section-product__item-bottom">
+                        <p class="section-product__item-price">
+                            <span>$</span><?php echo esc_html($item['price']); ?><span>/ton</span>
+                        </p>
+                        <button class="section-product__item-cta">Request a Quote</button>
+                    </div>
+                </div>
+            </a>
         <?php endforeach; ?>
     </div>
     <?php if (empty($items)): ?>
-    <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/product-data.js')); ?>"></script>
+        <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/product-data.js')); ?>"></script>
     <?php endif; ?>
 </section>

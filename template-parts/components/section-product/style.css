@@ -1,10 +1,11 @@
 .section-product {
-  margin: 0rem 3.75rem;
+  padding: 0rem 3.75rem;
   padding-top: 5.625rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .section-product__header {
   display: flex;
@@ -123,4 +124,52 @@
   .section-product__list {
     grid-template-columns: 1fr;
   }
+}
+
+.section-product__hover-outline {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #2563eb;
+  border-radius: 10px;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.section-product:hover .section-product__hover-outline {
+  opacity: 1;
+}
+.section-product__customize-shortcut {
+  position: absolute;
+  right: 3.75rem;
+  top: 2rem;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.section-product:hover .section-product__customize-shortcut {
+  opacity: 1;
+  visibility: visible;
+}
+.section-product__customize-button {
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+.section-product .customize-partial-edit-shortcut {
+  position: absolute;
+  right: 3.75rem;
+  top: 0.75rem;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.section-product:hover .customize-partial-edit-shortcut {
+  opacity: 1;
+  visibility: visible;
 }
