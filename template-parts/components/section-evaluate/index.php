@@ -4,6 +4,24 @@ $evaluate_text = get_post_meta($page_id, 'buildpro_evaluate_text', true);
 $evaluate_title = get_post_meta($page_id, 'buildpro_evaluate_title', true);
 $evaluate_description = get_post_meta($page_id, 'buildpro_evaluate_desc', true);
 if (is_customize_preview()) {
+    $bundle = get_theme_mod('buildpro_evaluate_data', array());
+    if (is_string($bundle)) {
+        $decoded = json_decode($bundle, true);
+        if (is_array($decoded)) {
+            $bundle = $decoded;
+        }
+    }
+    if (is_array($bundle) && !empty($bundle)) {
+        if (isset($bundle['text'])) {
+            $evaluate_text = $bundle['text'];
+        }
+        if (isset($bundle['title'])) {
+            $evaluate_title = $bundle['title'];
+        }
+        if (isset($bundle['desc'])) {
+            $evaluate_description = $bundle['desc'];
+        }
+    }
     $mod_text = get_theme_mod('buildpro_evaluate_text', '');
     if ($mod_text !== '') {
         $evaluate_text = $mod_text;
@@ -21,9 +39,20 @@ if (is_customize_preview()) {
 $evaluate_items = [];
 $rows = get_post_meta($page_id, 'buildpro_evaluate_items', true);
 if (is_customize_preview()) {
-    $mods = get_theme_mod('buildpro_evaluate_items', array());
-    if (is_array($mods) && !empty($mods)) {
-        $rows = $mods;
+    $bundle = isset($bundle) ? $bundle : get_theme_mod('buildpro_evaluate_data', array());
+    if (is_string($bundle)) {
+        $decoded2 = json_decode($bundle, true);
+        if (is_array($decoded2)) {
+            $bundle = $decoded2;
+        }
+    }
+    if (is_array($bundle) && isset($bundle['items']) && is_array($bundle['items']) && !empty($bundle['items'])) {
+        $rows = $bundle['items'];
+    } else {
+        $mods = get_theme_mod('buildpro_evaluate_items', array());
+        if (is_array($mods) && !empty($mods)) {
+            $rows = $mods;
+        }
     }
 }
 $rows = is_array($rows) ? $rows : [];
@@ -41,6 +70,19 @@ foreach ($rows as $row) {
 }
 ?>
 <section class="section-evaluate">
+    <?php if (is_customize_preview()): ?>
+        <div class="section-evaluate__hover-outline"></div>
+        <script>
+            (function() {
+                var btn = document.querySelector('.section-evaluate__customize-button');
+                if (btn && window.parent && window.parent.wp && window.parent.wp.customize) {
+                    btn.addEventListener('click', function() {
+                        window.parent.wp.customize.section('buildpro_evaluate_section').focus();
+                    });
+                }
+            })();
+        </script>
+    <?php endif; ?>
     <div class="section-evaluate-container">
         <div class="section-evaluate-left">
             <p class="section-evaluate__text" data-has-meta="<?php echo $evaluate_text !== '' ? '1' : '0'; ?>">
