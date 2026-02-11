@@ -1,10 +1,10 @@
 .section-post {
-  margin: 0rem 3.75rem;
-  padding: 0rem 0rem;
+  padding: 5.375rem 3.75rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .section-post__header {
   display: flex;
@@ -44,6 +44,31 @@
   justify-content: space-between;
   width: 100%;
   gap: 0.8125rem;
+}
+.section-post .customize-partial-edit-shortcut {
+  position: absolute;
+  right: 2rem;
+  top: 1.5rem;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.section-post:hover .customize-partial-edit-shortcut {
+  opacity: 1;
+  visibility: visible;
+}
+.section-post__hover-outline {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #2563eb;
+  border-radius: 10px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.section-post:hover .section-post__hover-outline {
+  opacity: 1;
 }
 
 .section-post__item {
