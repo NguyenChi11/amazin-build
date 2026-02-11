@@ -44,8 +44,12 @@
       brandLogo.insertBefore(img, brandLogo.firstChild);
     }
     if (d.information && d.information.logo) {
-      img.src = d.information.logo;
-      img.alt = "Footer Logo";
+      if (!img.src || img.src.trim() === "") {
+        img.src = d.information.logo;
+      }
+      if (!img.alt || img.alt.trim() === "") {
+        img.alt = "Footer Logo";
+      }
     }
   }
   var t = document.querySelector(".footer__title");
@@ -55,7 +59,9 @@
     brandLogo.appendChild(t);
   }
   if (t && d.information) {
-    t.textContent = d.information.title || "";
+    if (!t.textContent || t.textContent.trim() === "") {
+      t.textContent = d.information.title || "";
+    }
   }
   var st = document.querySelector(".footer__subtitle");
   if (!st && brandLogo) {
@@ -64,7 +70,9 @@
     brandLogo.appendChild(st);
   }
   if (st && d.information) {
-    st.textContent = d.information.subTitle || "";
+    if (!st.textContent || st.textContent.trim() === "") {
+      st.textContent = d.information.subTitle || "";
+    }
   }
   var desc = document.querySelector(".footer__description");
   if (!desc) {
@@ -75,7 +83,9 @@
     }
   }
   if (desc && d.information) {
-    desc.textContent = d.information.description || "";
+    if (!desc.textContent || desc.textContent.trim() === "") {
+      desc.textContent = d.information.description || "";
+    }
   }
   var connectTitle = document.querySelector(".footer__connect-title");
   if (!connectTitle && brand) {
@@ -106,20 +116,21 @@
     }
   }
   if (pagesWrap && Array.isArray(d.pages)) {
-    pagesWrap.innerHTML = "";
-    d.pages.forEach(function (p) {
-      var a = document.createElement("a");
-      a.className = "footer__page-link";
-      a.href = p.url || "#";
-      if (p.target) {
-        a.target = p.target;
-        if (p.target === "_blank") {
-          a.rel = "noopener";
+    if (!pagesWrap.children.length) {
+      d.pages.forEach(function (p) {
+        var a = document.createElement("a");
+        a.className = "footer__page-link";
+        a.href = p.url || "#";
+        if (p.target) {
+          a.target = p.target;
+          if (p.target === "_blank") {
+            a.rel = "noopener";
+          }
         }
-      }
-      a.textContent = p.title || p.url || "";
-      pagesWrap.appendChild(a);
-    });
+        a.textContent = p.title || p.url || "";
+        pagesWrap.appendChild(a);
+      });
+    }
   }
   var contactBlock = document.querySelector(".footer__contact");
   if (!contactBlock && header) {
@@ -158,11 +169,18 @@
       icon.alt = "icon";
       el.insertBefore(icon, el.firstChild);
     }
-    icon.src = assetsBase + iconFile;
-    while (el.childNodes.length > 1) {
-      el.removeChild(el.lastChild);
+    if (!icon.src || icon.src.trim() === "") {
+      icon.src = assetsBase + iconFile;
     }
-    if (text) {
+    var hasText = false;
+    for (var i = 0; i < el.childNodes.length; i++) {
+      var node = el.childNodes[i];
+      if (node.nodeType === 3 && String(node.nodeValue || "").trim() !== "") {
+        hasText = true;
+        break;
+      }
+    }
+    if (!hasText && text) {
       el.appendChild(document.createTextNode(text));
     }
   }
@@ -200,25 +218,26 @@
     }
   }
   if (clWrap && Array.isArray(d.contactLinks)) {
-    clWrap.innerHTML = "";
-    d.contactLinks.forEach(function (c) {
-      var a = document.createElement("a");
-      a.className = "footer__contact-link";
-      a.href = c.url || "#";
-      if (c.target) {
-        a.target = c.target;
-        if (c.target === "_blank") {
-          a.rel = "noopener";
+    if (!clWrap.children.length) {
+      d.contactLinks.forEach(function (c) {
+        var a = document.createElement("a");
+        a.className = "footer__contact-link";
+        a.href = c.url || "#";
+        if (c.target) {
+          a.target = c.target;
+          if (c.target === "_blank") {
+            a.rel = "noopener";
+          }
         }
-      }
-      if (c.icon) {
-        var im = document.createElement("img");
-        im.className = "footer__contact-link-icon";
-        im.src = c.icon;
-        a.appendChild(im);
-      }
-      clWrap.appendChild(a);
-    });
+        if (c.icon) {
+          var im = document.createElement("img");
+          im.className = "footer__contact-link-icon";
+          im.src = c.icon;
+          a.appendChild(im);
+        }
+        clWrap.appendChild(a);
+      });
+    }
   }
   var bottom = document.querySelector(".footer__bottom");
   if (bottom) {
@@ -228,34 +247,44 @@
       create.className = "footer__create";
       bottom.insertBefore(create, bottom.firstChild);
     }
-    create.textContent = d.createBuildText || "";
+    if (!create.textContent || create.textContent.trim() === "") {
+      create.textContent = d.createBuildText || "";
+    }
     var policy = bottom.querySelector(".footer__policy");
     if (!policy) {
       policy = document.createElement("a");
       policy.className = "footer__policy";
       bottom.appendChild(policy);
     }
-    policy.href = (d.policy && d.policy.url) || "#";
-    if (d.policy && d.policy.target) {
-      policy.target = d.policy.target;
-      if (d.policy.target === "_blank") {
-        policy.rel = "noopener";
+    if (!policy.href || policy.href === "#" || policy.href.trim() === "") {
+      policy.href = (d.policy && d.policy.url) || "#";
+      if (d.policy && d.policy.target) {
+        policy.target = d.policy.target;
+        if (d.policy.target === "_blank") {
+          policy.rel = "noopener";
+        }
       }
     }
-    policy.textContent = (d.policy && d.policy.text) || "Policy";
+    if (!policy.textContent || policy.textContent.trim() === "") {
+      policy.textContent = (d.policy && d.policy.text) || "Policy";
+    }
     var service = bottom.querySelector(".footer__service");
     if (!service) {
       service = document.createElement("a");
       service.className = "footer__service";
       bottom.appendChild(service);
     }
-    service.href = (d.service && d.service.url) || "#";
-    if (d.service && d.service.target) {
-      service.target = d.service.target;
-      if (d.service.target === "_blank") {
-        service.rel = "noopener";
+    if (!service.href || service.href === "#" || service.href.trim() === "") {
+      service.href = (d.service && d.service.url) || "#";
+      if (d.service && d.service.target) {
+        service.target = d.service.target;
+        if (d.service.target === "_blank") {
+          service.rel = "noopener";
+        }
       }
     }
-    service.textContent = (d.service && d.service.text) || "Service";
+    if (!service.textContent || service.textContent.trim() === "") {
+      service.textContent = (d.service && d.service.text) || "Service";
+    }
   }
 })();

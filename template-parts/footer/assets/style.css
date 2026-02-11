@@ -5,6 +5,7 @@
   background-size: cover;
   background-position: center;
   margin-top: 3.75rem;
+  position: relative;
 }
 
 .footer__inner {
@@ -171,4 +172,54 @@
 .footer__contact-icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+.footer__hover-outline {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed #2563eb;
+  border-radius: 10px;
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.site-footer:hover .footer__hover-outline {
+  opacity: 1;
+}
+.footer__customize-shortcut {
+  position: absolute;
+  right: 3.75rem;
+  top: 2rem;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.site-footer:hover .footer__customize-shortcut {
+  opacity: 1;
+  visibility: visible;
+}
+.footer__customize-button {
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+}
+
+/* Show WP Customizer pencil on hover (edit shortcut) */
+.site-footer .customize-partial-edit-shortcut {
+  position: absolute;
+  right: 3.75rem;
+  top: 0.75rem;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+.site-footer:hover .customize-partial-edit-shortcut {
+  opacity: 1;
+  visibility: visible;
 }

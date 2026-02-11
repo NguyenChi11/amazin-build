@@ -102,6 +102,15 @@ function wp_enqueue_custom_assets()
             'condition' => file_exists(get_theme_file_path('/template-parts/footer/assets/scripts.js'))
         ],
         [
+            'type' => 'script',
+            'handle' => 'buildpro-footer-data',
+            'src' => get_theme_file_uri('/assets/data/footer-data.js'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/assets/data/footer-data.js'))
+        ],
+        [
             'type' => 'style',
             'handle' => 'buildpro-home-style',
             'src' => get_theme_file_uri('/template-parts/home/assets/styles.css'),

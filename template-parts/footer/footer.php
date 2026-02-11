@@ -53,6 +53,19 @@ $has_data = ($logo_url || $title_ft || $sub_title_ft || $description_ft || !empt
 ?>
 <footer id="colophon" class="site-footer" <?php echo $bg_style; ?>>
     <div class="footer__inner">
+        <?php if (is_customize_preview()): ?>
+            <div class="footer__hover-outline"></div>
+            <script>
+                (function() {
+                    var btn = document.querySelector('.footer__customize-button');
+                    if (btn && window.parent && window.parent.wp && window.parent.wp.customize) {
+                        btn.addEventListener('click', function() {
+                            window.parent.wp.customize.section('buildpro_footer_section').focus();
+                        });
+                    }
+                })();
+            </script>
+        <?php endif; ?>
         <div class="footer__header">
             <div class="footer__brand">
                 <div class="footer__brand-logo">
@@ -174,9 +187,7 @@ $has_data = ($logo_url || $title_ft || $sub_title_ft || $description_ft || !empt
         </div>
     </div>
 </footer><!-- #colophon -->
-<?php if (!$has_data) {
-    $data_src = esc_url(get_template_directory_uri() . '/assets/data/footer-data.js');
-    $fallback_src = esc_url(get_template_directory_uri() . '/template-parts/footer/assets/scripts.js');
-    echo '<script src="' . $data_src . '"></script>';
-    echo '<script src="' . $fallback_src . '"></script>';
-} ?>
+<?php
+$data_src = esc_url(get_template_directory_uri() . '/assets/data/footer-data.js');
+echo '<script src="' . $data_src . '"></script>';
+?>
