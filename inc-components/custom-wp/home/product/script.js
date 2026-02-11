@@ -8,7 +8,7 @@
   function updateEnabledStateText() {
     if (!enabledState || !enabledInput) return;
     var val = parseInt(enabledInput.value || "1", 10) || 0;
-    enabledState.textContent = val === 1 ? "Enabled" : "Disabled";
+    enabledState.textContent = val === 1 ? "Displaying" : "Hidden";
   }
   var data = window.buildproMaterialsData || { enabled: 1 };
   if (enabledInput) {

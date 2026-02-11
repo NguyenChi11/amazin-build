@@ -25,17 +25,12 @@ function buildpro_portfolio_render_meta_box($post)
     wp_nonce_field('buildpro_portfolio_meta_save', 'buildpro_portfolio_meta_nonce');
     $title = get_post_meta($post->ID, 'projects_title', true);
     $desc = get_post_meta($post->ID, 'projects_description', true);
-    echo '<style>
-    .buildpro-portfolio-block{background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.05);padding:16px;margin-top:8px}
-    .buildpro-portfolio-field{margin:10px 0}
-    .buildpro-portfolio-field label{display:block;font-weight:600;margin-bottom:6px;color:#374151}
-    .buildpro-portfolio-block .regular-text{width:100%;max-width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:6px}
-    .buildpro-portfolio-block .large-text{width:100%;padding:10px;border:1px solid #d1d5db;border-radius:6px}
-    </style>';
-    echo '<div id="buildpro_portfolio_meta" class="buildpro-portfolio-block">';
-    echo '<p class="buildpro-portfolio-field"><label>Portfolio Title</label><input type="text" name="projects_title" class="regular-text" value="' . esc_attr($title) . '" placeholder="PROJECTS"></p>';
-    echo '<p class="buildpro-portfolio-field"><label>Description</label><textarea name="projects_description" rows="4" class="large-text" placeholder="Short Description">' . esc_textarea($desc) . '</textarea></p>';
-    echo '</div>';
+    $enabled = get_post_meta($post->ID, 'buildpro_portfolio_enabled', true);
+    $enabled = $enabled === '' ? 1 : (int)$enabled;
+    wp_enqueue_style('buildpro-portfolio-admin', get_theme_file_uri('inc-components/custom-wp/home/project/style.css'), array(), null);
+    wp_enqueue_script('buildpro-portfolio-admin', get_theme_file_uri('inc-components/custom-wp/home/project/script.js'), array(), null, true);
+    wp_add_inline_script('buildpro-portfolio-admin', 'window.buildproPortfolioState=' . wp_json_encode(array('enabled' => $enabled)) . ';', 'before');
+    include get_theme_file_path('inc-components/custom-wp/home/project/index.php');
 }
 
 function buildpro_save_portfolio_meta($post_id)
@@ -56,9 +51,12 @@ function buildpro_save_portfolio_meta($post_id)
     }
     $title = isset($_POST['projects_title']) ? sanitize_text_field($_POST['projects_title']) : '';
     $desc = isset($_POST['projects_description']) ? sanitize_textarea_field($_POST['projects_description']) : '';
+    $enabled = isset($_POST['buildpro_portfolio_enabled']) ? absint($_POST['buildpro_portfolio_enabled']) : 1;
     update_post_meta($post_id, 'projects_title', $title);
     update_post_meta($post_id, 'projects_description', $desc);
+    update_post_meta($post_id, 'buildpro_portfolio_enabled', $enabled);
     set_theme_mod('projects_title', $title);
     set_theme_mod('projects_description', $desc);
+    set_theme_mod('buildpro_portfolio_enabled', $enabled);
 }
 add_action('save_post_page', 'buildpro_save_portfolio_meta');

@@ -2,17 +2,35 @@
 $location_icon = 268;
 $right_icon = 60;
 $page_id = get_queried_object_id();
+$enabled = get_post_meta($page_id, 'buildpro_portfolio_enabled', true);
+$enabled = $enabled === '' ? 1 : (int)$enabled;
 $portfolio_title = get_post_meta($page_id, 'projects_title', true);
 $portfolio_desc = get_post_meta($page_id, 'projects_description', true);
 if (is_customize_preview()) {
-    $mod_title = get_theme_mod('projects_title', '');
-    if ($mod_title !== '') {
-        $portfolio_title = $mod_title;
+    $enabled_mod = get_theme_mod('buildpro_portfolio_enabled', 1);
+    $enabled = (int)$enabled_mod;
+    $data = get_theme_mod('buildpro_portfolio_data', array());
+    if (is_array($data)) {
+        if (isset($data['title']) && $data['title'] !== '') {
+            $portfolio_title = $data['title'];
+        } else {
+            $mod_title = get_theme_mod('projects_title', '');
+            if ($mod_title !== '') {
+                $portfolio_title = $mod_title;
+            }
+        }
+        if (isset($data['description']) && $data['description'] !== '') {
+            $portfolio_desc = $data['description'];
+        } else {
+            $mod_desc = get_theme_mod('projects_description', '');
+            if ($mod_desc !== '') {
+                $portfolio_desc = $mod_desc;
+            }
+        }
     }
-    $mod_desc = get_theme_mod('projects_description', '');
-    if ($mod_desc !== '') {
-        $portfolio_desc = $mod_desc;
-    }
+}
+if ($enabled !== 1) {
+    return;
 }
 
 $portfolio_items = [];
@@ -53,6 +71,20 @@ if ($query->have_posts()) {
 }
 ?>
 <section class="section-portfolio">
+    <?php if (is_customize_preview()): ?>
+        <div class="section-portfolio__hover-outline"></div>
+
+        <script>
+            (function() {
+                var btn = document.querySelector('.section-portfolio__customize-button');
+                if (btn && window.parent && window.parent.wp && window.parent.wp.customize) {
+                    btn.addEventListener('click', function() {
+                        window.parent.wp.customize.section('buildpro_portfolio_section').focus();
+                    });
+                }
+            })();
+        </script>
+    <?php endif; ?>
     <div class="section-portfolio__header">
         <h2 class="section-portfolio__title" data-has-meta="<?php echo $portfolio_title !== '' ? '1' : '0'; ?>">
             <?php echo esc_html($portfolio_title ?: 'PROJECTS'); ?>

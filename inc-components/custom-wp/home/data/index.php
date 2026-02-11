@@ -4,7 +4,7 @@
 
 <div class="buildpro-data-block"
     style="margin-bottom:10px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px">
-    <h4>Trạng thái Section Data</h4>
+    <h4>Section Data Status</h4>
     <input type="hidden" id="buildpro_data_enabled" name="buildpro_data_enabled"
         value="<?php echo isset($enabled) ? (int)$enabled : 1; ?>">
     <div style="display:flex;gap:8px">
@@ -28,7 +28,8 @@
                         name="buildpro_data_items[__INDEX__][text]" class="regular-text" value=""></p>
             </div>
         </div>
-        <div class="buildpro-data-actions"><button type="button" class="button remove-data-row">Remove Item</button></div>
+        <div class="buildpro-data-actions"><button type="button" class="button remove-data-row">Remove Item</button>
+        </div>
     </div>
 </template>
 <div id="buildpro-data-wrapper"></div>

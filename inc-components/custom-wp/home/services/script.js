@@ -9,7 +9,7 @@
   function updateEnabledStateText() {
     if (!enabledState || !enabledInput) return;
     var val = parseInt(enabledInput.value || "1", 10) || 0;
-    enabledState.textContent = val === 1 ? "Đang hiển thị" : "Đang ẩn";
+    enabledState.textContent = val === 1 ? "Displaying" : "Hidden";
   }
   var data = window.buildproServicesData || { enabled: 1 };
   if (enabledInput) {
