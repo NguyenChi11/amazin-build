@@ -63,26 +63,6 @@ const materialsData = {
         "/wp-content/themes/buildpro/assets/images/redux/banner/banner_3.jpg",
       ],
     },
-    {
-      id: 1004,
-      title: "Ceramic Tile",
-      image: "/wp-content/themes/buildpro/assets/images/image_4.jpg",
-      price: "35",
-      link: "/materials/ceramic-tile",
-      banner: [
-        "/wp-content/themes/buildpro/assets/images/redux/banner/banner_1.jpg",
-        "/wp-content/themes/buildpro/assets/images/redux/banner/banner_2.jpg",
-        "/wp-content/themes/buildpro/assets/images/redux/banner/banner_3.jpg",
-      ],
-      description:
-        "Premium ceramic tiles with modern finishes for interior and exterior.",
-      gallery: [
-        "/wp-content/themes/buildpro/assets/images/image_7.jpg",
-        "/wp-content/themes/buildpro/assets/images/image_9.jpg",
-        "/wp-content/themes/buildpro/assets/images/image_10.jpg",
-        "/wp-content/themes/buildpro/assets/images/redux/banner/banner_2.jpg",
-      ],
-    },
   ],
 };
 

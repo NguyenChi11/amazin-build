@@ -76,9 +76,10 @@ function buildpro_footer_admin_page()
                     <div class="buildpro-block">
                         <h3>Banner</h3>
                         <div class="buildpro-field">
-                            <input type="hidden" id="footer_banner_image_id" name="footer_banner_image_id" value="<?= esc_attr($banner_image_id) ?>">
-                            <button type="button" class="button" id="select_footer_banner_image">Chọn ảnh</button>
-                            <button type="button" class="button" id="remove_footer_banner_image">Xóa ảnh</button>
+                            <input type="hidden" id="footer_banner_image_id" name="footer_banner_image_id"
+                                value="<?= esc_attr($banner_image_id) ?>">
+                            <button type="button" class="button" id="select_footer_banner_image">Select Image</button>
+                            <button type="button" class="button" id="remove_footer_banner_image">Remove Image</button>
                         </div>
                         <div id="footer_banner_preview" class="image-preview">
                             <?= $banner_thumb ? '<img src="' . esc_url($banner_thumb) . '" style="max-height:80px;">' : '<span style="color:#888">Chưa chọn ảnh</span>' ?>
@@ -91,9 +92,12 @@ function buildpro_footer_admin_page()
                         <div class="buildpro-grid">
                             <div>
                                 <div class="buildpro-field">
-                                    <input type="hidden" id="footer_information_logo_id" name="footer_information_logo_id" value="<?= esc_attr($info_logo_id) ?>">
-                                    <button type="button" class="button" id="select_footer_information_logo">Chọn logo</button>
-                                    <button type="button" class="button" id="remove_footer_information_logo">Xóa logo</button>
+                                    <input type="hidden" id="footer_information_logo_id" name="footer_information_logo_id"
+                                        value="<?= esc_attr($info_logo_id) ?>">
+                                    <button type="button" class="button" id="select_footer_information_logo">Select
+                                        image</button>
+                                    <button type="button" class="button" id="remove_footer_information_logo">Remove
+                                        image</button>
                                 </div>
                                 <div id="footer_information_logo_preview" class="image-preview">
                                     <?= $info_logo_thumb ? '<img src="' . esc_url($info_logo_thumb) . '" style="max-height:80px;">' : '<span style="color:#888">Chưa chọn logo</span>' ?>
@@ -102,15 +106,18 @@ function buildpro_footer_admin_page()
                             <div>
                                 <p class="buildpro-field">
                                     <label>Title</label>
-                                    <input type="text" name="footer_information_title" class="regular-text" value="<?= esc_attr($info_title) ?>">
+                                    <input type="text" name="footer_information_title" class="regular-text"
+                                        value="<?= esc_attr($info_title) ?>">
                                 </p>
                                 <p class="buildpro-field">
                                     <label>Sub Title</label>
-                                    <input type="text" name="footer_information_sub_title" class="regular-text" value="<?= esc_attr($info_sub_title) ?>">
+                                    <input type="text" name="footer_information_sub_title" class="regular-text"
+                                        value="<?= esc_attr($info_sub_title) ?>">
                                 </p>
                                 <p class="buildpro-field">
                                     <label>Description</label>
-                                    <textarea name="footer_information_description" rows="4" class="large-text"><?= esc_textarea($info_description) ?></textarea>
+                                    <textarea name="footer_information_description" rows="4"
+                                        class="large-text"><?= esc_textarea($info_description) ?></textarea>
                                 </p>
                             </div>
                         </div>
@@ -129,18 +136,21 @@ function buildpro_footer_admin_page()
                                 <div class="buildpro-block" data-index="<?= esc_attr($lp_index) ?>">
                                     <p class="buildpro-field">
                                         <label>Link URL</label>
-                                        <input type="url" name="footer_list_pages[<?= esc_attr($lp_index) ?>][url]" class="regular-text" value="<?= esc_attr($lp_url) ?>" placeholder="https://...">
+                                        <input type="url" name="footer_list_pages[<?= esc_attr($lp_index) ?>][url]"
+                                            class="regular-text" value="<?= esc_attr($lp_url) ?>" placeholder="https://...">
                                         <button type="button" class="button choose-link">Choose link</button>
                                     </p>
                                     <p class="buildpro-field">
                                         <label>Link Title</label>
-                                        <input type="text" name="footer_list_pages[<?= esc_attr($lp_index) ?>][title]" class="regular-text" value="<?= esc_attr($lp_title) ?>">
+                                        <input type="text" name="footer_list_pages[<?= esc_attr($lp_index) ?>][title]"
+                                            class="regular-text" value="<?= esc_attr($lp_title) ?>">
                                     </p>
                                     <p class="buildpro-field">
                                         <label>Link Target</label>
                                         <select name="footer_list_pages[<?= esc_attr($lp_index) ?>][target]">
-                                            <option value="" <?= selected($lp_target, '', false) ?>>Mặc định</option>
-                                            <option value="_blank" <?= selected($lp_target, '_blank', false) ?>>Open new tabs</option>
+                                            <option value="" <?= selected($lp_target, '', false) ?>>Same tab</option>
+                                            <option value="_blank" <?= selected($lp_target, '_blank', false) ?>>Open new tabs
+                                            </option>
                                         </select>
                                     </p>
                                     <div class="buildpro-actions">
@@ -158,19 +168,23 @@ function buildpro_footer_admin_page()
                         <h3>Contact</h3>
                         <p class="buildpro-field">
                             <label>Location</label>
-                            <input type="text" name="footer_contact_location" class="regular-text" value="<?= esc_attr($contact_location) ?>">
+                            <input type="text" name="footer_contact_location" class="regular-text"
+                                value="<?= esc_attr($contact_location) ?>">
                         </p>
                         <p class="buildpro-field">
                             <label>Phone</label>
-                            <input type="text" name="footer_contact_phone" class="regular-text" value="<?= esc_attr($contact_phone) ?>">
+                            <input type="text" name="footer_contact_phone" class="regular-text"
+                                value="<?= esc_attr($contact_phone) ?>">
                         </p>
                         <p class="buildpro-field">
                             <label>Email</label>
-                            <input type="email" name="footer_contact_email" class="regular-text" value="<?= esc_attr($contact_email) ?>">
+                            <input type="email" name="footer_contact_email" class="regular-text"
+                                value="<?= esc_attr($contact_email) ?>">
                         </p>
                         <p class="buildpro-field">
                             <label>Time</label>
-                            <input type="text" name="footer_contact_time" class="regular-text" value="<?= esc_attr($contact_time) ?>">
+                            <input type="text" name="footer_contact_time" class="regular-text"
+                                value="<?= esc_attr($contact_time) ?>">
                         </p>
                     </div>
                 </div>
@@ -189,27 +203,31 @@ function buildpro_footer_admin_page()
                                 <div class="buildpro-block" data-index="<?= esc_attr($cl_index) ?>">
                                     <p class="buildpro-field">
                                         <label>Icon</label>
-                                        <input type="hidden" name="footer_contact_links[<?= esc_attr($cl_index) ?>][icon_id]" value="<?= esc_attr($cl_icon_id) ?>">
-                                        <button type="button" class="button select-contact-icon">Selected photo</button>
-                                        <button type="button" class="button remove-contact-icon">Xóa ảnh</button>
+                                        <input type="hidden" name="footer_contact_links[<?= esc_attr($cl_index) ?>][icon_id]"
+                                            value="<?= esc_attr($cl_icon_id) ?>">
+                                        <button type="button" class="button select-contact-icon">Select photo</button>
+                                        <button type="button" class="button remove-contact-icon">Remove photo</button>
                                     </p>
                                     <div class="image-preview contact-icon-preview">
                                         <?= $cl_icon_thumb ? '<img src="' . esc_url($cl_icon_thumb) . '" style="max-height:80px;">' : '<span style="color:#888">No photo selected yet</span>' ?>
                                     </div>
                                     <p class="buildpro-field">
                                         <label>Link URL</label>
-                                        <input type="url" name="footer_contact_links[<?= esc_attr($cl_index) ?>][url]" class="regular-text" value="<?= esc_attr($cl_url) ?>" placeholder="https://...">
+                                        <input type="url" name="footer_contact_links[<?= esc_attr($cl_index) ?>][url]"
+                                            class="regular-text" value="<?= esc_attr($cl_url) ?>" placeholder="https://...">
                                         <button type="button" class="button choose-link">Choose link</button>
                                     </p>
                                     <p class="buildpro-field">
                                         <label>Link Title</label>
-                                        <input type="text" name="footer_contact_links[<?= esc_attr($cl_index) ?>][title]" class="regular-text" value="<?= esc_attr($cl_title) ?>">
+                                        <input type="text" name="footer_contact_links[<?= esc_attr($cl_index) ?>][title]"
+                                            class="regular-text" value="<?= esc_attr($cl_title) ?>">
                                     </p>
                                     <p class="buildpro-field">
                                         <label>Link Target</label>
                                         <select name="footer_contact_links[<?= esc_attr($cl_index) ?>][target]">
                                             <option value="" <?= selected($cl_target, '', false) ?>>Default</option>
-                                            <option value="_blank" <?= selected($cl_target, '_blank', false) ?>>Open new tabs</option>
+                                            <option value="_blank" <?= selected($cl_target, '_blank', false) ?>>Open new tabs
+                                            </option>
                                         </select>
                                     </p>
                                     <div class="buildpro-actions">
@@ -219,7 +237,7 @@ function buildpro_footer_admin_page()
                             <?php $cl_index++;
                             endforeach; ?>
                         </div>
-                        <button type="button" class="button button-primary" id="footer-contact-links-add">Thêm mục</button>
+                        <button type="button" class="button button-primary" id="footer-contact-links-add">Add item</button>
                     </div>
                 </div>
                 <div id="tab-create-build" class="buildpro-footer-section">
@@ -227,7 +245,8 @@ function buildpro_footer_admin_page()
                         <h3>Create Build</h3>
                         <p class="buildpro-field">
                             <label>Text</label>
-                            <input type="text" name="footer_create_build_text" class="regular-text" value="<?= esc_attr($create_build_text) ?>">
+                            <input type="text" name="footer_create_build_text" class="regular-text"
+                                value="<?= esc_attr($create_build_text) ?>">
                         </p>
                     </div>
                 </div>
@@ -236,22 +255,28 @@ function buildpro_footer_admin_page()
                         <h3>Policy</h3>
                         <p class="buildpro-field">
                             <label>Text</label>
-                            <input type="text" name="footer_policy_text" class="regular-text" value="<?= esc_attr($policy_text) ?>">
+                            <input type="text" name="footer_policy_text" class="regular-text"
+                                value="<?= esc_attr($policy_text) ?>">
                         </p>
                         <p class="buildpro-field">
                             <label>Link URL</label>
-                            <input type="url" id="footer_policy_link_url" name="footer_policy_link[url]" class="regular-text" value="<?= esc_attr($policy_link['url']) ?>" placeholder="https://...">
-                            <button type="button" class="button choose-link-single" data-url="#footer_policy_link_url" data-title="#footer_policy_link_title" data-target="#footer_policy_link_target">Choose link</button>
+                            <input type="url" id="footer_policy_link_url" name="footer_policy_link[url]"
+                                class="regular-text" value="<?= esc_attr($policy_link['url']) ?>" placeholder="https://...">
+                            <button type="button" class="button choose-link-single" data-url="#footer_policy_link_url"
+                                data-title="#footer_policy_link_title" data-target="#footer_policy_link_target">Choose
+                                link</button>
                         </p>
                         <p class="buildpro-field">
                             <label>Link Title</label>
-                            <input type="text" id="footer_policy_link_title" name="footer_policy_link[title]" class="regular-text" value="<?= esc_attr($policy_link['title']) ?>">
+                            <input type="text" id="footer_policy_link_title" name="footer_policy_link[title]"
+                                class="regular-text" value="<?= esc_attr($policy_link['title']) ?>">
                         </p>
                         <p class="buildpro-field">
                             <label>Link Target</label>
                             <select id="footer_policy_link_target" name="footer_policy_link[target]">
                                 <option value="" <?= selected($policy_link['target'], '', false) ?>>Default</option>
-                                <option value="_blank" <?= selected($policy_link['target'], '_blank', false) ?>>Open new tabs</option>
+                                <option value="_blank" <?= selected($policy_link['target'], '_blank', false) ?>>Open new
+                                    tabs</option>
                             </select>
                         </p>
                     </div>
@@ -261,22 +286,29 @@ function buildpro_footer_admin_page()
                         <h3>Servicer</h3>
                         <p class="buildpro-field">
                             <label>Text</label>
-                            <input type="text" name="footer_servicer_text" class="regular-text" value="<?= esc_attr($servicer_text) ?>">
+                            <input type="text" name="footer_servicer_text" class="regular-text"
+                                value="<?= esc_attr($servicer_text) ?>">
                         </p>
                         <p class="buildpro-field">
                             <label>Link URL</label>
-                            <input type="url" id="footer_servicer_link_url" name="footer_servicer_link[url]" class="regular-text" value="<?= esc_attr($servicer_link['url']) ?>" placeholder="https://...">
-                            <button type="button" class="button choose-link-single" data-url="#footer_servicer_link_url" data-title="#footer_servicer_link_title" data-target="#footer_servicer_link_target">Choose link</button>
+                            <input type="url" id="footer_servicer_link_url" name="footer_servicer_link[url]"
+                                class="regular-text" value="<?= esc_attr($servicer_link['url']) ?>"
+                                placeholder="https://...">
+                            <button type="button" class="button choose-link-single" data-url="#footer_servicer_link_url"
+                                data-title="#footer_servicer_link_title" data-target="#footer_servicer_link_target">Choose
+                                link</button>
                         </p>
                         <p class="buildpro-field">
                             <label>Link Title</label>
-                            <input type="text" id="footer_servicer_link_title" name="footer_servicer_link[title]" class="regular-text" value="<?= esc_attr($servicer_link['title']) ?>">
+                            <input type="text" id="footer_servicer_link_title" name="footer_servicer_link[title]"
+                                class="regular-text" value="<?= esc_attr($servicer_link['title']) ?>">
                         </p>
                         <p class="buildpro-field">
                             <label>Link Target</label>
                             <select id="footer_servicer_link_target" name="footer_servicer_link[target]">
                                 <option value="" <?= selected($servicer_link['target'], '', false) ?>>Default</option>
-                                <option value="_blank" <?= selected($servicer_link['target'], '_blank', false) ?>>Open new tabs</option>
+                                <option value="_blank" <?= selected($servicer_link['target'], '_blank', false) ?>>Open new
+                                    tabs</option>
                             </select>
                         </p>
                     </div>
@@ -289,13 +321,19 @@ function buildpro_footer_admin_page()
                 <div class="buildpro-custom-link-body">
                     <div class="buildpro-custom-link-grid">
                         <div>
-                            <p class="buildpro-custom-link-row"><label>URL</label><input type="url" id="buildpro_custom_link_url" class="regular-text" placeholder="https://..."></p>
-                            <p class="buildpro-custom-link-row"><label>Link Text</label><input type="text" id="buildpro_custom_link_title" class="regular-text" placeholder=""></p>
-                            <p class="buildpro-custom-link-row"><label><input type="checkbox" id="buildpro_custom_link_target"> Open new tabs</label></p>
+                            <p class="buildpro-custom-link-row"><label>URL</label><input type="url"
+                                    id="buildpro_custom_link_url" class="regular-text" placeholder="https://..."></p>
+                            <p class="buildpro-custom-link-row"><label>Link Text</label><input type="text"
+                                    id="buildpro_custom_link_title" class="regular-text" placeholder=""></p>
+                            <p class="buildpro-custom-link-row"><label><input type="checkbox"
+                                        id="buildpro_custom_link_target"> Open new tabs</label></p>
                         </div>
                         <div>
-                            <p class="buildpro-custom-link-row"><label>Search</label><input type="search" id="buildpro_custom_link_search" class="regular-text" placeholder="Enter keyword..."></p>
-                            <p class="buildpro-custom-link-row"><label>Source</label><select id="buildpro_custom_link_source">
+                            <p class="buildpro-custom-link-row"><label>Search</label><input type="search"
+                                    id="buildpro_custom_link_search" class="regular-text" placeholder="Enter keyword...">
+                            </p>
+                            <p class="buildpro-custom-link-row"><label>Source</label><select
+                                    id="buildpro_custom_link_source">
                                     <option value="all">All</option>
                                     <option value="page">Page</option>
                                     <option value="post">Post</option>

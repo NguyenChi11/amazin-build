@@ -94,6 +94,9 @@ if ($query->have_posts()) {
         <?php endforeach; ?>
     </div>
 </section>
+<?php if (empty($posts)): ?>
+    <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/post-data.js')); ?>"></script>
+<?php endif; ?>
 <script>
     (function() {
         function setDefaults() {

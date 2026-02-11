@@ -240,3 +240,63 @@
   opacity: 1;
   visibility: visible;
 }
+@media (max-width: 639.98px) {
+  .section-banner {
+    padding: 0rem 1rem;
+    padding-top: 3rem;
+  }
+  .section-banner_container {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  .container-banner-left {
+    max-width: none;
+    height: auto;
+  }
+  .section-banner__item-content {
+    margin-bottom: 1.25rem;
+    width: 100%;
+  }
+  .section-banner__item-type {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+  }
+  .section-banner__item-text {
+    font-size: 2rem;
+    line-height: 2.25rem;
+    margin-bottom: 1rem;
+  }
+  .section-banner__item-description {
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
+  }
+  .section-banner__item-button {
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
+  }
+  .section-banner__item-button-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .container-banner-right {
+    justify-content: center;
+    width: 100%;
+  }
+  .section-banner__image-stack {
+    max-width: 100%;
+    height: 14rem;
+  }
+  .section-banner__pagination {
+    margin-top: 2rem;
+  }
+  .section-banner__customize-shortcut {
+    right: 1rem;
+    top: 3rem;
+  }
+  .section-banner .customize-partial-edit-shortcut {
+    right: 1rem;
+    top: 1rem;
+  }
+}

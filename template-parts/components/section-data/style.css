@@ -75,3 +75,31 @@
   opacity: 1;
   visibility: visible;
 }
+@media (max-width: 639.98px) {
+  .section-data {
+    padding: 2rem 1rem;
+  }
+  .section-data-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .section-data__item {
+    align-items: center;
+  }
+  .section-data__item-number {
+    font-size: 2rem;
+  }
+  .section-data__item-text {
+    font-size: 1rem;
+  }
+  .section-data__customize-shortcut {
+    right: 1rem;
+    top: 1rem;
+  }
+  .section-data .customize-partial-edit-shortcut {
+    right: 1rem;
+    top: 0.5rem;
+  }
+}
