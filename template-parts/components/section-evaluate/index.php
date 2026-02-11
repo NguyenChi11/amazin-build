@@ -1,9 +1,13 @@
 <?php
 $page_id = get_queried_object_id();
+$enabled = get_post_meta($page_id, 'buildpro_evaluate_enabled', true);
+$enabled = $enabled === '' ? 1 : (int) $enabled;
 $evaluate_text = get_post_meta($page_id, 'buildpro_evaluate_text', true);
 $evaluate_title = get_post_meta($page_id, 'buildpro_evaluate_title', true);
 $evaluate_description = get_post_meta($page_id, 'buildpro_evaluate_desc', true);
 if (is_customize_preview()) {
+    $enabled_mod = get_theme_mod('buildpro_evaluate_enabled', 1);
+    $enabled = (int) $enabled_mod;
     $bundle = get_theme_mod('buildpro_evaluate_data', array());
     if (is_string($bundle)) {
         $decoded = json_decode($bundle, true);
@@ -34,6 +38,9 @@ if (is_customize_preview()) {
     if ($mod_desc !== '') {
         $evaluate_description = $mod_desc;
     }
+}
+if ($enabled !== 1) {
+    return;
 }
 
 $evaluate_items = [];

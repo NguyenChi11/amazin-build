@@ -91,6 +91,16 @@ function buildpro_evaluate_customize_register($wp_customize)
         'transport' => 'postMessage',
         'sanitize_callback' => 'buildpro_evaluate_sanitize_data',
     ));
+    $wp_customize->add_setting('buildpro_evaluate_enabled', array(
+        'default' => 1,
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint',
+    ));
+    $wp_customize->add_control('buildpro_evaluate_enabled', array(
+        'label' => __('Enable Evaluate', 'buildpro'),
+        'section' => 'buildpro_evaluate_section',
+        'type' => 'checkbox',
+    ));
     if (class_exists('BuildPro_Evaluate_Control')) {
         $wp_customize->add_control(new BuildPro_Evaluate_Control($wp_customize, 'buildpro_evaluate_data', array(
             'label' => __('Evaluate Content', 'buildpro'),
@@ -246,11 +256,13 @@ function buildpro_evaluate_sync_customizer_to_meta($wp_customize_manager)
             update_post_meta($tid, 'buildpro_evaluate_text', $text);
             update_post_meta($tid, 'buildpro_evaluate_desc', $desc);
             update_post_meta($tid, 'buildpro_evaluate_items', $items);
+            update_post_meta($tid, 'buildpro_evaluate_enabled', absint(get_theme_mod('buildpro_evaluate_enabled', 1)));
         }
         set_theme_mod('buildpro_evaluate_title', $title);
         set_theme_mod('buildpro_evaluate_text', $text);
         set_theme_mod('buildpro_evaluate_desc', $desc);
         set_theme_mod('buildpro_evaluate_items', $items);
+        set_theme_mod('buildpro_evaluate_enabled', absint(get_theme_mod('buildpro_evaluate_enabled', 1)));
     }
 }
 add_action('customize_save_after', 'buildpro_evaluate_sync_customizer_to_meta');

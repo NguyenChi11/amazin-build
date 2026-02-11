@@ -28,9 +28,12 @@ function buildpro_evaluate_render_meta_box($post)
     $desc = get_post_meta($post->ID, 'buildpro_evaluate_desc', true);
     $items = get_post_meta($post->ID, 'buildpro_evaluate_items', true);
     $items = is_array($items) ? $items : array();
+    $enabled = get_post_meta($post->ID, 'buildpro_evaluate_enabled', true);
+    $enabled = $enabled === '' ? 1 : (int) $enabled;
     wp_enqueue_media();
     wp_enqueue_style('buildpro-evaluate-admin', get_theme_file_uri('inc-components/custom-wp/home/Evalute/style.css'), array(), null);
     wp_enqueue_script('buildpro-evaluate-admin', get_theme_file_uri('inc-components/custom-wp/home/Evalute/script.js'), array(), null, true);
+    wp_add_inline_script('buildpro-evaluate-admin', 'window.buildproEvaluateState=' . wp_json_encode(array('enabled' => $enabled)) . ';', 'before');
     include get_theme_file_path('inc-components/custom-wp/home/Evalute/index.php');
 }
 
@@ -63,10 +66,12 @@ function buildpro_save_evaluate_meta($post_id)
             'avatar_id' => isset($it['avatar_id']) ? absint($it['avatar_id']) : 0,
         );
     }
+    $enabled = isset($_POST['buildpro_evaluate_enabled']) ? absint($_POST['buildpro_evaluate_enabled']) : 1;
     update_post_meta($post_id, 'buildpro_evaluate_title', $title);
     update_post_meta($post_id, 'buildpro_evaluate_text', $text);
     update_post_meta($post_id, 'buildpro_evaluate_desc', $desc);
     update_post_meta($post_id, 'buildpro_evaluate_items', $clean);
+    update_post_meta($post_id, 'buildpro_evaluate_enabled', $enabled);
     set_theme_mod('buildpro_evaluate_title', $title);
     set_theme_mod('buildpro_evaluate_text', $text);
     set_theme_mod('buildpro_evaluate_desc', $desc);
@@ -77,5 +82,6 @@ function buildpro_save_evaluate_meta($post_id)
         'desc' => $desc,
         'items' => $clean,
     ));
+    set_theme_mod('buildpro_evaluate_enabled', $enabled);
 }
 add_action('save_post_page', 'buildpro_save_evaluate_meta');
