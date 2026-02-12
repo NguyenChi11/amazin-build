@@ -121,7 +121,7 @@ function buildpro_product_customize_register($wp_customize)
         'sanitize_callback' => 'absint',
     ));
     $wp_customize->add_control('materials_enabled', array(
-        'label' => __('Hiển thị Section Product', 'buildpro'),
+        'label' => __('Enable Product', 'buildpro'),
         'section' => 'buildpro_product_section',
         'type' => 'checkbox',
     ));
