@@ -105,6 +105,11 @@ function buildpro_save_banner_meta($post_id)
             'link_target' => isset($item['link_target']) ? sanitize_text_field($item['link_target']) : '',
         );
     }
+    if (empty($clean)) {
+        $enabled = 0;
+    } else {
+        $enabled = 1;
+    }
     update_post_meta($post_id, 'buildpro_banner_items', $clean);
     update_post_meta($post_id, 'buildpro_banner_enabled', $enabled);
     set_theme_mod('buildpro_banner_items', $clean);

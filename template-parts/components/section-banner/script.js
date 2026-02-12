@@ -1,12 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const root = document.querySelector(".section-banner");
   const left = document.querySelector(".container-banner-left");
   const right = document.querySelector(".section-banner__image-stack");
   const pagination = document.querySelector(
     ".section-banner__pagination-container",
   );
+  const noFallback = root && root.getAttribute("data-no-fallback") === "1";
+  if (noFallback) {
+    if (left) left.innerHTML = "";
+    if (right) right.innerHTML = "";
+    const pagContainer = document.querySelector(
+      ".section-banner__pagination-container",
+    );
+    if (pagContainer) pagContainer.innerHTML = "";
+    return;
+  }
   const hasItems =
     document.querySelectorAll(".section-banner__item").length > 0;
-  if (!hasItems && typeof banners !== "undefined" && Array.isArray(banners)) {
+  if (
+    !hasItems &&
+    !noFallback &&
+    typeof banners !== "undefined" &&
+    Array.isArray(banners) &&
+    left &&
+    right &&
+    pagination
+  ) {
     banners.forEach((b, index) => {
       const item = document.createElement("div");
       item.className = "section-banner__item" + (index === 0 ? " active" : "");
@@ -122,6 +141,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  const root = document.querySelector(".section-banner");
+  if (root && root.getAttribute("data-no-fallback") === "1") {
+    return;
+  }
   const images = document.querySelectorAll(
     ".section-banner__image-stack .section-banner__image",
   );

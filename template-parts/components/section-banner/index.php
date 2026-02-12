@@ -39,6 +39,14 @@ if ($rows && is_array($rows)) {
         ];
     }
 }
+if (empty($section_banner_houses)) {
+    if (is_customize_preview()) {
+?>
+        <section class="section-banner" data-no-fallback="1" style="display:none"></section>
+<?php
+    }
+    return;
+}
 ?>
 
 <section class="section-banner">
@@ -126,6 +134,3 @@ if ($rows && is_array($rows)) {
         </div>
     </div>
 </section>
-<?php if (empty($section_banner_houses)): ?>
-    <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/banner-data.js')); ?>"></script>
-<?php endif; ?>

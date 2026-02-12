@@ -168,3 +168,474 @@ function buildpro_register_project_taxonomies()
 	register_taxonomy('project-contruction', array('project'), $args);
 }
 add_action('init', 'buildpro_register_project_taxonomies');
+
+function buildpro_import_parse_js($rel_file, $const_name)
+{
+	$path = get_theme_file_path($rel_file);
+	if (!file_exists($path)) {
+		return array();
+	}
+	$s = file_get_contents($path);
+	if (!is_string($s) || $s === '') {
+		return array();
+	}
+	$re = '/const\s+' . preg_quote($const_name, '/') . '\s*=\s*(\{[\s\S]*?\});/m';
+	if (!preg_match($re, $s, $m)) {
+		return array();
+	}
+	$obj = $m[1];
+	$obj = rtrim($obj, ';');
+	$json = preg_replace('/([,{]\s*)([A-Za-z_][A-Za-z0-9_]*)\s*:/', '$1"$2":', $obj);
+	$json = preg_replace('/,\s*]/', ']', $json);
+	$json = preg_replace('/,\s*}/', '}', $json);
+	$data = json_decode($json, true);
+	return is_array($data) ? $data : array();
+}
+
+function buildpro_import_resolve_theme_path($url)
+{
+	$rel = preg_replace('#^/wp-content/themes/buildpro#', '', $url);
+	$rel = '/' . ltrim($rel, '/');
+	$path = get_theme_file_path($rel);
+	return $path;
+}
+
+function buildpro_import_find_attachment_by_source($src)
+{
+	$q = new WP_Query(array(
+		'post_type' => 'attachment',
+		'post_status' => 'inherit',
+		'posts_per_page' => 1,
+		'meta_query' => array(
+			array('key' => 'buildpro_source_file', 'value' => $src, 'compare' => '='),
+		),
+		'fields' => 'ids',
+		'no_found_rows' => true,
+	));
+	if ($q->have_posts()) {
+		$ids = $q->posts;
+		return isset($ids[0]) ? (int)$ids[0] : 0;
+	}
+	return 0;
+}
+
+function buildpro_import_copy_to_uploads($src_path)
+{
+	if (!file_exists($src_path)) {
+		return 0;
+	}
+	$uploads = wp_upload_dir();
+	$base = trailingslashit($uploads['basedir']) . 'buildpro-imports';
+	if (!is_dir($base)) {
+		wp_mkdir_p($base);
+	}
+	$name = basename($src_path);
+	$dest = trailingslashit($base) . $name;
+	$i = 1;
+	while (file_exists($dest)) {
+		$pi = pathinfo($name);
+		$alt = $pi['filename'] . '-' . $i . (isset($pi['extension']) ? '.' . $pi['extension'] : '');
+		$dest = trailingslashit($base) . $alt;
+		$i++;
+	}
+	if (!copy($src_path, $dest)) {
+		return 0;
+	}
+	$ft = wp_check_filetype($dest, null);
+	$att = array(
+		'post_mime_type' => $ft['type'],
+		'post_title' => sanitize_file_name(basename($dest)),
+		'post_content' => '',
+		'post_status' => 'inherit',
+	);
+	$attach_id = wp_insert_attachment($att, $dest);
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	$meta = wp_generate_attachment_metadata($attach_id, $dest);
+	wp_update_attachment_metadata($attach_id, $meta);
+	update_post_meta($attach_id, 'buildpro_source_file', $src_path);
+	return (int)$attach_id;
+}
+
+function buildpro_import_image_id($url)
+{
+	if (!is_string($url) || $url === '') {
+		return 0;
+	}
+	$src = buildpro_import_resolve_theme_path($url);
+	$exist = buildpro_import_find_attachment_by_source($src);
+	if ($exist) {
+		return $exist;
+	}
+	return buildpro_import_copy_to_uploads($src);
+}
+
+function buildpro_import_slug_from_link($link)
+{
+	$p = parse_url($link);
+	$path = isset($p['path']) ? $p['path'] : '';
+	$slug = basename($path);
+	return sanitize_title($slug);
+}
+
+function buildpro_import_create_material($item)
+{
+	$title = isset($item['title']) ? $item['title'] : '';
+	$slug = isset($item['link']) ? buildpro_import_slug_from_link($item['link']) : sanitize_title($title);
+	if ($slug) {
+		$exists = get_page_by_path($slug, OBJECT, 'material');
+		if ($exists) {
+			return (int)$exists->ID;
+		}
+	}
+	$post_id = wp_insert_post(array(
+		'post_type' => 'material',
+		'post_status' => 'publish',
+		'post_title' => $title,
+		'post_name' => $slug,
+		'post_content' => isset($item['description']) ? $item['description'] : '',
+	));
+	$img = isset($item['image']) ? buildpro_import_image_id($item['image']) : 0;
+	if ($img) {
+		set_post_thumbnail($post_id, $img);
+	}
+	$banner = 0;
+	if (isset($item['banner']) && is_array($item['banner']) && !empty($item['banner'])) {
+		$banner = buildpro_import_image_id($item['banner'][0]);
+	}
+	update_post_meta($post_id, 'price_material', isset($item['price']) ? $item['price'] : '');
+	update_post_meta($post_id, 'material_banner_id', $banner);
+	$gids = array();
+	if (isset($item['gallery']) && is_array($item['gallery'])) {
+		foreach ($item['gallery'] as $g) {
+			$id = buildpro_import_image_id($g);
+			if ($id) {
+				$gids[] = $id;
+			}
+		}
+	}
+	update_post_meta($post_id, 'material_gallery_ids', $gids);
+	update_post_meta($post_id, 'material_description', isset($item['description']) ? $item['description'] : '');
+	return (int)$post_id;
+}
+
+function buildpro_import_create_post($item)
+{
+	$title = isset($item['title']) ? $item['title'] : '';
+	$slug = isset($item['link']) ? buildpro_import_slug_from_link($item['link']) : sanitize_title($title);
+	if ($slug) {
+		$exists = get_page_by_path($slug, OBJECT, 'post');
+		if ($exists) {
+			return (int)$exists->ID;
+		}
+	}
+	$date = isset($item['date']) ? $item['date'] : '';
+	$postarr = array(
+		'post_type' => 'post',
+		'post_status' => 'publish',
+		'post_title' => $title,
+		'post_name' => $slug,
+		'post_content' => isset($item['description']) ? $item['description'] : '',
+	);
+	if ($date) {
+		$postarr['post_date'] = $date;
+		$postarr['post_date_gmt'] = get_gmt_from_date($date);
+	}
+	$post_id = wp_insert_post($postarr);
+	$img = isset($item['image']) ? buildpro_import_image_id($item['image']) : 0;
+	if ($img) {
+		set_post_thumbnail($post_id, $img);
+	}
+	$banner = 0;
+	if (isset($item['banner']) && is_array($item['banner']) && !empty($item['banner'])) {
+		$banner = buildpro_import_image_id($item['banner'][0]);
+	}
+	update_post_meta($post_id, 'buildpro_post_banner_id', $banner);
+	update_post_meta($post_id, 'buildpro_post_description', isset($item['description']) ? $item['description'] : '');
+	$gids = array();
+	if (isset($item['gallery']) && is_array($item['gallery'])) {
+		foreach ($item['gallery'] as $g) {
+			$id = buildpro_import_image_id($g);
+			if ($id) {
+				$gids[] = $id;
+			}
+		}
+	}
+	update_post_meta($post_id, 'buildpro_post_quote_gallery', $gids);
+	return (int)$post_id;
+}
+
+function buildpro_import_create_project($item)
+{
+	$title = isset($item['title']) ? $item['title'] : '';
+	$slug = sanitize_title($title);
+	if ($slug) {
+		$exists = get_page_by_path($slug, OBJECT, 'project');
+		if ($exists) {
+			return (int)$exists->ID;
+		}
+	}
+	$post_id = wp_insert_post(array(
+		'post_type' => 'project',
+		'post_status' => 'publish',
+		'post_title' => $title,
+		'post_name' => $slug,
+		'post_content' => isset($item['about']) ? $item['about'] : '',
+	));
+	$img = isset($item['image']) ? buildpro_import_image_id($item['image']) : 0;
+	if ($img) {
+		set_post_thumbnail($post_id, $img);
+	}
+	$banner = 0;
+	if (isset($item['gallery']) && is_array($item['gallery']) && !empty($item['gallery'])) {
+		$banner = buildpro_import_image_id($item['gallery'][0]);
+	}
+	update_post_meta($post_id, 'project_banner_id', $banner);
+	update_post_meta($post_id, 'location_project', isset($item['location']) ? $item['location'] : '');
+	update_post_meta($post_id, 'about_project', isset($item['about']) ? $item['about'] : '');
+	update_post_meta($post_id, 'price_project', isset($item['price']) ? $item['price'] : '');
+	update_post_meta($post_id, 'date_time_project', isset($item['dateTime']) ? $item['dateTime'] : '');
+	$gids = array();
+	if (isset($item['gallery']) && is_array($item['gallery'])) {
+		foreach ($item['gallery'] as $g) {
+			$id = buildpro_import_image_id($g);
+			if ($id) {
+				$gids[] = $id;
+			}
+		}
+	}
+	update_post_meta($post_id, 'project_gallery_ids', $gids);
+	$standards = array();
+	if (isset($item['standards']) && is_array($item['standards'])) {
+		foreach ($item['standards'] as $st) {
+			$iid = isset($st['image']) ? buildpro_import_image_id($st['image']) : 0;
+			$standards[] = array(
+				'image_id' => $iid,
+				'title' => isset($st['title']) ? $st['title'] : '',
+				'description' => isset($st['description']) ? $st['description'] : '',
+			);
+		}
+	}
+	update_post_meta($post_id, 'project_standards', $standards);
+	return (int)$post_id;
+}
+
+function buildpro_schedule_default_import()
+{
+	if (!get_option('buildpro_default_content_imported')) {
+		update_option('buildpro_do_import', '1');
+	}
+}
+add_action('after_switch_theme', 'buildpro_schedule_default_import');
+
+function buildpro_maybe_import_default_content()
+{
+	if (get_option('buildpro_do_import') === '1') {
+		$wc_active = class_exists('WooCommerce') || function_exists('wc_get_product');
+		$materials = buildpro_import_parse_js('/assets/data/product-data.js', 'materialsData');
+		if (isset($materials['items']) && is_array($materials['items'])) {
+			foreach ($materials['items'] as $it) {
+				buildpro_import_create_material($it);
+			}
+		}
+		$posts = buildpro_import_parse_js('/assets/data/post-data.js', 'postsData');
+		if (isset($posts['items']) && is_array($posts['items'])) {
+			foreach ($posts['items'] as $it) {
+				buildpro_import_create_post($it);
+			}
+		}
+		$projects = buildpro_import_parse_js('/assets/data/project-data.js', 'projectsData');
+		if (isset($projects['items']) && is_array($projects['items'])) {
+			foreach ($projects['items'] as $it) {
+				buildpro_import_create_project($it);
+			}
+		}
+		$banner_demo_file = get_theme_file_path('/inc/import/data-demo/page/home/banner-home.php');
+		if (file_exists($banner_demo_file)) {
+			require_once $banner_demo_file;
+			if (function_exists('buildpro_import_banner_demo')) {
+				buildpro_import_banner_demo();
+			}
+		}
+		if ($wc_active) {
+			$wcProducts = buildpro_import_parse_js('/assets/data/woocommerce-product-data.js', 'woocommerceProductData');
+			if (isset($wcProducts['items']) && is_array($wcProducts['items'])) {
+				foreach ($wcProducts['items'] as $it) {
+					buildpro_import_create_wc_product($it);
+				}
+			}
+			update_option('buildpro_wc_default_content_imported', '1');
+		} else {
+			update_option('buildpro_wc_do_import', '1');
+		}
+		update_option('buildpro_do_import', '0');
+		update_option('buildpro_default_content_imported', '1');
+	}
+}
+add_action('init', 'buildpro_maybe_import_default_content');
+
+function buildpro_import_create_wc_product($item)
+{
+	if (!(class_exists('WooCommerce') || function_exists('wc_get_product'))) {
+		return 0;
+	}
+	$title = isset($item['title']) ? $item['title'] : '';
+	$slug = isset($item['link']) ? buildpro_import_slug_from_link($item['link']) : sanitize_title($title);
+	if ($slug) {
+		$exists = get_page_by_path($slug, OBJECT, 'product');
+		if ($exists) {
+			return (int)$exists->ID;
+		}
+	}
+	$post_id = wp_insert_post(array(
+		'post_type' => 'product',
+		'post_status' => 'publish',
+		'post_title' => $title,
+		'post_name' => $slug,
+		'post_content' => isset($item['description']) ? $item['description'] : '',
+		'post_excerpt' => isset($item['shortDescription']) ? $item['shortDescription'] : '',
+	));
+	$img = isset($item['image']) ? buildpro_import_image_id($item['image']) : 0;
+	if ($img) {
+		set_post_thumbnail($post_id, $img);
+	}
+	$gids = array();
+	if (isset($item['gallery']) && is_array($item['gallery'])) {
+		foreach ($item['gallery'] as $g) {
+			$id = buildpro_import_image_id($g);
+			if ($id) {
+				$gids[] = $id;
+			}
+		}
+	}
+	if (!empty($gids)) {
+		update_post_meta($post_id, '_product_image_gallery', implode(',', array_map('intval', $gids)));
+	}
+	$reg = isset($item['regularPrice']) ? (string)$item['regularPrice'] : '';
+	$sale = isset($item['salePrice']) ? (string)$item['salePrice'] : '';
+	if ($sale !== '') {
+		update_post_meta($post_id, '_sale_price', $sale);
+		update_post_meta($post_id, '_price', $sale);
+	}
+	if ($reg !== '') {
+		update_post_meta($post_id, '_regular_price', $reg);
+		if ($sale === '') {
+			update_post_meta($post_id, '_price', $reg);
+		}
+	}
+	wp_set_object_terms($post_id, 'simple', 'product_type', false);
+	wp_set_object_terms($post_id, 'visible', 'product_visibility', false);
+	$cat = isset($item['category']) ? $item['category'] : '';
+	if ($cat !== '') {
+		$term = term_exists($cat, 'product_cat');
+		if (!$term || is_wp_error($term)) {
+			$term = wp_insert_term($cat, 'product_cat');
+		}
+		if (is_array($term) && isset($term['term_id'])) {
+			wp_set_object_terms($post_id, (int)$term['term_id'], 'product_cat', false);
+		} elseif (is_numeric($term)) {
+			wp_set_object_terms($post_id, (int)$term, 'product_cat', false);
+		}
+	}
+	$attrs = isset($item['attributes']) && is_array($item['attributes']) ? $item['attributes'] : array();
+	$meta_attrs = array();
+	$pos = 0;
+	foreach ($attrs as $name => $value) {
+		$key = sanitize_title($name);
+		$meta_attrs[$key] = array(
+			'name' => $name,
+			'value' => is_array($value) ? implode(' | ', $value) : (string)$value,
+			'position' => $pos,
+			'is_visible' => 1,
+			'is_variation' => 0,
+			'is_taxonomy' => 0,
+		);
+		$pos++;
+	}
+	if (!empty($meta_attrs)) {
+		update_post_meta($post_id, '_product_attributes', $meta_attrs);
+	}
+	$typical = isset($item['typicalRange']) ? $item['typicalRange'] : '';
+	if ($typical !== '') {
+		update_post_meta($post_id, 'typical_range', $typical);
+	}
+	return (int)$post_id;
+}
+
+function buildpro_maybe_import_wc_products()
+{
+	$need = get_option('buildpro_wc_do_import') === '1';
+	$active = class_exists('WooCommerce') || function_exists('wc_get_product');
+	if ($need && $active) {
+		$wcProducts = buildpro_import_parse_js('/assets/data/woocommerce-product-data.js', 'woocommerceProductData');
+		if (isset($wcProducts['items']) && is_array($wcProducts['items'])) {
+			foreach ($wcProducts['items'] as $it) {
+				buildpro_import_create_wc_product($it);
+			}
+		}
+		update_option('buildpro_wc_do_import', '0');
+		update_option('buildpro_wc_default_content_imported', '1');
+	}
+}
+add_action('init', 'buildpro_maybe_import_wc_products', 20);
+if (function_exists('add_action')) {
+	add_action('woocommerce_init', 'buildpro_maybe_import_wc_products');
+}
+
+function buildpro_run_wc_import_now()
+{
+	$active = class_exists('WooCommerce') || function_exists('wc_get_product');
+	if (!$active) {
+		return;
+	}
+	$wcProducts = buildpro_import_parse_js('/assets/data/woocommerce-product-data.js', 'woocommerceProductData');
+	if (isset($wcProducts['items']) && is_array($wcProducts['items'])) {
+		foreach ($wcProducts['items'] as $it) {
+			buildpro_import_create_wc_product($it);
+		}
+	}
+	update_option('buildpro_wc_do_import', '0');
+	update_option('buildpro_wc_default_content_imported', '1');
+}
+
+function buildpro_on_plugin_activated($plugin)
+{
+	if ($plugin === 'woocommerce/woocommerce.php') {
+		buildpro_run_wc_import_now();
+	}
+}
+add_action('activated_plugin', 'buildpro_on_plugin_activated', 10, 1);
+
+function buildpro_admin_maybe_import_banner()
+{
+	if (!is_admin()) {
+		return;
+	}
+	$screen = function_exists('get_current_screen') ? get_current_screen() : null;
+	if (!$screen || $screen->base !== 'post') {
+		return;
+	}
+	$post_id = isset($_GET['post']) ? absint($_GET['post']) : 0;
+	if ($post_id <= 0) {
+		return;
+	}
+	if (get_post_type($post_id) !== 'page') {
+		return;
+	}
+	$front_id = (int) get_option('page_on_front');
+	$tpl = get_page_template_slug($post_id);
+	if ($post_id !== $front_id && !empty($tpl) && $tpl !== 'home-page.php') {
+		return;
+	}
+	$items = get_post_meta($post_id, 'buildpro_banner_items', true);
+	if (is_array($items) && !empty($items)) {
+		return;
+	}
+	$banner_demo_file = get_theme_file_path('/inc/import/data-demo/page/home/banner-home.php');
+	if (file_exists($banner_demo_file)) {
+		require_once $banner_demo_file;
+		if (function_exists('buildpro_import_banner_demo')) {
+			buildpro_import_banner_demo();
+		}
+	}
+}
+add_action('current_screen', 'buildpro_admin_maybe_import_banner');
