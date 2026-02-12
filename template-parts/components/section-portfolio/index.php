@@ -86,12 +86,12 @@ if ($query->have_posts()) {
         </script>
     <?php endif; ?>
     <div class="section-portfolio__header">
-        <h2 class="section-portfolio__title" data-has-meta="<?php echo $portfolio_title !== '' ? '1' : '0'; ?>">
-            <?php echo esc_html($portfolio_title ?: 'PROJECTS'); ?>
-        </h2>
-        <p class="section-portfolio__description" data-has-meta="<?php echo $portfolio_desc !== '' ? '1' : '0'; ?>">
-            <?php echo esc_html($portfolio_desc ?: ''); ?>
-        </p>
+        <?php if ($portfolio_title !== ''): ?>
+            <h2 class="section-portfolio__title"><?php echo esc_html($portfolio_title); ?></h2>
+        <?php endif; ?>
+        <?php if ($portfolio_desc !== ''): ?>
+            <p class="section-portfolio__description"><?php echo esc_html($portfolio_desc); ?></p>
+        <?php endif; ?>
     </div>
     <div class="section-portfolio__list">
         <?php foreach ($portfolio_items as $item): ?>
@@ -128,7 +128,5 @@ if ($query->have_posts()) {
         <img class="section-banner__item-button-icon"
             src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/Arrow_Right.png')); ?>" alt="Arrow Right">
     </div>
-    <?php if (empty($portfolio_items)): ?>
-        <script src="<?php echo esc_url(get_theme_file_uri('/assets/data/project-data.js')); ?>"></script>
-    <?php endif; ?>
+    <?php if (empty($portfolio_items)) { return; } ?>
 </section>
