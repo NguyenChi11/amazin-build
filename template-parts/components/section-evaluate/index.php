@@ -75,6 +75,9 @@ foreach ($rows as $row) {
         'avatar_id' => $avatar_id,
     ];
 }
+if (empty($evaluate_items)) {
+    return;
+}
 ?>
 <section class="section-evaluate">
     <?php if (is_customize_preview()): ?>
@@ -92,16 +95,15 @@ foreach ($rows as $row) {
     <?php endif; ?>
     <div class="section-evaluate-container">
         <div class="section-evaluate-left">
-            <p class="section-evaluate__text" data-has-meta="<?php echo $evaluate_text !== '' ? '1' : '0'; ?>">
-                <?php echo esc_html($evaluate_text ?: ''); ?>
-            </p>
-            <h2 class="section-evaluate__title" data-has-meta="<?php echo $evaluate_title !== '' ? '1' : '0'; ?>">
-                <?php echo esc_html($evaluate_title ?: ''); ?>
-            </h2>
-            <p class="section-evaluate__description"
-                data-has-meta="<?php echo $evaluate_description !== '' ? '1' : '0'; ?>">
-                <?php echo esc_html($evaluate_description ?: ''); ?>
-            </p>
+            <?php if ($evaluate_text !== ''): ?>
+                <p class="section-evaluate__text"><?php echo esc_html($evaluate_text); ?></p>
+            <?php endif; ?>
+            <?php if ($evaluate_title !== ''): ?>
+                <h2 class="section-evaluate__title"><?php echo esc_html($evaluate_title); ?></h2>
+            <?php endif; ?>
+            <?php if ($evaluate_description !== ''): ?>
+                <p class="section-evaluate__description"><?php echo esc_html($evaluate_description); ?></p>
+            <?php endif; ?>
         </div>
         <div class="section-evaluate-right">
             <div class="swiper section-evaluate__swiper swiper-container_evaluate">

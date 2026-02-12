@@ -117,7 +117,7 @@
 }
 @media (max-width: 1024px) {
   .section-product__list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (max-width: 640px) {

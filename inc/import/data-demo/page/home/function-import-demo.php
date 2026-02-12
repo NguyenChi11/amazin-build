@@ -138,3 +138,38 @@ function buildpro_admin_maybe_import_services()
     }
 }
 add_action('current_screen', 'buildpro_admin_maybe_import_services');
+
+function buildpro_admin_maybe_import_evaluate()
+{
+    if (!is_admin()) {
+        return;
+    }
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if (!$screen || $screen->base !== 'post') {
+        return;
+    }
+    $post_id = isset($_GET['post']) ? absint($_GET['post']) : 0;
+    if ($post_id <= 0) {
+        return;
+    }
+    if (get_post_type($post_id) !== 'page') {
+        return;
+    }
+    $front_id = (int) get_option('page_on_front');
+    $tpl = get_page_template_slug($post_id);
+    if ($post_id !== $front_id && !empty($tpl) && $tpl !== 'home-page.php') {
+        return;
+    }
+    $items = get_post_meta($post_id, 'buildpro_evaluate_items', true);
+    if (is_array($items) && !empty($items)) {
+        return;
+    }
+    $evaluate_demo_file = get_theme_file_path('/inc/import/data-demo/page/home/evaluate-home.php');
+    if (file_exists($evaluate_demo_file)) {
+        require_once $evaluate_demo_file;
+        if (function_exists('buildpro_import_evaluate_demo')) {
+            buildpro_import_evaluate_demo($post_id);
+        }
+    }
+}
+add_action('current_screen', 'buildpro_admin_maybe_import_evaluate');
