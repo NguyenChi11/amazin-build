@@ -1,8 +1,8 @@
-<?php get_template_part('template-parts/components/section-banner/index'); ?>
-<?php get_template_part('template-parts/components/section-option/index'); ?>
-<?php get_template_part('template-parts/components/section-data/index'); ?>
-<?php get_template_part('template-parts/components/section-product/index'); ?>
-<?php get_template_part('template-parts/components/section-services/index'); ?>
-<?php get_template_part('template-parts/components/section-portfolio/index'); ?>
-<?php get_template_part('template-parts/components/section-evaluate/index'); ?>
-<?php get_template_part('template-parts/components/section-post/index'); ?>
+<?php get_template_part('template-parts/home/section-banner/index'); ?>
+<?php get_template_part('template-parts/home/section-option/index'); ?>
+<?php get_template_part('template-parts/home/section-data/index'); ?>
+<?php get_template_part('template-parts/home/section-product/index'); ?>
+<?php get_template_part('template-parts/home/section-services/index'); ?>
+<?php get_template_part('template-parts/home/section-portfolio/index'); ?>
+<?php get_template_part('template-parts/home/section-evaluate/index'); ?>
+<?php get_template_part('template-parts/home/section-post/index'); ?>

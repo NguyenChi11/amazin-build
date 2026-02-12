@@ -134,7 +134,7 @@ function buildpro_portfolio_customize_register($wp_customize)
             'settings' => array('buildpro_portfolio_data'),
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-portfolio/index');
+                get_template_part('template-parts/home/section-portfolio/index');
                 return ob_get_clean();
             },
         ));

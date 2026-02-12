@@ -233,7 +233,7 @@ function buildpro_services_customize_register($wp_customize)
             'settings' => array('buildpro_service_title'),
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-services/index');
+                get_template_part('template-parts/home/section-services/index');
                 return ob_get_clean();
             },
         ));
@@ -243,7 +243,7 @@ function buildpro_services_customize_register($wp_customize)
             'container_inclusive' => true,
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-services/index');
+                get_template_part('template-parts/home/section-services/index');
                 return ob_get_clean();
             },
         ));
@@ -252,7 +252,7 @@ function buildpro_services_customize_register($wp_customize)
             'settings' => array('buildpro_service_items'),
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-services/index');
+                get_template_part('template-parts/home/section-services/index');
                 return ob_get_clean();
             },
         ));
@@ -262,7 +262,7 @@ function buildpro_services_customize_register($wp_customize)
             'container_inclusive' => true,
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-services/index');
+                get_template_part('template-parts/home/section-services/index');
                 return ob_get_clean();
             },
         ));

@@ -152,7 +152,7 @@ function buildpro_data_customize_register($wp_customize)
             'container_inclusive' => true,
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-data/index');
+                get_template_part('template-parts/home/section-data/index');
                 return ob_get_clean();
             },
         ));
@@ -162,7 +162,7 @@ function buildpro_data_customize_register($wp_customize)
             'container_inclusive' => true,
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-data/index');
+                get_template_part('template-parts/home/section-data/index');
                 return ob_get_clean();
             },
         ));

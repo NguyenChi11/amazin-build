@@ -158,7 +158,7 @@ function buildpro_option_customize_register($wp_customize)
             'settings' => array('buildpro_option_items'),
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-option/index');
+                get_template_part('template-parts/home/section-option/index');
                 return ob_get_clean();
             },
         ));
@@ -168,7 +168,7 @@ function buildpro_option_customize_register($wp_customize)
             'container_inclusive' => true,
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-option/index');
+                get_template_part('template-parts/home/section-option/index');
                 return ob_get_clean();
             },
         ));

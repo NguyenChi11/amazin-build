@@ -148,7 +148,7 @@ function buildpro_banner_customize_register($wp_customize)
             'settings' => array('buildpro_banner_items'),
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-banner/index');
+                get_template_part('template-parts/home/section-banner/index');
                 return ob_get_clean();
             },
         ));

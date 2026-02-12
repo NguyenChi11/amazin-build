@@ -122,146 +122,146 @@ function wp_enqueue_custom_assets()
         [
             'type' => 'style',
             'handle' => 'buildpro-home-banner-style',
-            'src' => get_theme_file_uri('/template-parts/components/section-banner/style.css'),
+            'src' => get_theme_file_uri('/template-parts/home/section-banner/style.css'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => false,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-banner/style.css'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-banner/style.css'))
         ],
         [
             'type' => 'script',
             'handle' => 'buildpro-home-banner-script',
-            'src' => get_theme_file_uri('/template-parts/components/section-banner/script.js'),
+            'src' => get_theme_file_uri('/template-parts/home/section-banner/script.js'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => true,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-banner/script.js'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-banner/script.js'))
         ],
         [
             'type' => 'style',
             'handle' => 'buildpro-home-option-style',
-            'src' => get_theme_file_uri('/template-parts/components/section-option/style.css'),
+            'src' => get_theme_file_uri('/template-parts/home/section-option/style.css'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => false,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-option/style.css'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-option/style.css'))
         ],
         [
             'type' => 'script',
             'handle' => 'buildpro-home-option-script',
-            'src' => get_theme_file_uri('/template-parts/components/section-option/script.js'),
+            'src' => get_theme_file_uri('/template-parts/home/section-option/script.js'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => true,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-option/script.js'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-option/script.js'))
         ],
         [
             'type' => 'style',
             'handle' => 'buildpro-home-data-style',
-            'src' => get_theme_file_uri('/template-parts/components/section-data/style.css'),
+            'src' => get_theme_file_uri('/template-parts/home/section-data/style.css'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => false,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-data/style.css'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-data/style.css'))
         ],
         [
             'type' => 'script',
             'handle' => 'buildpro-home-data-script',
-            'src' => get_theme_file_uri('/template-parts/components/section-data/script.js'),
+            'src' => get_theme_file_uri('/template-parts/home/section-data/script.js'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => true,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-data/script.js'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-data/script.js'))
         ],
         [
             'type' => 'style',
             'handle' => 'buildpro-home-services-style',
-            'src' => get_theme_file_uri('/template-parts/components/section-services/style.css'),
+            'src' => get_theme_file_uri('/template-parts/home/section-services/style.css'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => false,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-services/style.css'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-services/style.css'))
         ],
         [
             'type' => 'script',
             'handle' => 'buildpro-home-services-script',
-            'src' => get_theme_file_uri('/template-parts/components/section-services/script.js'),
+            'src' => get_theme_file_uri('/template-parts/home/section-services/script.js'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => true,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-services/script.js'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-services/script.js'))
         ],
         [
             'type' => 'style',
             'handle' => 'buildpro-home-portfolio-style',
-            'src' => get_theme_file_uri('/template-parts/components/section-portfolio/style.css'),
+            'src' => get_theme_file_uri('/template-parts/home/section-portfolio/style.css'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => false,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-portfolio/style.css'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-portfolio/style.css'))
         ],
         [
             'type' => 'script',
             'handle' => 'buildpro-home-portfolio-script',
-            'src' => get_theme_file_uri('/template-parts/components/section-portfolio/script.js'),
+            'src' => get_theme_file_uri('/template-parts/home/section-portfolio/script.js'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => true,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-portfolio/script.js'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-portfolio/script.js'))
         ],
         [
             'type' => 'style',
             'handle' => 'buildpro-home-evaluate-style',
-            'src' => get_theme_file_uri('/template-parts/components/section-evaluate/style.css'),
+            'src' => get_theme_file_uri('/template-parts/home/section-evaluate/style.css'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => false,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-evaluate/style.css'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-evaluate/style.css'))
         ],
         [
             'type' => 'script',
             'handle' => 'buildpro-home-evaluate-script',
-            'src' => get_theme_file_uri('/template-parts/components/section-evaluate/script.js'),
+            'src' => get_theme_file_uri('/template-parts/home/section-evaluate/script.js'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => true,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-evaluate/script.js'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-evaluate/script.js'))
         ],
         [
             'type' => 'style',
             'handle' => 'buildpro-home-product-style',
-            'src' => get_theme_file_uri('/template-parts/components/section-product/style.css'),
+            'src' => get_theme_file_uri('/template-parts/home/section-product/style.css'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => false,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-product/style.css'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-product/style.css'))
         ],
         [
             'type' => 'script',
             'handle' => 'buildpro-home-product-script',
-            'src' => get_theme_file_uri('/template-parts/components/section-product/script.js'),
+            'src' => get_theme_file_uri('/template-parts/home/section-product/script.js'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => true,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-product/script.js'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-product/script.js'))
         ],
         [
             'type' => 'style',
             'handle' => 'buildpro-home-post-style',
-            'src' => get_theme_file_uri('/template-parts/components/section-post/style.css'),
+            'src' => get_theme_file_uri('/template-parts/home/section-post/style.css'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => false,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-post/style.css'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-post/style.css'))
         ],
         [
             'type' => 'script',
             'handle' => 'buildpro-home-post-script',
-            'src' => get_theme_file_uri('/template-parts/components/section-post/script.js'),
+            'src' => get_theme_file_uri('/template-parts/home/section-post/script.js'),
             'deps' => [],
             'ver' => $version,
             'in_footer' => true,
-            'condition' => file_exists(get_theme_file_path('/template-parts/components/section-post/script.js'))
+            'condition' => file_exists(get_theme_file_path('/template-parts/home/section-post/script.js'))
         ]
     ];
 

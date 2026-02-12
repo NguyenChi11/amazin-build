@@ -128,7 +128,7 @@ function buildpro_evaluate_customize_register($wp_customize)
             'settings' => array('buildpro_evaluate_data'),
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-evaluate/index');
+                get_template_part('template-parts/home/section-evaluate/index');
                 return ob_get_clean();
             },
         ));

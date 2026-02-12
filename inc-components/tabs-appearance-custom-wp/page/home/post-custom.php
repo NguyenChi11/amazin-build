@@ -129,7 +129,7 @@ function buildpro_post_customize_register($wp_customize)
             'container_inclusive' => true,
             'render_callback' => function () {
                 ob_start();
-                get_template_part('template-parts/components/section-post/index');
+                get_template_part('template-parts/home/section-post/index');
                 return ob_get_clean();
             },
         ));
