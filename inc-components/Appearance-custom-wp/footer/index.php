@@ -151,36 +151,6 @@ function buildpro_footer_customize_register($wp_customize)
         'section' => 'buildpro_footer_section',
         'mime_type' => 'image',
     )));
-    $wp_customize->add_setting('footer_information_logo_id', array(
-        'default' => 0,
-        'transport' => 'postMessage',
-        'sanitize_callback' => 'absint',
-    ));
-    $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'footer_information_logo_id', array(
-        'label' => __('Brand Logo', 'buildpro'),
-        'section' => 'buildpro_footer_section',
-        'mime_type' => 'image',
-    )));
-    $wp_customize->add_setting('footer_information_title', array(
-        'default' => '',
-        'transport' => 'postMessage',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-    $wp_customize->add_control('footer_information_title', array(
-        'label' => __('Title', 'buildpro'),
-        'section' => 'buildpro_footer_section',
-        'type' => 'text',
-    ));
-    $wp_customize->add_setting('footer_information_sub_title', array(
-        'default' => '',
-        'transport' => 'postMessage',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-    $wp_customize->add_control('footer_information_sub_title', array(
-        'label' => __('Sub Title', 'buildpro'),
-        'section' => 'buildpro_footer_section',
-        'type' => 'text',
-    ));
     $wp_customize->add_setting('footer_information_description', array(
         'default' => '',
         'transport' => 'postMessage',
@@ -191,6 +161,7 @@ function buildpro_footer_customize_register($wp_customize)
         'section' => 'buildpro_footer_section',
         'type' => 'textarea',
     ));
+
     $wp_customize->add_setting('footer_contact_location', array(
         'default' => '',
         'transport' => 'postMessage',
@@ -312,9 +283,6 @@ function buildpro_footer_customize_register($wp_customize)
             'selector' => '.site-footer',
             'settings' => array(
                 'footer_banner_image_id',
-                'footer_information_logo_id',
-                'footer_information_title',
-                'footer_information_sub_title',
                 'footer_information_description',
                 'footer_list_pages',
                 'footer_contact_location',

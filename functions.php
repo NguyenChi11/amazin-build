@@ -464,6 +464,13 @@ function buildpro_maybe_import_default_content()
 				buildpro_import_option_demo();
 			}
 		}
+		$footer_demo_file = get_theme_file_path('/inc/import/data-demo/footer-demo.php');
+		if (file_exists($footer_demo_file)) {
+			require_once $footer_demo_file;
+			if (function_exists('buildpro_import_footer_demo')) {
+				buildpro_import_footer_demo();
+			}
+		}
 		$service_demo_file = get_theme_file_path('/inc/import/data-demo/page/home/service-home.php');
 		if (file_exists($service_demo_file)) {
 			require_once $service_demo_file;

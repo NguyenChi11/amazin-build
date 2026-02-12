@@ -50,6 +50,9 @@ $link_server = get_theme_mod('footer_servicer_link', array('url' => '', 'title' 
 $service_url = is_array($link_server) ? ($link_server['url'] ?? '') : '';
 $service_target = is_array($link_server) ? ($link_server['target'] ?? '') : '';
 $has_data = ($logo_url || $title_ft || $sub_title_ft || $description_ft || !empty($footer_pages) || $contact_location || $contact_phone || $contact_email || $contact_time || !empty($contact_links) || $create_build_text || $policy_ft || $policy_url || $service_ft || $service_url);
+if (!is_customize_preview() && !$has_data) {
+    return;
+}
 ?>
 <footer id="colophon" class="site-footer" <?php echo $bg_style; ?>>
     <div class="footer__inner">
@@ -70,14 +73,20 @@ $has_data = ($logo_url || $title_ft || $sub_title_ft || $description_ft || !empt
             <div class="footer__brand">
                 <div class="footer__brand-logo">
                     <div class="footer__brand-logo-wrapper">
-                        <?php if ($logo_url): ?>
-                            <img class="footer__logo" src="<?php echo esc_url($logo_url); ?>" alt="Footer Logo">
+                        <?php
+                        $header_logo_id = get_theme_mod('header_logo', 0);
+                        $header_logo_url = $header_logo_id ? wp_get_attachment_image_url($header_logo_id, 'full') : '';
+                        $header_title = get_theme_mod('buildpro_header_title', '');
+                        $header_sub = get_theme_mod('buildpro_header_description', '');
+                        ?>
+                        <?php if ($header_logo_url): ?>
+                            <img class="footer__logo" src="<?php echo esc_url($header_logo_url); ?>" alt="Footer Logo">
                         <?php endif; ?>
-                        <?php if (!empty($title_ft)): ?>
-                            <h3 class="footer__title"><?php echo esc_html($title_ft); ?></h3>
+                        <?php if (!empty($header_title)): ?>
+                            <h3 class="footer__title"><?php echo esc_html($header_title); ?></h3>
                         <?php endif; ?>
-                        <?php if (!empty($sub_title_ft)): ?>
-                            <h4 class="footer__subtitle"><?php echo esc_html($sub_title_ft); ?></h4>
+                        <?php if (!empty($header_sub)): ?>
+                            <h4 class="footer__subtitle"><?php echo esc_html($header_sub); ?></h4>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -187,7 +196,3 @@ $has_data = ($logo_url || $title_ft || $sub_title_ft || $description_ft || !empt
         </div>
     </div>
 </footer><!-- #colophon -->
-<?php
-$data_src = esc_url(get_template_directory_uri() . '/assets/data/footer-data.js');
-echo '<script src="' . $data_src . '"></script>';
-?>

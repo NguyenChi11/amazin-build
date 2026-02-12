@@ -16,6 +16,9 @@ $description_header = get_theme_mod('buildpro_header_description', '');
 if ($description_header === '') {
     $description_header = get_theme_mod('header_description', '');
 }
+if (!is_customize_preview() && !$logo_id && $text_header === '' && $description_header === '') {
+    return;
+}
 ?>
 
 <header id="masthead" class="site-header">
@@ -36,7 +39,7 @@ if ($description_header === '') {
             </script>
             <?php endif; ?>
             <a href="/" class="header-logo">
-                <?= $logo_id ? wp_get_attachment_image($logo_id, 'full', false, array('class' => '')) : '<img src="' . esc_url(get_theme_file_uri('/assets/images/logo.png')) . '" alt="Logo" />' ?>
+                <?= $logo_id ? wp_get_attachment_image($logo_id, 'full', false, array('class' => '')) : '' ?>
             </a>
             <h1 class="header-logo-text">
                 <?= $text_header ? esc_html($text_header) : '' ?>
@@ -254,32 +257,6 @@ if ($description_header === '') {
     } else {
         init();
     }
-})();
-</script>
-<?php endif; ?>
-<?php if (!$logo_id || !$text_header || !$description_header) : ?>
-<script src="<?= esc_url(get_theme_file_uri('/assets/data/header-data.js')); ?>"></script>
-<script>
-(function() {
-    var data = window.headerData || {};
-    <?php if (!$logo_id): ?>
-    var imgEl = document.querySelector('.header-logo img');
-    if (imgEl && data.logo) {
-        imgEl.src = data.logo;
-    }
-    <?php endif; ?>
-    <?php if (!$text_header): ?>
-    var titleEl = document.querySelector('.header-logo-text');
-    if (titleEl && data.title) {
-        titleEl.textContent = data.title;
-    }
-    <?php endif; ?>
-    <?php if (!$description_header): ?>
-    var descEl = document.querySelector('.header-logo-desc');
-    if (descEl && data.description) {
-        descEl.textContent = data.description;
-    }
-    <?php endif; ?>
 })();
 </script>
 <?php endif; ?>
