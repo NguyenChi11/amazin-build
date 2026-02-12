@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var root = document.querySelector(".section-option");
   var container = document.querySelector(".section-option__swiper");
   var wrapper = document.querySelector(".section-option__swiper-wrapper");
   if (!container || typeof Swiper === "undefined") return;
@@ -7,9 +8,12 @@ document.addEventListener("DOMContentLoaded", function () {
     parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
   var spacing = 3.75 * rootFontSize;
 
+  var noFallback =
+    root && root.getAttribute("data-no-fallback") === "1";
   if (
     wrapper &&
     wrapper.children.length === 0 &&
+    !noFallback &&
     typeof options !== "undefined" &&
     Array.isArray(options)
   ) {
@@ -58,6 +62,10 @@ document.addEventListener("DOMContentLoaded", function () {
       slide.appendChild(itemDiv);
       wrapper.appendChild(slide);
     }
+  }
+
+  if (noFallback && wrapper) {
+    wrapper.innerHTML = "";
   }
 
   new Swiper(container, {

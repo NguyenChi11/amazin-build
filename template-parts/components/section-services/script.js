@@ -7,62 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var container = section.querySelector(".section-services__container");
   var items = section.querySelectorAll(".section-services__item");
 
-  if (
-    container &&
-    items.length === 0 &&
-    typeof window.servicesData !== "undefined" &&
-    Array.isArray(window.servicesData.items)
-  ) {
-    var titleHasMeta = title && title.getAttribute("data-has-meta") === "1";
-    var descHasMeta = desc && desc.getAttribute("data-has-meta") === "1";
-    if (title && !titleHasMeta && window.servicesData.serviceTitle) {
-      title.textContent = String(window.servicesData.serviceTitle);
-    }
-    if (desc && !descHasMeta && window.servicesData.serviceDescription) {
-      desc.textContent = String(window.servicesData.serviceDescription);
-    }
-    window.servicesData.items.forEach(function (it) {
-      var item = document.createElement("div");
-      item.className = "section-services__item";
-      var iconWrap = document.createElement("div");
-      iconWrap.className = "section-services__item-icon";
-      if (it.icon_url) {
-        var img = document.createElement("img");
-        img.src = it.icon_url;
-        img.alt = it.title || "";
-        img.className = "section-services__item-icon-image";
-        iconWrap.appendChild(img);
-      }
-      var h3 = document.createElement("h3");
-      h3.className = "section-services__item-title";
-      h3.textContent = it.title || "";
-      var p = document.createElement("p");
-      p.className = "section-services__item-description";
-      p.textContent = it.description || "";
-      item.appendChild(iconWrap);
-      item.appendChild(h3);
-      item.appendChild(p);
-      if (it.link_url) {
-        var a = document.createElement("a");
-        a.className = "section-services__item-link";
-        a.href = it.link_url;
-        if (it.link_target === "_blank") {
-          a.target = "_blank";
-          a.rel = "noopener";
-        }
-        a.textContent = it.link_title || "View Details";
-        var right = document.createElement("img");
-        right.src =
-          "/wp-content/themes/buildpro/assets/images/icon/Arrow_Right_blue.png";
-        right.alt = "right arrow";
-        right.className = "section-services__item-link-icon";
-        a.appendChild(right);
-        item.appendChild(a);
-      }
-      container.appendChild(item);
-    });
-    items = section.querySelectorAll(".section-services__item");
-  }
+  // Demo injection removed; servicesData is used only for import, not runtime
 
   function runIntro() {
     if (title)
