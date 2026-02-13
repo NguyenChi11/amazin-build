@@ -262,7 +262,43 @@ function wp_enqueue_custom_assets()
             'ver' => $version,
             'in_footer' => true,
             'condition' => file_exists(get_theme_file_path('/template-parts/home/section-post/script.js'))
-        ]
+        ],
+        [
+            'type' => 'style',
+            'handle' => 'buildpro-projects-section-title-style',
+            'src' => get_theme_file_uri('/template-parts/projects/section-title/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/projects/section-title/style.css'))
+        ],
+        [
+            'type' => 'script',
+            'handle' => 'buildpro-projects-title-data',
+            'src' => get_theme_file_uri('/assets/data/project-title-data.js'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/assets/data/project-title-data.js'))
+        ],
+        [
+            'type' => 'script',
+            'handle' => 'buildpro-projects-section-title-script',
+            'src' => get_theme_file_uri('/template-parts/projects/section-title/script.js'),
+            'deps' => ['buildpro-projects-title-data'],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/template-parts/projects/section-title/script.js'))
+        ],
+        [
+            'type' => 'style',
+            'handle' => 'buildpro-projects-section-portfolio-style',
+            'src' => get_theme_file_uri('/template-parts/projects/section-list/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/projects/section-list/style.css'))
+        ],
     ];
 
     foreach ($wp_enqueue_mapping as $asset) {

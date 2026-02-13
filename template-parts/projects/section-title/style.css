@@ -1,0 +1,28 @@
+.project--section-title {
+  padding: 4.375rem 3.75rem;
+}
+
+.project--section-title__title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-size: 3.125rem;
+  line-height: 3.75rem;
+  letter-spacing: 0;
+  color: #000;
+  opacity: 1;
+  margin: 0;
+  width: 63.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.project--section-title__desc {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  letter-spacing: 0;
+  color: rgba(126, 132, 139, 1);
+  opacity: 1;
+  margin: 0;
+  width: 63.25rem;
+}
