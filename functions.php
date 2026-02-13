@@ -495,6 +495,13 @@ function buildpro_maybe_import_default_content()
 				buildpro_import_data_demo();
 			}
 		}
+		$projects_title_demo_file = get_theme_file_path('/inc/import/data-demo/page/projects/project-title-demo.php');
+		if (file_exists($projects_title_demo_file)) {
+			require_once $projects_title_demo_file;
+			if (function_exists('buildpro_import_projects_title_demo')) {
+				buildpro_import_projects_title_demo();
+			}
+		}
 		if ($wc_active) {
 			$wcProducts = buildpro_import_parse_js('/assets/data/woocommerce-product-data.js', 'woocommerceProductData');
 			if (isset($wcProducts['items']) && is_array($wcProducts['items'])) {

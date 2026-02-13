@@ -1,10 +1,16 @@
 <?php
-$dir = get_theme_file_path('inc/components/page/home');
-if (is_dir($dir)) {
-    $files = glob($dir . '/*.php');
-    if (is_array($files)) {
-        foreach ($files as $file) {
-            require_once $file;
+$dirs = array(
+    'inc/components/page/home',
+    'inc/components/page/projects',
+);
+foreach ($dirs as $rel) {
+    $dir = get_theme_file_path($rel);
+    if (is_dir($dir)) {
+        $files = glob($dir . '/*.php');
+        if (is_array($files)) {
+            foreach ($files as $file) {
+                require_once $file;
+            }
         }
     }
 }
