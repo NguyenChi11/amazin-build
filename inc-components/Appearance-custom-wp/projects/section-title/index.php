@@ -18,7 +18,5 @@ $desc  = isset($data['description']) ? sanitize_textarea_field($data['descriptio
             <textarea rows="4" class="large-text" data-field="description"><?php echo esc_textarea($desc); ?></textarea>
         </p>
     </div>
-    <!-- <div class="buildpro-projects-title-actions"><button type="button" class="button button-primary"
-            id="buildpro-projects-title-apply">Apply</button></div> -->
     <p class="description">Thay đổi hiển thị ngay trong preview. Publish để lưu.</p>
 </div>

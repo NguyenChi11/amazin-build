@@ -13,7 +13,7 @@ function buildpro_services_customize_register($wp_customize)
                 if (!empty($this->description)) {
                     echo '<p class="description">' . esc_html($this->description) . '</p>';
                 }
-                include get_theme_file_path('inc-components/Appearance-custom-wp/home/services/index.php');
+                include get_theme_file_path('inc-components/Appearance-custom-wp/home/section-services/index.php');
                 return;
             }
         }
@@ -274,13 +274,13 @@ function buildpro_services_enqueue_assets()
 {
     wp_enqueue_style(
         'buildpro-services-style',
-        get_theme_file_uri('inc-components/Appearance-custom-wp/home/services/style.css'),
+        get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-services/style.css'),
         array(),
         null
     );
     wp_enqueue_script(
         'buildpro-services-script',
-        get_theme_file_uri('inc-components/Appearance-custom-wp/home/services/script.js'),
+        get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-services/script.js'),
         array('customize-controls'),
         null,
         true

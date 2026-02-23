@@ -186,13 +186,13 @@ function buildpro_product_enqueue_assets()
 {
     wp_enqueue_style(
         'buildpro-product-style',
-        get_theme_file_uri('inc-components/Appearance-custom-wp/home/product/style.css'),
+        get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-product/style.css'),
         array(),
         null
     );
     wp_enqueue_script(
         'buildpro-product-script',
-        get_theme_file_uri('inc-components/Appearance-custom-wp/home/product/script.js'),
+        get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-product/script.js'),
         array('customize-controls'),
         null,
         true

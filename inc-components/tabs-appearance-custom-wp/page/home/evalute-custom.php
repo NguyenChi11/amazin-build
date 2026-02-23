@@ -9,7 +9,7 @@ function buildpro_evaluate_customize_register($wp_customize)
             {
                 $data = $this->value();
                 $data = is_array($data) ? $data : array();
-                include get_theme_file_path('inc-components/Appearance-custom-wp/home/evalute/index.php');
+                include get_theme_file_path('inc-components/Appearance-custom-wp/home/section-evalute/index.php');
                 return;
             }
         }
@@ -137,9 +137,9 @@ function buildpro_evaluate_customize_register($wp_customize)
 add_action('customize_register', 'buildpro_evaluate_customize_register');
 function buildpro_evaluate_enqueue_assets()
 {
-    wp_enqueue_style('buildpro-evaluate-style', get_theme_file_uri('inc-components/Appearance-custom-wp/home/evalute/style.css'), array(), null);
+    wp_enqueue_style('buildpro-evaluate-style', get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-evalute/style.css'), array(), null);
     wp_enqueue_media();
-    wp_enqueue_script('buildpro-evaluate-script', get_theme_file_uri('inc-components/Appearance-custom-wp/home/evalute/script.js'), array('customize-controls'), null, true);
+    wp_enqueue_script('buildpro-evaluate-script', get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-evalute/script.js'), array('customize-controls'), null, true);
 }
 add_action('customize_controls_enqueue_scripts', 'buildpro_evaluate_enqueue_assets');
 function buildpro_evaluate_find_home_id()

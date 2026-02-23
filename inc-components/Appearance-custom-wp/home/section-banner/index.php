@@ -1,9 +1,5 @@
 <?php
-// $items is provided by the including scope (BuildPro_Banner_Repeater_Control::render_content)
-// $this is WP_Customize_Control instance; we use $this->link() to bind the hidden input
-if (!is_array($items)) {
-    $items = array();
-}
+$items = is_array($items) ? $items : array();
 ?>
 <input type="hidden" id="buildpro-banner-data" <?php $this->link(); ?>
     value="<?php echo esc_attr(wp_json_encode($items)); ?>">

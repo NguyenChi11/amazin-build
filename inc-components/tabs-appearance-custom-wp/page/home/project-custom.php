@@ -13,7 +13,7 @@ function buildpro_portfolio_customize_register($wp_customize)
                 if (!empty($this->description)) {
                     echo '<p class="description">' . esc_html($this->description) . '</p>';
                 }
-                include get_theme_file_path('inc-components/Appearance-custom-wp/home/project/index.php');
+                include get_theme_file_path('inc-components/Appearance-custom-wp/home/section-project/index.php');
                 return;
             }
         }
@@ -145,13 +145,13 @@ function buildpro_portfolio_enqueue_assets()
 {
     wp_enqueue_style(
         'buildpro-portfolio-style',
-        get_theme_file_uri('inc-components/Appearance-custom-wp/home/project/style.css'),
+        get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-project/style.css'),
         array(),
         null
     );
     wp_enqueue_script(
         'buildpro-portfolio-script',
-        get_theme_file_uri('inc-components/Appearance-custom-wp/home/project/script.js'),
+        get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-project/script.js'),
         array('customize-controls'),
         null,
         true
