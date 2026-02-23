@@ -299,6 +299,24 @@ function wp_enqueue_custom_assets()
             'in_footer' => false,
             'condition' => file_exists(get_theme_file_path('/template-parts/projects/section-list/style.css'))
         ],
+        [
+            'type' => 'style',
+            'handle' => 'buildpro-product-section-products-style',
+            'src' => get_theme_file_uri('/template-parts/product/section-products/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/product/section-products/style.css'))
+        ],
+        [
+            'type' => 'script',
+            'handle' => 'buildpro-product-section-products-script',
+            'src' => get_theme_file_uri('/template-parts/product/section-products/script.js'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/template-parts/product/section-products/script.js'))
+        ],
     ];
 
     foreach ($wp_enqueue_mapping as $asset) {
