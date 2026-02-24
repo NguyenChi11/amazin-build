@@ -650,3 +650,38 @@ function buildpro_on_plugin_activated($plugin)
 	}
 }
 add_action('activated_plugin', 'buildpro_on_plugin_activated', 10, 1);
+
+function buildpro_get_post_views($post_id)
+{
+	$v = (int) get_post_meta($post_id, 'buildpro_post_views', true);
+	return $v;
+}
+
+function buildpro_format_views($n)
+{
+	if ($n >= 1000000) {
+		return round($n / 1000000, 1) . 'm';
+	}
+	if ($n >= 1000) {
+		return round($n / 1000, 1) . 'k';
+	}
+	return (string) $n;
+}
+
+function buildpro_count_post_views()
+{
+	if (is_singular('post')) {
+		$pid = get_queried_object_id();
+		if ($pid) {
+			$key = 'bp_viewed_' . $pid;
+			$seen = isset($_COOKIE[$key]) ? $_COOKIE[$key] : '';
+			if ($seen !== '1') {
+				$v = (int) get_post_meta($pid, 'buildpro_post_views', true);
+				$v++;
+				update_post_meta($pid, 'buildpro_post_views', $v);
+				setcookie($key, '1', time() + DAY_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), true);
+			}
+		}
+	}
+}
+add_action('template_redirect', 'buildpro_count_post_views');
