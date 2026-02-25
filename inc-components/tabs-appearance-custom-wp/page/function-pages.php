@@ -2,6 +2,7 @@
 $dirs = array(
     'inc-components/tabs-appearance-custom-wp/page/home',
     'inc-components/tabs-appearance-custom-wp/page/projects',
+    'inc-components/tabs-appearance-custom-wp/page/about-us',
 );
 foreach ($dirs as $rel) {
     $dir = get_theme_file_path($rel);

@@ -2,6 +2,7 @@
 $dirs = array(
     'inc/components/page/home',
     'inc/components/page/projects',
+    'inc/components/page/about-us',
 );
 foreach ($dirs as $rel) {
     $dir = get_theme_file_path($rel);
