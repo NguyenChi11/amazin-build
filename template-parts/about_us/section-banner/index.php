@@ -21,21 +21,21 @@ $image_id = $use_mod ? absint(get_theme_mod('buildpro_about_banner_image_id', 0)
 $img_url = $image_id ? wp_get_attachment_image_url($image_id, 'full') : '';
 if ($enabled) :
 ?>
-<section class="about-us__section-banner">
-    <?php if (is_customize_preview()) : ?>
-    <div class="about-banner__hover-outline" aria-hidden="true"></div>
-    <?php endif; ?>
-    <div class="about-us__section-banner__left">
-        <?php if (!empty($text)) : ?>
-        <p class="about-us__section-banner__left__text"><?php echo esc_html($text); ?></p>
+    <section class="about-us__section-banner">
+        <?php if (is_customize_preview()) : ?>
+            <div class="about-banner__hover-outline" aria-hidden="true"></div>
         <?php endif; ?>
-        <?php if (!empty($title)) : ?>
-        <h1 class="about-us__section-banner__left__title"><?php echo esc_html($title); ?></h1>
-        <?php endif; ?>
-        <?php if (!empty($desc)) : ?>
-        <div class="about-us__section-banner__left__description"><?php echo wp_kses_post(wpautop($desc)); ?></div>
-        <?php endif; ?>
-        <?php
+        <div class="about-us__section-banner__left">
+            <?php if (!empty($text)) : ?>
+                <p class="about-us__section-banner__left__text"><?php echo esc_html($text); ?></p>
+            <?php endif; ?>
+            <?php if (!empty($title)) : ?>
+                <h1 class="about-us__section-banner__left__title"><?php echo esc_html($title); ?></h1>
+            <?php endif; ?>
+            <?php if (!empty($desc)) : ?>
+                <div class="about-us__section-banner__left__description"><?php echo wp_kses_post(wpautop($desc)); ?></div>
+            <?php endif; ?>
+            <?php
             $facts_clean = array();
             foreach ($facts as $f) {
                 $lbl = isset($f['label']) ? trim($f['label']) : '';
@@ -46,25 +46,25 @@ if ($enabled) :
             }
             if (!empty($facts_clean)) :
             ?>
-        <div class="about-us__section-banner__left__wrapper">
-            <?php foreach ($facts_clean as $f) : ?>
-            <div class="about-us__section-banner__left__wrapper__item">
-                <?php if (!empty($f['label'])) : ?>
-                <p class="about-us__section-banner__left__wrapper__item__text"><?php echo esc_html($f['label']); ?></p>
-                <?php endif; ?>
-                <?php if (!empty($f['value'])) : ?>
-                <p class="about-us__section-banner__left__wrapper__item__description">
-                    <?php echo esc_html($f['value']); ?></p>
-                <?php endif; ?>
-            </div>
-            <?php endforeach; ?>
+                <div class="about-us__section-banner__left__wrapper">
+                    <?php foreach ($facts_clean as $f) : ?>
+                        <div class="about-us__section-banner__left__wrapper__item">
+                            <?php if (!empty($f['label'])) : ?>
+                                <p class="about-us__section-banner__left__wrapper__item__text"><?php echo esc_html($f['label']); ?></p>
+                            <?php endif; ?>
+                            <?php if (!empty($f['value'])) : ?>
+                                <p class="about-us__section-banner__left__wrapper__item__description">
+                                    <?php echo esc_html($f['value']); ?></p>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </div>
+        <?php if (!empty($img_url)) : ?>
+            <div class="about-us__section-banner__right">
+                <img class="about-us__section-banner__right__image" src="<?php echo esc_url($img_url); ?>" alt="">
+            </div>
         <?php endif; ?>
-    </div>
-    <?php if (!empty($img_url)) : ?>
-    <div class="about-us__section-banner__right">
-        <img class="about-us__section-banner__right__image" src="<?php echo esc_url($img_url); ?>" alt="">
-    </div>
-    <?php endif; ?>
-</section>
+    </section>
 <?php endif; ?>

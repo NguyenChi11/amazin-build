@@ -19,14 +19,15 @@ function buildpro_about_group_meta_box_render($post)
         return;
     }
     echo '<div class="buildpro-admin-tabs" style="margin:0;padding:8px 0;">'
-        . '<button type="button" class="button buildpro-admin-tab is-active" data-target="buildpro_about_banner_meta">Banner</button>'
+        . '<button type="button" class="button buildpro-admin-tab is-active" data-target="buildpro_about_banner_meta">Banner</button> '
+        . '<button type="button" class="button buildpro-admin-tab" data-target="buildpro_about_core_values_meta">Core Values</button>'
         . '</div>';
     echo '<script>
     (function(){
         function init(){
             var tabs = document.querySelectorAll(".buildpro-admin-tab");
             function show(id){
-                var ids = ["buildpro_about_banner_meta"];
+                var ids = ["buildpro_about_banner_meta","buildpro_about_core_values_meta"];
                 ids.forEach(function(x){
                     var el = document.getElementById(x);
                     if(el){ el.style.display = (x === id) ? "block" : "none"; }

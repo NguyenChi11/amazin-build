@@ -1,0 +1,23 @@
+.buildpro-about-core-values-repeater .core-value-item {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px 0;
+}
+.buildpro-about-core-values-repeater .widefat {
+  width: 100%;
+}
+.buildpro-about-core-values-repeater .cv-icon-preview {
+  margin: 6px 0;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+.buildpro-about-core-values-repeater .cv-icon-empty {
+  color: #888;
+  border: 1px dashed #ddd;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}

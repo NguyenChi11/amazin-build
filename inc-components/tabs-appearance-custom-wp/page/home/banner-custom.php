@@ -33,7 +33,7 @@ function buildpro_banner_customize_register($wp_customize)
                 if (!empty($this->description)) {
                     echo '<p class="description">' . esc_html($this->description) . '</p>';
                 }
-                include get_theme_file_path('inc-components/Appearance-custom-wp/home/link/index.php');
+                include get_theme_file_path('inc-components/Appearance-custom-wp/home/section-link/index.php');
             }
         }
     }

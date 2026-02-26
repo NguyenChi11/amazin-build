@@ -34,8 +34,56 @@ require get_template_directory() . '/inc-components/tabs-appearance-custom-wp/fu
 require get_template_directory() . '/inc/footer-functions.php';
 require get_template_directory() . '/inc/components/cpt/cpt-function.php';
 require get_template_directory() . '/inc/import/data-demo/page/home/function-import-demo.php';
+require get_template_directory() . '/inc/import/data-demo/page/about-us/function-import-demo.php';
 
 
+
+function buildpro_ensure_page_with_template($title, $slug, $template)
+{
+	$pages = get_pages(array('meta_key' => '_wp_page_template', 'meta_value' => $template, 'number' => 1));
+	if (!empty($pages)) {
+		$p = $pages[0];
+		if ($p->post_status !== 'publish') {
+			wp_update_post(array('ID' => $p->ID, 'post_status' => 'publish'));
+		}
+		return (int)$p->ID;
+	}
+	$existing = get_page_by_path($slug, OBJECT, 'page');
+	if ($existing) {
+		$pid = (int)$existing->ID;
+		update_post_meta($pid, '_wp_page_template', $template);
+		if ($existing->post_status !== 'publish') {
+			wp_update_post(array('ID' => $pid, 'post_status' => 'publish'));
+		}
+		return $pid;
+	}
+	$pid = wp_insert_post(array(
+		'post_type' => 'page',
+		'post_status' => 'publish',
+		'post_title' => $title,
+		'post_name' => $slug,
+	));
+	if ($pid && !is_wp_error($pid)) {
+		update_post_meta($pid, '_wp_page_template', $template);
+		return (int)$pid;
+	}
+	return 0;
+}
+
+function buildpro_create_default_pages()
+{
+	$home_id = buildpro_ensure_page_with_template('Home', 'home', 'home-page.php');
+	if ($home_id > 0) {
+		if (get_option('show_on_front') !== 'page') {
+			update_option('show_on_front', 'page');
+		}
+		update_option('page_on_front', $home_id);
+	}
+	buildpro_ensure_page_with_template('About Us', 'about-us', 'about-page.php');
+	buildpro_ensure_page_with_template('Blogs', 'blogs', 'blogs-page.php');
+	buildpro_ensure_page_with_template('Products', 'products', 'products-page.php');
+	buildpro_ensure_page_with_template('Projects', 'projects', 'projects-page.php');
+}
 
 function buildpro_svg_icon($name, $style = 'solid', $class = '')
 {
@@ -81,24 +129,6 @@ function buildpro_widgets_init()
 }
 add_action('widgets_init', 'buildpro_widgets_init');
 
-if (function_exists('acf_add_options_page')) {
-	// acf_add_options_page(array(
-	// 	'page_title' => 'Header Settings',
-	// 	'menu_title' => 'Header',
-	// 	'menu_slug' => 'header-settings',
-	// 	'capability' => 'edit_posts',
-	// 	'redirect' => false,
-	// 	'parent_slug' => 'themes.php',
-	// ));
-	// acf_add_options_page(array(
-	// 	'page_title' => 'Footer Settings',
-	// 	'menu_title' => 'Footer',
-	// 	'menu_slug' => 'footer-settings',
-	// 	'capability' => 'edit_posts',
-	// 	'redirect' => false,
-	// 	'parent_slug' => 'themes.php',
-	// ));
-}
 
 function buildpro_register_project_cpt()
 {
@@ -431,6 +461,7 @@ add_action('after_switch_theme', 'buildpro_schedule_default_import');
 function buildpro_maybe_import_default_content()
 {
 	if (get_option('buildpro_do_import') === '1') {
+		buildpro_create_default_pages();
 		$wc_active = class_exists('WooCommerce') || function_exists('wc_get_product');
 		$materials = buildpro_import_parse_js('/assets/data/product-data.js', 'materialsData');
 		if (isset($materials['items']) && is_array($materials['items'])) {
@@ -500,6 +531,20 @@ function buildpro_maybe_import_default_content()
 			require_once $projects_title_demo_file;
 			if (function_exists('buildpro_import_projects_title_demo')) {
 				buildpro_import_projects_title_demo();
+			}
+		}
+		$about_banner_demo_file = get_theme_file_path('/inc/import/data-demo/page/about-us/banner-about-us.php');
+		if (file_exists($about_banner_demo_file)) {
+			require_once $about_banner_demo_file;
+			if (function_exists('buildpro_import_about_us_banner_demo')) {
+				buildpro_import_about_us_banner_demo();
+			}
+		}
+		$about_core_values_demo_file = get_theme_file_path('/inc/import/data-demo/page/about-us/core-value-about-us.php');
+		if (file_exists($about_core_values_demo_file)) {
+			require_once $about_core_values_demo_file;
+			if (function_exists('buildpro_import_about_us_core_values_demo')) {
+				buildpro_import_about_us_core_values_demo();
 			}
 		}
 		if ($wc_active) {

@@ -16,9 +16,6 @@ $description_header = get_theme_mod('buildpro_header_description', '');
 if ($description_header === '') {
     $description_header = get_theme_mod('header_description', '');
 }
-if (!is_customize_preview() && !$logo_id && $text_header === '' && $description_header === '') {
-    return;
-}
 ?>
 
 <header id="masthead" class="site-header">
@@ -37,16 +34,35 @@ if (!is_customize_preview() && !$logo_id && $text_header === '' && $description_
                 }
             })();
             </script>
+            <script>
+            (function() {
+                try {
+                    window.headerData = window.headerData || {};
+                    if (!window.headerData.title) {
+                        window.headerData.title = <?php echo wp_json_encode(get_bloginfo('name')); ?>;
+                    }
+                    if (!window.headerData.description) {
+                        window.headerData.description = <?php echo wp_json_encode(get_bloginfo('description')); ?>;
+                    }
+                } catch (e) {}
+            })();
+            </script>
             <?php endif; ?>
-            <a href="/" class="header-logo">
+            <?php if ($logo_id || is_customize_preview()): ?>
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="header-logo">
                 <?= $logo_id ? wp_get_attachment_image($logo_id, 'full', false, array('class' => '')) : '' ?>
             </a>
+            <?php endif; ?>
+            <?php if ($text_header !== '' || is_customize_preview()): ?>
             <h1 class="header-logo-text">
-                <?= $text_header ? esc_html($text_header) : '' ?>
+                <?= $text_header !== '' ? esc_html($text_header) : esc_html(get_bloginfo('name')) ?>
             </h1>
+            <?php endif; ?>
+            <?php if ($description_header !== '' || is_customize_preview()): ?>
             <p class="header-logo-desc">
-                <?= $description_header ? esc_html($description_header) : '' ?>
+                <?= $description_header !== '' ? esc_html($description_header) : esc_html(get_bloginfo('description')) ?>
             </p>
+            <?php endif; ?>
         </div>
         <div class="header-nav-container">
 
