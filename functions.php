@@ -35,6 +35,7 @@ require get_template_directory() . '/inc/footer-functions.php';
 require get_template_directory() . '/inc/components/cpt/cpt-function.php';
 require get_template_directory() . '/inc/import/data-demo/page/home/function-import-demo.php';
 require get_template_directory() . '/inc/import/data-demo/page/about-us/function-import-demo.php';
+require get_template_directory() . '/inc/function/contact-form.php';
 
 
 

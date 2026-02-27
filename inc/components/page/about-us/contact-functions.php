@@ -76,18 +76,21 @@ function buildpro_save_about_contact_meta($post_id)
     $address = isset($_POST['buildpro_about_contact_address']) ? sanitize_text_field(wp_unslash($_POST['buildpro_about_contact_address'])) : '';
     $phone = isset($_POST['buildpro_about_contact_phone']) ? sanitize_text_field(wp_unslash($_POST['buildpro_about_contact_phone'])) : '';
     $email = isset($_POST['buildpro_about_contact_email']) ? sanitize_email(wp_unslash($_POST['buildpro_about_contact_email'])) : '';
+    $map_image_id = isset($_POST['buildpro_about_contact_form_map_image_id']) ? absint($_POST['buildpro_about_contact_form_map_image_id']) : 0;
     update_post_meta($post_id, 'buildpro_about_contact_enabled', $enabled);
     update_post_meta($post_id, 'buildpro_about_contact_title', $title);
     update_post_meta($post_id, 'buildpro_about_contact_text', $text);
     update_post_meta($post_id, 'buildpro_about_contact_address', $address);
     update_post_meta($post_id, 'buildpro_about_contact_phone', $phone);
     update_post_meta($post_id, 'buildpro_about_contact_email', $email);
+    update_post_meta($post_id, 'buildpro_about_contact_form_map_image_id', $map_image_id);
     set_theme_mod('buildpro_about_contact_enabled', $enabled);
     set_theme_mod('buildpro_about_contact_title', $title);
     set_theme_mod('buildpro_about_contact_text', $text);
     set_theme_mod('buildpro_about_contact_address', $address);
     set_theme_mod('buildpro_about_contact_phone', $phone);
     set_theme_mod('buildpro_about_contact_email', $email);
+    set_theme_mod('buildpro_about_contact_form_map_image_id', $map_image_id);
 }
 add_action('save_post', 'buildpro_save_about_contact_meta');
 add_action('save_post_page', 'buildpro_save_about_contact_meta');

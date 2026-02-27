@@ -119,6 +119,32 @@ function buildpro_about_contact_customize_register($wp_customize)
             'type' => isset($cfg['type']) ? $cfg['type'] : 'text',
         ));
     }
+    // Map image for contact-form aside
+    $map_def = 0;
+    if ($about_id) {
+        $m = get_post_meta($about_id, 'buildpro_about_contact_form_map_image_id', true);
+        if ($m !== '') {
+            $map_def = absint($m);
+        }
+    }
+    $wp_customize->add_setting('buildpro_about_contact_form_map_image_id', array(
+        'default' => $map_def,
+        'transport' => 'postMessage',
+        'sanitize_callback' => 'absint',
+    ));
+    if (class_exists('WP_Customize_Media_Control')) {
+        $wp_customize->add_control(new WP_Customize_Media_Control($wp_customize, 'buildpro_about_contact_form_map_image_id', array(
+            'label' => __('Map Image', 'buildpro'),
+            'section' => 'buildpro_about_contact_section',
+            'mime_type' => 'image',
+        )));
+    } else {
+        $wp_customize->add_control('buildpro_about_contact_form_map_image_id', array(
+            'label' => __('Map Image ID', 'buildpro'),
+            'section' => 'buildpro_about_contact_section',
+            'type' => 'number',
+        ));
+    }
     // Selective refresh (optional template)
     if (isset($wp_customize->selective_refresh)) {
         $wp_customize->selective_refresh->add_partial('buildpro_about_contact_partial', array(
@@ -213,6 +239,7 @@ function buildpro_about_contact_sync_customizer_to_meta($wp_customize_manager)
     $address_val = null;
     $phone_val = null;
     $email_val = null;
+    $map_id_val = null;
     if ($wp_customize_manager instanceof WP_Customize_Manager) {
         $s = $wp_customize_manager->get_setting('buildpro_about_contact_enabled');
         $enabled_val = $s ? $s->post_value() : null;
@@ -226,6 +253,8 @@ function buildpro_about_contact_sync_customizer_to_meta($wp_customize_manager)
         $phone_val = $s ? $s->post_value() : null;
         $s = $wp_customize_manager->get_setting('buildpro_about_contact_email');
         $email_val = $s ? $s->post_value() : null;
+        $s = $wp_customize_manager->get_setting('buildpro_about_contact_form_map_image_id');
+        $map_id_val = $s ? $s->post_value() : null;
     }
     if ($enabled_val === null) {
         $enabled_val = get_theme_mod('buildpro_about_contact_enabled', 1);
@@ -245,12 +274,16 @@ function buildpro_about_contact_sync_customizer_to_meta($wp_customize_manager)
     if ($email_val === null) {
         $email_val = get_theme_mod('buildpro_about_contact_email', '');
     }
+    if ($map_id_val === null) {
+        $map_id_val = get_theme_mod('buildpro_about_contact_form_map_image_id', 0);
+    }
     $enabled = absint($enabled_val);
     $title = is_string($title_val) ? $title_val : '';
     $text = is_string($text_val) ? $text_val : '';
     $address = is_string($address_val) ? $address_val : '';
     $phone = is_string($phone_val) ? $phone_val : '';
     $email = is_string($email_val) ? $email_val : '';
+    $map_id = absint($map_id_val);
     $page_id = 0;
     if ($wp_customize_manager instanceof WP_Customize_Manager) {
         $setting = $wp_customize_manager->get_setting('buildpro_preview_page_id');
@@ -271,6 +304,8 @@ function buildpro_about_contact_sync_customizer_to_meta($wp_customize_manager)
         update_post_meta($page_id, 'buildpro_about_contact_address', $address);
         update_post_meta($page_id, 'buildpro_about_contact_phone', $phone);
         update_post_meta($page_id, 'buildpro_about_contact_email', $email);
+        update_post_meta($page_id, 'buildpro_about_contact_form_map_image_id', $map_id);
     }
+    set_theme_mod('buildpro_about_contact_form_map_image_id', $map_id);
 }
 add_action('customize_save_after', 'buildpro_about_contact_sync_customizer_to_meta');

@@ -434,6 +434,24 @@ function wp_enqueue_custom_assets()
             'in_footer' => true,
             'condition' => file_exists(get_theme_file_path('/template-parts/about_us/section-contact/script.js'))
         ],
+        [
+            'type' => 'style',
+            'handle' => 'buildpro-about-us-contact-form-style',
+            'src' => get_theme_file_uri('/template-parts/about_us/contact-form/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/about_us/contact-form/style.css'))
+        ],
+        [
+            'type' => 'script',
+            'handle' => 'buildpro-about-us-contact-form-script',
+            'src' => get_theme_file_uri('/template-parts/about_us/contact-form/script.js'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/template-parts/about_us/contact-form/script.js'))
+        ],
     ];
 
     foreach ($wp_enqueue_mapping as $asset) {

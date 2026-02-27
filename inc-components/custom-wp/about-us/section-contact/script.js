@@ -37,12 +37,47 @@
     });
   }
 
+  function initMapUploader() {
+    var box = document.getElementById("buildpro_about_contact_meta");
+    if (!box || typeof wp === "undefined" || !wp.media) return;
+    var uploadBtn = box.querySelector(".buildpro-map-upload");
+    var removeBtn = box.querySelector(".buildpro-map-remove");
+    var input = box.querySelector('input[name="buildpro_about_contact_form_map_image_id"]');
+    var img = box.querySelector(".buildpro-image-wrap img");
+    if (!uploadBtn || !input || !img) return;
+
+    uploadBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      var frame = wp.media({
+        title: "Select Map Image",
+        button: { text: "Use this image" },
+        library: { type: "image" },
+        multiple: false,
+      });
+      frame.on("select", function () {
+        var attachment = frame.state().get("selection").first().toJSON();
+        input.value = attachment.id;
+        img.src = attachment.sizes && attachment.sizes.thumbnail ? attachment.sizes.thumbnail.url : attachment.url;
+      });
+      frame.open();
+    });
+    if (removeBtn) {
+      removeBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        input.value = "";
+        img.src = (window.theme_directory_uri || "") + "/assets/images/map.jpg";
+      });
+    }
+  }
+
   // Khởi chạy khi DOM sẵn sàng
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       initTabs();
+      initMapUploader();
     });
   } else {
     initTabs();
+    initMapUploader();
   }
 })();
