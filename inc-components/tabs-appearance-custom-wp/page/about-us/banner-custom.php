@@ -73,7 +73,7 @@ function buildpro_about_banner_customize_register($wp_customize)
         }
     }
     $wp_customize->add_section('buildpro_about_banner_section', array(
-        'title' => __('Banner About Us', 'buildpro'),
+        'title' => __('About Us: Banner', 'buildpro'),
         'priority' => 30,
         'active_callback' => 'buildpro_customizer_is_about_preview',
     ));

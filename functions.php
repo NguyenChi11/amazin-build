@@ -547,6 +547,27 @@ function buildpro_maybe_import_default_content()
 				buildpro_import_about_us_core_values_demo();
 			}
 		}
+		$about_policy_demo_file = get_theme_file_path('/inc/import/data-demo/page/about-us/policy-about-us.php');
+		if (file_exists($about_policy_demo_file)) {
+			require_once $about_policy_demo_file;
+			if (function_exists('buildpro_import_about_us_policy_demo')) {
+				buildpro_import_about_us_policy_demo();
+			}
+		}
+		$about_leader_demo_file = get_theme_file_path('/inc/import/data-demo/page/about-us/leader-about-us.php');
+		if (file_exists($about_leader_demo_file)) {
+			require_once $about_leader_demo_file;
+			if (function_exists('buildpro_import_about_us_leader_demo')) {
+				buildpro_import_about_us_leader_demo();
+			}
+		}
+		$about_contact_demo_file = get_theme_file_path('/inc/import/data-demo/page/about-us/contact-about-us.php');
+		if (file_exists($about_contact_demo_file)) {
+			require_once $about_contact_demo_file;
+			if (function_exists('buildpro_import_about_us_contact_demo')) {
+				buildpro_import_about_us_contact_demo();
+			}
+		}
 		if ($wc_active) {
 			$wcProducts = buildpro_import_parse_js('/assets/data/woocommerce-product-data.js', 'woocommerceProductData');
 			if (isset($wcProducts['items']) && is_array($wcProducts['items'])) {

@@ -1,0 +1,21 @@
+.buildpro-about-leader-repeater .leader-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  background: #fff;
+}
+.buildpro-about-leader-repeater .leader-image-preview {
+  margin: 0.25rem 0 0.5rem;
+}
+.buildpro-about-leader-repeater .leader-image-empty {
+  width: 5rem;
+  height: 5rem;
+  border: 1px dashed #cbd5e1;
+  border-radius: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  font-size: 0.75rem;
+}

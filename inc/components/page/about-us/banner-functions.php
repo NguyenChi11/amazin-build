@@ -10,7 +10,7 @@ function buildpro_about_banner_add_meta_box($post_type, $post)
     }
     add_meta_box(
         'buildpro_about_banner_meta',
-        'About Us Banner',
+        'About Us: Banner',
         'buildpro_about_banner_render_meta_box',
         'page',
         'normal',
