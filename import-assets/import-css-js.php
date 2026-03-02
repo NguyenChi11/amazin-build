@@ -452,6 +452,42 @@ function wp_enqueue_custom_assets()
             'in_footer' => true,
             'condition' => file_exists(get_theme_file_path('/template-parts/about_us/contact-form/script.js'))
         ],
+        [
+            'type' => 'style',
+            'handle' => 'buildpro-single-post-contact-form-style',
+            'src' => get_theme_file_uri('/template-parts/single-post/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/single-post/style.css'))
+        ],
+        [
+            'type' => 'script',
+            'handle' => 'buildpro-single-post-contact-form-script',
+            'src' => get_theme_file_uri('/template-parts/single-post/script.js'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/template-parts/single-post/script.js'))
+        ],
+        [
+            'type' => 'style',
+            'handle' => 'buildpro-single-product-contact-form-style',
+            'src' => get_theme_file_uri('/template-parts/single-product/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/single-product/style.css'))
+        ],
+        [
+            'type' => 'script',
+            'handle' => 'buildpro-single-product-contact-form-script',
+            'src' => get_theme_file_uri('/template-parts/single-product/script.js'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/template-parts/single-product/script.js'))
+        ],
     ];
 
     foreach ($wp_enqueue_mapping as $asset) {

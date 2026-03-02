@@ -40,6 +40,7 @@ function buildpro_save_post_meta($post_id)
             $quote_kv[] = array('key' => $k, 'value' => $v);
         }
     }
+    $quote_desc_image_desc = isset($_POST['buildpro_post_quote_desc_image_desc']) ? sanitize_textarea_field($_POST['buildpro_post_quote_desc_image_desc']) : '';
     update_post_meta($post_id, 'buildpro_post_banner_id', $banner_id);
     update_post_meta($post_id, 'buildpro_post_description', $post_desc);
     update_post_meta($post_id, 'buildpro_post_paragraph', $paragraph);
@@ -47,6 +48,7 @@ function buildpro_save_post_meta($post_id)
     update_post_meta($post_id, 'buildpro_post_quote_description', $quote_desc);
     update_post_meta($post_id, 'buildpro_post_quote_gallery', $quote_gallery);
     update_post_meta($post_id, 'buildpro_post_quote_kv', $quote_kv);
+    update_post_meta($post_id, 'buildpro_post_quote_desc_image_desc', $quote_desc_image_desc);
 }
 add_action('save_post', 'buildpro_save_post_meta');
 

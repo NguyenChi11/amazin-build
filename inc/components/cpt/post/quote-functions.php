@@ -16,6 +16,9 @@ function buildpro_post_quote_render_meta_box($post)
     $quote_gallery = is_array($quote_gallery) ? $quote_gallery : array();
     $quote_kv = get_post_meta($post->ID, 'buildpro_post_quote_kv', true);
     $quote_kv = is_array($quote_kv) ? $quote_kv : array();
+    $quote_desc_img_id = (int) get_post_meta($post->ID, 'buildpro_post_quote_desc_image_id', true);
+    $quote_desc_img_desc = get_post_meta($post->ID, 'buildpro_post_quote_desc_image_desc', true);
+    $quote_desc_img_thumb = $quote_desc_img_id ? wp_get_attachment_image_url($quote_desc_img_id, 'thumbnail') : '';
     echo '<style>
     .buildpro-post-block{background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.05);padding:16px;margin-top:8px}
     .buildpro-post-field{margin:10px 0}
@@ -30,6 +33,7 @@ function buildpro_post_quote_render_meta_box($post)
     echo '<div class="buildpro-post-block">';
     echo '<p class="buildpro-post-field"><label>Title</label><input type="text" name="buildpro_post_quote_title" class="regular-text" value="' . esc_attr($quote_title) . '"></p>';
     echo '<p class="buildpro-post-field"><label>Description</label><textarea name="buildpro_post_quote_description" rows="4" class="large-text">' . esc_textarea($quote_desc) . '</textarea></p>';
+    echo '<p class="buildpro-post-field"><label>Image Description</label><textarea name="buildpro_post_quote_desc_image_desc" rows="3" class="large-text">' . esc_textarea($quote_desc_img_desc) . '</textarea></p>';
     echo '<div class="buildpro-post-field"><label>Gallery</label><div class="quote-gallery" id="buildpro_post_quote_gallery">';
     foreach ($quote_gallery as $img_id) {
         $u = wp_get_attachment_image_url((int)$img_id, 'thumbnail');
