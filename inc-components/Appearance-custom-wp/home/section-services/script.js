@@ -43,7 +43,25 @@
         el.addEventListener("change", write);
       }
     }
-    function bindRow(row) {
+    function bindRow(row, openByDefault) {
+      var header = row.querySelector(".buildpro-services-header");
+      var body = row.querySelector(".buildpro-services-body");
+      var labelEl = row.querySelector(".buildpro-services-label");
+      var arrowEl = row.querySelector(".buildpro-services-arrow");
+      if (header && body) {
+        if (openByDefault) {
+          body.style.display = "block";
+          if (arrowEl) arrowEl.style.transform = "rotate(0deg)";
+        }
+        header.addEventListener("click", function () {
+          var isOpen = body.style.display !== "none";
+          body.style.display = isOpen ? "none" : "block";
+          if (arrowEl)
+            arrowEl.style.transform = isOpen
+              ? "rotate(-90deg)"
+              : "rotate(0deg)";
+        });
+      }
       var selectBtn = row.querySelector(".select-services-icon");
       var removeIconBtn = row.querySelector(".remove-services-icon");
       var input = row.querySelector("[data-field='icon_id']");
@@ -60,6 +78,11 @@
       attachChange(urlInput);
       attachChange(linkTitleInput);
       attachChange(targetSelect);
+      if (titleInput && labelEl) {
+        titleInput.addEventListener("input", function () {
+          if (titleInput.value) labelEl.textContent = titleInput.value;
+        });
+      }
       function goToLinkPicker() {
         window.buildproLinkTarget = {
           urlInput: urlInput,
@@ -143,10 +166,13 @@
       e.preventDefault();
       var idx = wrapper.querySelectorAll(".buildpro-services-row").length;
       var html =
-        "" +
         '<div class="buildpro-services-row" data-index="' +
         idx +
         '">' +
+        '  <div class="buildpro-services-header"><span class="buildpro-services-label">Item ' +
+        (idx + 1) +
+        '</span><span class="buildpro-services-arrow">&#9660;</span></div>' +
+        '  <div class="buildpro-services-body" style="display:block">' +
         '  <div class="buildpro-services-grid">' +
         '    <div class="buildpro-services-block">' +
         "      <h4>Icon</h4>" +
@@ -168,12 +194,13 @@
         "    </div>" +
         "  </div>" +
         '  <div class="buildpro-services-actions"><button type="button" class="button remove-services-row">Xóa mục</button></div>' +
+        "  </div>" +
         "</div>";
       var temp = document.createElement("div");
       temp.innerHTML = html;
       var row = temp.firstElementChild;
       wrapper.appendChild(row);
-      bindRow(row);
+      bindRow(row, true);
       write();
     });
     write();

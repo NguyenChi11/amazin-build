@@ -1,6 +1,14 @@
 <?php
-function buildpro_option_add_meta_box()
+function buildpro_option_add_meta_box($post_type, $post)
 {
+    if ($post_type !== 'page') {
+        return;
+    }
+    $template = get_page_template_slug($post->ID);
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post->ID !== $front_id) {
+        return;
+    }
     add_meta_box(
         'buildpro_option_meta',
         'Option',
@@ -10,10 +18,15 @@ function buildpro_option_add_meta_box()
         'default'
     );
 }
-add_action('add_meta_boxes', 'buildpro_option_add_meta_box');
+add_action('add_meta_boxes', 'buildpro_option_add_meta_box', 10, 2);
 
 function buildpro_option_render_meta_box($post)
 {
+    $template = get_page_template_slug($post->ID);
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$post->ID !== $front_id) {
+        return;
+    }
     wp_nonce_field('buildpro_option_meta_save', 'buildpro_option_meta_nonce');
     wp_enqueue_media();
     $items = get_post_meta($post->ID, 'buildpro_option_items', true);
@@ -45,15 +58,29 @@ function buildpro_option_render_meta_box($post)
 
 function buildpro_option_admin_enqueue($hook)
 {
-    if ($hook === 'post.php' || $hook === 'post-new.php') {
-        wp_enqueue_media();
-        $base_dir = get_template_directory() . '/inc-components/custom-wp/home/option';
-        $base_uri = get_template_directory_uri() . '/inc-components/custom-wp/home/option';
-        $style_ver = file_exists($base_dir . '/style.css') ? filemtime($base_dir . '/style.css') : false;
-        $script_ver = file_exists($base_dir . '/script.js') ? filemtime($base_dir . '/script.js') : false;
-        wp_enqueue_style('buildpro-option-style', $base_uri . '/style.css', array(), $style_ver);
-        wp_enqueue_script('buildpro-option-script', $base_uri . '/script.js', array(), $script_ver, true);
+    if ($hook !== 'post.php' && $hook !== 'post-new.php') {
+        return;
     }
+    $screen = function_exists('get_current_screen') ? get_current_screen() : null;
+    if (!$screen || $screen->post_type !== 'page') {
+        return;
+    }
+    $pid = isset($_GET['post']) ? absint($_GET['post']) : (isset($_POST['post_ID']) ? absint($_POST['post_ID']) : 0);
+    if ($pid <= 0) {
+        return;
+    }
+    $template = get_page_template_slug($pid);
+    $front_id = (int) get_option('page_on_front');
+    if ($template !== 'home-page.php' && (int)$pid !== $front_id) {
+        return;
+    }
+    wp_enqueue_media();
+    $base_dir = get_template_directory() . '/inc-components/custom-wp/home/option';
+    $base_uri = get_template_directory_uri() . '/inc-components/custom-wp/home/option';
+    $style_ver = file_exists($base_dir . '/style.css') ? filemtime($base_dir . '/style.css') : false;
+    $script_ver = file_exists($base_dir . '/script.js') ? filemtime($base_dir . '/script.js') : false;
+    wp_enqueue_style('buildpro-option-style', $base_uri . '/style.css', array(), $style_ver);
+    wp_enqueue_script('buildpro-option-script', $base_uri . '/script.js', array(), $script_ver, true);
 }
 add_action('admin_enqueue_scripts', 'buildpro_option_admin_enqueue');
 

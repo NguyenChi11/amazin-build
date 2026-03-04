@@ -38,13 +38,37 @@
   margin-bottom: 3.75rem;
 }
 
-.section-product__list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-  justify-content: space-between;
+.section-product__swiper {
+  display: block;
   width: 100%;
-  gap: 0.8125rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.section-product__swiper .swiper-slide {
+  height: auto;
+  box-sizing: border-box;
+}
+
+.section-product__swiper-prev,
+.section-product__swiper-next {
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  transition: background 0.2s ease;
+}
+
+.section-product__swiper-prev:hover,
+.section-product__swiper-next:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.section-product__swiper-prev::after,
+.section-product__swiper-next::after {
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 .section-product__item {
@@ -58,6 +82,14 @@
   text-decoration: none;
   color: inherit;
   height: 29.6875rem;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.section-product__item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(7, 59, 111, 0.2);
 }
 
 .section-product__item-image {
@@ -71,6 +103,12 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1);
+  transition: transform 0.25s ease;
+}
+
+.section-product__item:hover .section-product__item-image img {
+  transform: scale(1.06);
 }
 
 .section-product__item-content {
@@ -100,6 +138,15 @@
   font-weight: 600;
   font-size: 1.125rem;
   border: 0;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+  cursor: pointer;
+}
+
+.section-product__item-cta:hover {
+  background: #0b5ed7;
+  transform: scale(1.05);
 }
 
 .section-product__item-price {
@@ -111,18 +158,18 @@
 }
 
 @media (max-width: 1280px) {
-  .section-product__list {
-    grid-template-columns: repeat(3, 1fr);
+  .section-product__swiper {
+    width: 100%;
   }
 }
 @media (max-width: 1024px) {
-  .section-product__list {
-    grid-template-columns: repeat(3, 1fr);
+  .section-product__swiper {
+    width: 100%;
   }
 }
 @media (max-width: 640px) {
-  .section-product__list {
-    grid-template-columns: 1fr;
+  .section-product__swiper {
+    width: 100%;
   }
 }
 
@@ -189,7 +236,7 @@
     margin-bottom: 2rem;
     text-align: center;
   }
-  .section-product__list {
+  .section-product__swiper {
     gap: 0.75rem;
   }
   .section-product__item {

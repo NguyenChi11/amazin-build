@@ -37,6 +37,8 @@ require get_template_directory() . '/inc/import/data-demo/page/home/function-imp
 require get_template_directory() . '/inc/import/data-demo/page/about-us/function-import-demo.php';
 require get_template_directory() . '/inc/function/contact-form.php';
 require get_template_directory() . '/inc/function/comment-product.php';
+require get_template_directory() . '/inc/function/woocomerce-function.php';
+require get_template_directory() . '/inc/function/home-page-function.php';
 
 
 
@@ -157,7 +159,7 @@ function buildpro_register_project_cpt()
 		'show_in_admin_bar' => true,
 		'show_in_nav_menus' => true,
 		'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
-		'has_archive' => true,
+		'has_archive' => false,
 		'rewrite' => array('slug' => 'projects'),
 		'show_in_rest' => true,
 		'menu_icon' => 'dashicons-portfolio',
@@ -174,6 +176,9 @@ add_filter('nav_menu_link_attributes', function ($atts, $item, $args) {
 }, 10, 3);
 add_action('init', 'buildpro_register_project_cpt');
 
+add_action('after_switch_theme', function () {
+	flush_rewrite_rules();
+});
 function buildpro_register_project_taxonomies()
 {
 	$labels = array(
@@ -465,10 +470,11 @@ function buildpro_maybe_import_default_content()
 	if (get_option('buildpro_do_import') === '1') {
 		buildpro_create_default_pages();
 		$wc_active = class_exists('WooCommerce') || function_exists('wc_get_product');
-		$materials = buildpro_import_parse_js('/assets/data/product-data.js', 'materialsData');
-		if (isset($materials['items']) && is_array($materials['items'])) {
-			foreach ($materials['items'] as $it) {
-				buildpro_import_create_material($it);
+		$material_demo_file = get_theme_file_path('/inc/import/data-demo/page/home/material-home.php');
+		if (file_exists($material_demo_file)) {
+			require_once $material_demo_file;
+			if (function_exists('buildpro_import_material_demo')) {
+				buildpro_import_material_demo();
 			}
 		}
 		$posts = buildpro_import_parse_js('/assets/data/post-data.js', 'postsData');
@@ -477,10 +483,11 @@ function buildpro_maybe_import_default_content()
 				buildpro_import_create_post($it);
 			}
 		}
-		$projects = buildpro_import_parse_js('/assets/data/project-data.js', 'projectsData');
-		if (isset($projects['items']) && is_array($projects['items'])) {
-			foreach ($projects['items'] as $it) {
-				buildpro_import_create_project($it);
+		$project_demo_file = get_theme_file_path('/inc/import/data-demo/page/home/project-home.php');
+		if (file_exists($project_demo_file)) {
+			require_once $project_demo_file;
+			if (function_exists('buildpro_import_project_demo')) {
+				buildpro_import_project_demo();
 			}
 		}
 		$banner_demo_file = get_theme_file_path('/inc/import/data-demo/page/home/banner-home.php');

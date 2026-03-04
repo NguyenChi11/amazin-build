@@ -1,25 +1,15 @@
-(function () {
-  var urlField = document.getElementById("buildpro-link-url");
-  var textField = document.getElementById("buildpro-link-text");
-  var targetToggle = document.getElementById("buildpro-link-target");
-  var searchField = document.getElementById("buildpro-link-search");
-  var results = document.getElementById("buildpro-link-results");
-  var applyBtn = document.getElementById("buildpro-link-apply");
-  var closeBtn = document.getElementById("buildpro-link-close");
-  function hasInitialResults() {
-    if (!results) return false;
-    var n = parseInt(results.getAttribute("data-initial-count") || "0", 10);
-    return n > 0;
-  }
+﻿(function () {
+  /* ── helpers ───────────────────────────────────────────────── */
   function normalizeTitle(t) {
     if (!t) return "";
     if (typeof t === "string") return t;
     if (t.rendered) return t.rendered;
-    return "";
+    return String(t);
   }
+
   function fetchAll(base) {
     var per = 50;
-    function one(page) {
+    function onePage(page) {
       return fetch(base + "&per_page=" + per + "&page=" + page, {
         credentials: "same-origin",
       })
@@ -33,35 +23,43 @@
           return { data: [], totalPages: 1 };
         });
     }
-    return one(1).then(function (res1) {
+    return onePage(1).then(function (res1) {
       var all = res1.data || [];
       var total = res1.totalPages;
-      if (total <= 1) {
-        return all;
-      }
-      var maxPages = total;
+      if (total <= 1) return all;
       var tasks = [];
-      for (var i = 2; i <= maxPages; i++) {
-        tasks.push(one(i));
-      }
+      for (var i = 2; i <= total; i++) tasks.push(onePage(i));
       return Promise.all(tasks).then(function (rs) {
-        rs.forEach(function (res) {
-          all = all.concat(res.data || []);
+        rs.forEach(function (r) {
+          all = all.concat(r.data || []);
         });
         return all;
       });
     });
   }
-  function renderResults(items) {
+
+  function resolveRestBase(slug) {
+    return fetch("/wp-json/wp/v2/types", { credentials: "same-origin" })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (types) {
+        var t = types && types[slug];
+        return t && t.rest_base ? t.rest_base : slug + "s";
+      })
+      .catch(function () {
+        return slug + "s";
+      });
+  }
+
+  /* ── render ────────────────────────────────────────────────── */
+  function renderResults(items, results) {
     if (!results) return;
     if (!items || !items.length) {
-      if (!hasInitialResults()) {
-        results.innerHTML =
-          "<p style='color:#888;margin:6px'>Không có kết quả</p>";
-      }
+      results.innerHTML =
+        "<p style='color:#8c8f94;padding:10px'>No results found.</p>";
       return;
     }
-    results.setAttribute("data-initial-count", "0");
     results.innerHTML = items
       .map(function (it) {
         var title = normalizeTitle(it.title) || it.url || it.link || "";
@@ -71,50 +69,52 @@
           ? '<span class="chip">' + String(type).toUpperCase() + "</span>"
           : "";
         return (
-          '<div class="result"><div><div>' +
+          '<div class="result">' +
+          '<div class="result-info">' +
+          '<div class="result-title">' +
           title +
           chip +
-          '</div><div class="meta">' +
+          "</div>" +
+          '<div class="meta">' +
           url +
-          '</div></div><div><button type="button" class="button buildpro-link-pick" data-url="' +
+          "</div>" +
+          "</div>" +
+          '<button type="button" class="button buildpro-link-pick"' +
+          ' data-url="' +
           url +
-          '" data-title="' +
-          (title || "") +
-          '">Chọn</button></div></div>'
+          '"' +
+          ' data-title="' +
+          title.replace(/"/g, "&quot;") +
+          '">' +
+          "Select" +
+          "</button>" +
+          "</div>"
         );
       })
       .join("");
   }
-  function resolveRestBase(slug) {
-    return fetch("/wp-json/wp/v2/types", { credentials: "same-origin" })
-      .then(function (r) {
-        return r.json();
-      })
-      .then(function (types) {
-        var t = types && types[slug];
-        var base = t && t.rest_base ? t.rest_base : slug + "s";
-        return base;
-      })
-      .catch(function () {
-        return slug + "s";
-      });
-  }
-  function loadDefault() {
+
+  /* ── data loading ──────────────────────────────────────────── */
+  function loadDefault(results) {
+    if (results) {
+      results.innerHTML =
+        "<p style='color:#8c8f94;padding:10px'>Loading\u2026</p>";
+    }
     Promise.all([
-      fetchAll("/wp-json/wp/v2/pages?_fields=title,link").then(function (list) {
-        return list.map(function (d) {
+      fetchAll("/wp-json/wp/v2/pages?_fields=title,link").then(function (l) {
+        return l.map(function (d) {
           return { title: d.title, url: d.link, type: "page" };
         });
       }),
-      fetchAll("/wp-json/wp/v2/posts?_fields=title,link").then(function (list) {
-        return list.map(function (d) {
+      fetchAll("/wp-json/wp/v2/posts?_fields=title,link").then(function (l) {
+        return l.map(function (d) {
           return { title: d.title, url: d.link, type: "post" };
         });
       }),
       resolveRestBase("project").then(function (base) {
         return fetchAll("/wp-json/wp/v2/" + base + "?_fields=title,link")
-          .then(function (list) {
-            return list.map(function (d) {
+          .then(function (l) {
+            return l.map(function (d) {
               return { title: d.title, url: d.link, type: "project" };
             });
           })
@@ -124,8 +124,8 @@
       }),
       resolveRestBase("material").then(function (base) {
         return fetchAll("/wp-json/wp/v2/" + base + "?_fields=title,link")
-          .then(function (list) {
-            return list.map(function (d) {
+          .then(function (l) {
+            return l.map(function (d) {
               return { title: d.title, url: d.link, type: "material" };
             });
           })
@@ -139,22 +139,20 @@
         groups.forEach(function (g) {
           merged = merged.concat(g || []);
         });
-        renderResults(merged);
+        renderResults(merged, results);
       })
       .catch(function () {
-        renderResults([]);
+        renderResults([], results);
       });
   }
-  function performSearch(q) {
-    var query = q || "";
-    if (!query) {
-      loadDefault();
+
+  function performSearch(q, results) {
+    if (!q) {
+      loadDefault(results);
       return;
     }
     fetch(
-      "/wp-json/wp/v2/search?search=" +
-        encodeURIComponent(query) +
-        "&per_page=50",
+      "/wp-json/wp/v2/search?search=" + encodeURIComponent(q) + "&per_page=50",
       { credentials: "same-origin" },
     )
       .then(function (r) {
@@ -168,72 +166,195 @@
             type: d.subtype || d.type || "",
           };
         });
-        renderResults(items);
+        renderResults(items, results);
       })
       .catch(function () {
-        renderResults([]);
+        renderResults([], results);
       });
   }
-  function setupWhenReady() {
-    if (window._buildproLinkBound) return;
-    urlField = document.getElementById("buildpro-link-url");
-    textField = document.getElementById("buildpro-link-text");
-    targetToggle = document.getElementById("buildpro-link-target");
-    searchField = document.getElementById("buildpro-link-search");
-    results = document.getElementById("buildpro-link-results");
-    applyBtn = document.getElementById("buildpro-link-apply");
-    closeBtn = document.getElementById("buildpro-link-close");
-    if (!urlField || !textField || !results || !applyBtn || !closeBtn) return;
-    window._buildproLinkBound = true;
-    var debounce2;
+
+  /* ── apply & navigate back ─────────────────────────────────── */
+  function goBackToSection(sectionId) {
+    if (
+      window.wp &&
+      wp.customize &&
+      typeof wp.customize.section === "function"
+    ) {
+      if (sectionId) {
+        var s = wp.customize.section(sectionId);
+        if (s && typeof s.expand === "function") {
+          s.expand();
+          return;
+        }
+      }
+    }
+  }
+
+  function applySelection(urlField, textField, targetToggle) {
+    var url = urlField ? urlField.value || "" : "";
+    var title = textField ? textField.value || "" : "";
+    var targetBlank = targetToggle ? !!targetToggle.checked : false;
+    var tgt = window.buildproLinkTarget;
+
+    if (tgt) {
+      var sectionId = tgt.sectionId || "";
+      if (tgt.urlInput) {
+        tgt.urlInput.value = url;
+        tgt.urlInput.dispatchEvent(new Event("input"));
+        tgt.urlInput.dispatchEvent(new Event("change"));
+      }
+      if (tgt.titleInput) {
+        tgt.titleInput.value = title;
+        tgt.titleInput.dispatchEvent(new Event("input"));
+        tgt.titleInput.dispatchEvent(new Event("change"));
+      }
+      if (tgt.targetSelect) {
+        tgt.targetSelect.value = targetBlank ? "_blank" : "";
+        tgt.targetSelect.dispatchEvent(new Event("change"));
+      }
+      window.buildproLinkTarget = null;
+      goBackToSection(sectionId);
+    }
+  }
+
+  /* ── setup when elements are in DOM ────────────────────────── */
+  function setup() {
+    var urlField = document.getElementById("buildpro-link-url");
+    var textField = document.getElementById("buildpro-link-text");
+    var targetToggle = document.getElementById("buildpro-link-target");
+    var searchField = document.getElementById("buildpro-link-search");
+    var results = document.getElementById("buildpro-link-results");
+    var applyBtn = document.getElementById("buildpro-link-apply");
+    var closeBtn = document.getElementById("buildpro-link-close");
+    var currentBox = document.getElementById("buildpro-link-current");
+    var currentUrlEl = document.getElementById("buildpro-link-current-url");
+
+    if (!urlField || !results || !applyBtn) return;
+    if (urlField._blpBound) return; // already bound to this exact element
+    urlField._blpBound = true;
+
+    /* Pre-fill fields from the banner row that opened us */
+    var tgt = window.buildproLinkTarget;
+    if (tgt) {
+      if (tgt.currentUrl !== undefined && urlField)
+        urlField.value = tgt.currentUrl;
+      if (tgt.currentTitle !== undefined && textField)
+        textField.value = tgt.currentTitle;
+      if (tgt.currentTarget !== undefined && targetToggle)
+        targetToggle.checked = tgt.currentTarget === "_blank";
+      /* Show the "current link" badge */
+      if (currentBox && currentUrlEl && tgt.currentUrl) {
+        currentUrlEl.textContent = tgt.currentUrl;
+        currentBox.classList.add("visible");
+      }
+    }
+
+    /* Save original PHP-rendered HTML once so we can restore it on clear */
+    var phpHtml = results.innerHTML;
+
+    /* Search input */
     if (searchField) {
+      var debounce;
       searchField.addEventListener("input", function () {
-        var q = searchField.value || "";
-        clearTimeout(debounce2);
-        debounce2 = setTimeout(function () {
-          performSearch(q);
+        clearTimeout(debounce);
+        debounce = setTimeout(function () {
+          var q = searchField.value.trim();
+          if (!q) {
+            /* Restore PHP list when search is cleared */
+            results.innerHTML = phpHtml;
+          } else {
+            performSearch(q, results);
+          }
         }, 250);
       });
-      searchField.addEventListener("change", function () {
-        if (!searchField.value) {
-          loadDefault();
-        }
-      });
     }
+
+    /* Click a result row → fill fields + highlight row */
     results.addEventListener("click", function (e) {
-      var t = e.target;
-      if (t && t.classList && t.classList.contains("buildpro-link-pick")) {
-        var url = t.getAttribute("data-url") || "";
-        var title = t.getAttribute("data-title") || "";
-        if (urlField) urlField.value = url;
-        if (textField) textField.value = title;
-      }
-    });
-    if (applyBtn) {
-      applyBtn.addEventListener("click", function (e) {
-        e.preventDefault();
-        applySelection();
+      var btn = e.target;
+      if (
+        !btn ||
+        !btn.classList ||
+        !btn.classList.contains("buildpro-link-pick")
+      )
+        return;
+      var url = btn.getAttribute("data-url") || "";
+      var title = btn.getAttribute("data-title") || "";
+      if (urlField) urlField.value = url;
+      if (textField) textField.value = title;
+      /* Highlight selected row */
+      results.querySelectorAll(".result").forEach(function (r) {
+        r.classList.remove("selected");
       });
-    }
+      var row = btn.parentNode;
+      if (row && row.classList) row.classList.add("selected");
+    });
+
+    /* Apply button – write back to banner and navigate back */
+    applyBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      applySelection(urlField, textField, targetToggle);
+    });
+
+    /* Back / Close button – return without applying */
     if (closeBtn) {
       closeBtn.addEventListener("click", function (e) {
         e.preventDefault();
-        if (
-          window.wp &&
-          wp.customize &&
-          typeof wp.customize.panel === "function"
-        ) {
-          var p = wp.customize.panel("buildpro_tools_panel");
-          if (p && typeof p.collapse === "function") {
-            p.collapse();
-          }
-        }
+        var sectionId = window.buildproLinkTarget
+          ? window.buildproLinkTarget.sectionId || ""
+          : "";
+        window.buildproLinkTarget = null;
+        goBackToSection(sectionId);
       });
     }
-    loadDefault();
+
+    /* Load default list
+       – If PHP already rendered items (data-initial-count > 0), keep them.
+         REST API is only used when search box is used or list was empty. */
+    var phpCount = parseInt(
+      results.getAttribute("data-initial-count") || "0",
+      10,
+    );
+    if (phpCount === 0) {
+      loadDefault(results);
+    }
   }
+
+  /* ── bind on section expand ─────────────────────────────────── */
+  function tryBind() {
+    if (
+      !(window.wp && wp.customize && typeof wp.customize.section === "function")
+    ) {
+      return false;
+    }
+    var sec = wp.customize.section("buildpro_link_picker_section");
+    if (!sec || !sec.expanded || typeof sec.expanded.bind !== "function") {
+      return false;
+    }
+    sec.expanded.bind(function (expanded) {
+      if (expanded) {
+        setTimeout(function () {
+          /* Reset bound flag so setup can re-run, but don't wipe PHP list */
+          var el = document.getElementById("buildpro-link-url");
+          if (el) el._blpBound = false;
+          setup();
+        }, 80);
+      }
+    });
+    return true;
+  }
+
+  if (!tryBind()) {
+    if (window.wp && wp.customize) {
+      wp.customize.bind("ready", function () {
+        tryBind();
+      });
+    }
+  }
+
+  /* MutationObserver fallback */
   var mo = new MutationObserver(function () {
-    setupWhenReady();
+    if (document.getElementById("buildpro-link-url")) setup();
   });
   try {
     mo.observe(document.documentElement || document.body, {
@@ -241,119 +362,6 @@
       subtree: true,
     });
   } catch (e) {}
-  if (window.wp && wp.customize && typeof wp.customize.section === "function") {
-    var sec = wp.customize.section("buildpro_link_picker_section");
-    if (sec && sec.expanded && typeof sec.expanded.bind === "function") {
-      sec.expanded.bind(function (expanded) {
-        if (expanded) setupWhenReady();
-      });
-    }
-  }
-  setupWhenReady();
-  var debounce;
-  if (searchField) {
-    searchField.addEventListener("input", function () {
-      var q = searchField.value || "";
-      clearTimeout(debounce);
-      debounce = setTimeout(function () {
-        performSearch(q);
-      }, 250);
-    });
-    searchField.addEventListener("change", function () {
-      if (!searchField.value) {
-        loadDefault();
-      }
-    });
-  }
-  if (results) {
-    results.addEventListener("click", function (e) {
-      var t = e.target;
-      if (t && t.classList && t.classList.contains("buildpro-link-pick")) {
-        var url = t.getAttribute("data-url") || "";
-        var title = t.getAttribute("data-title") || "";
-        if (urlField) {
-          urlField.value = url;
-        }
-        if (textField) {
-          textField.value = title;
-        }
-      }
-    });
-  }
-  function applySelection() {
-    var url = urlField ? urlField.value || "" : "";
-    var title = textField ? textField.value || "" : "";
-    var targetBlank = targetToggle ? !!targetToggle.checked : false;
-    if (window.buildproLinkTarget) {
-      var u = window.buildproLinkTarget.urlInput;
-      var ti = window.buildproLinkTarget.titleInput;
-      var sel = window.buildproLinkTarget.targetSelect;
-      var sectionId = window.buildproLinkTarget.sectionId || "";
-      if (u) {
-        u.value = url;
-        u.dispatchEvent(new Event("input"));
-      }
-      if (ti) {
-        ti.value = title;
-        ti.dispatchEvent(new Event("input"));
-      }
-      if (sel) {
-        sel.value = targetBlank ? "_blank" : "";
-        sel.dispatchEvent(new Event("change"));
-      }
-      window.buildproLinkTarget = null;
-      if (
-        window.wp &&
-        wp.customize &&
-        typeof wp.customize.section === "function"
-      ) {
-        if (sectionId) {
-          var s = wp.customize.section(sectionId);
-          if (s && typeof s.expand === "function") {
-            s.expand();
-          }
-        }
-        if (typeof wp.customize.panel === "function") {
-          var p = wp.customize.panel("buildpro_tools_panel");
-          if (p && typeof p.collapse === "function") {
-            p.collapse();
-          }
-        }
-      }
-    } else {
-      try {
-        localStorage.setItem(
-          "buildpro_link_selection",
-          JSON.stringify({
-            url: url,
-            title: title,
-            targetBlank: targetBlank,
-            selectedAt: Date.now(),
-          }),
-        );
-      } catch (e) {}
-    }
-  }
-  if (applyBtn) {
-    applyBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      applySelection();
-    });
-  }
-  if (closeBtn) {
-    closeBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-      if (
-        window.wp &&
-        wp.customize &&
-        typeof wp.customize.panel === "function"
-      ) {
-        var p = wp.customize.panel("buildpro_tools_panel");
-        if (p && typeof p.collapse === "function") {
-          p.collapse();
-        }
-      }
-    });
-  }
-  loadDefault();
+
+  setup();
 })();

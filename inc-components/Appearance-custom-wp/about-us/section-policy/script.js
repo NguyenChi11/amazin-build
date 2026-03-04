@@ -98,6 +98,22 @@
       }
       items.forEach(function (it, idx) {
         var row = $('<div class="policy-item-row"/>');
+        var policyHeader = $(
+          '<div class="policy-accordion-header"><span class="policy-accordion-label">' +
+            (it.title || "Item " + (idx + 1)) +
+            '</span><span class="policy-accordion-arrow">&#9660;</span></div>',
+        );
+        var policyBody = $(
+          '<div class="policy-accordion-body" style="display:none"></div>',
+        );
+        row.append(policyHeader).append(policyBody);
+        policyHeader.on("click", function () {
+          var isOpen = policyBody.css("display") !== "none";
+          policyBody.css("display", isOpen ? "none" : "block");
+          policyHeader
+            .find(".policy-accordion-arrow")
+            .css("transform", isOpen ? "rotate(-90deg)" : "rotate(0deg)");
+        });
         var previewUrl =
           type === "certs" ? it.image_url || "" : it.icon_url || "";
         var preview =
@@ -117,27 +133,27 @@
           '<button type="button" class="button button-secondary policy-select-image">Select Image</button> ' +
           '<button type="button" class="button policy-remove-image">Remove</button>' +
           "</div>";
-        row.append("<p><label>Image</label></p>");
-        row.append(preview);
-        row.append(imgControls);
+        policyBody.append("<p><label>Image</label></p>");
+        policyBody.append(preview);
+        policyBody.append(imgControls);
         if (type === "certs") {
-          row.append(
+          policyBody.append(
             '<p><label>URL<br><input type="text" class="widefat policy-url" value="' +
               (it.url || "") +
               '"></label></p>',
           );
         }
-        row.append(
+        policyBody.append(
           '<p><label>Title<br><input type="text" class="widefat policy-title" value="' +
             (it.title || "") +
             '"></label></p>',
         );
-        row.append(
+        policyBody.append(
           '<p><label>Description<br><textarea class="widefat policy-desc" rows="3">' +
             (it.desc || "") +
             "</textarea></label></p>",
         );
-        row.append(
+        policyBody.append(
           '<p><button type="button" class="button remove-policy-row">Remove</button></p>',
         );
         row.on("click", ".policy-select-image", function (e) {
@@ -197,6 +213,8 @@
           cur.desc = row.find(".policy-desc").val();
           items2[idx] = cur;
           setItems(items2);
+          var t = row.find(".policy-title").val();
+          if (t) policyHeader.find(".policy-accordion-label").text(t);
         });
         row.on("click", ".remove-policy-row", function (e) {
           e.preventDefault();

@@ -552,3 +552,39 @@ function wp_enqueue_custom_assets()
     }
 }
 add_action('wp_enqueue_scripts', 'wp_enqueue_custom_assets', 1001);
+
+// ============================== Customizer scripts =====================//
+
+/**
+ * Enqueued in the CONTROL PANE (sidebar).
+ * Sends postMessages to the preview when a section is expanded/collapsed.
+ */
+function buildpro_customize_controls_scripts()
+{
+    $version = WP_DEBUG ? time() : wp_get_theme()->get('Version');
+    wp_enqueue_script(
+        'buildpro-customizer-section-focus',
+        get_theme_file_uri('/assets/js/customizer-section-focus.js'),
+        array('customize-controls'),
+        $version,
+        true
+    );
+}
+add_action('customize_controls_enqueue_scripts', 'buildpro_customize_controls_scripts');
+
+/**
+ * Enqueued inside the PREVIEW IFRAME.
+ * Receives postMessages, highlights the active section, and scrolls to it.
+ */
+function buildpro_customize_preview_scripts()
+{
+    $version = WP_DEBUG ? time() : wp_get_theme()->get('Version');
+    wp_enqueue_script(
+        'buildpro-customizer-preview-outline',
+        get_theme_file_uri('/assets/js/customizer-preview-outline.js'),
+        array('customize-preview'),
+        $version,
+        true
+    );
+}
+add_action('customize_preview_init', 'buildpro_customize_preview_scripts');

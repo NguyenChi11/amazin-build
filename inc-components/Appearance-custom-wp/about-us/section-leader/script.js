@@ -77,6 +77,22 @@
       }
       items.forEach(function (it, idx) {
         var row = $('<div class="leader-item"/>');
+        var leaderHeader = $(
+          '<div class="leader-accordion-header"><span class="leader-accordion-label">' +
+            (it.name || "Item " + (idx + 1)) +
+            '</span><span class="leader-accordion-arrow">&#9660;</span></div>',
+        );
+        var leaderBody = $(
+          '<div class="leader-accordion-body" style="display:none"></div>',
+        );
+        row.append(leaderHeader).append(leaderBody);
+        leaderHeader.on("click", function () {
+          var isOpen = leaderBody.css("display") !== "none";
+          leaderBody.css("display", isOpen ? "none" : "block");
+          leaderHeader
+            .find(".leader-accordion-arrow")
+            .css("transform", isOpen ? "rotate(-90deg)" : "rotate(0deg)");
+        });
         var previewUrl = it.icon_url || "";
         var preview =
           '<div class="leader-image-preview">' +
@@ -94,30 +110,30 @@
           '<button type="button" class="button button-secondary leader-select-image">Select Image</button> ' +
           '<button type="button" class="button leader-remove-image">Remove</button>' +
           "</div>";
-        row.append("<p><label>Image</label></p>");
-        row.append(preview);
-        row.append(imgControls);
-        row.append(
+        leaderBody.append("<p><label>Image</label></p>");
+        leaderBody.append(preview);
+        leaderBody.append(imgControls);
+        leaderBody.append(
           '<p><label>Name<br><input type="text" class="widefat leader-name" value="' +
             (it.name || "") +
             '"></label></p>',
         );
-        row.append(
+        leaderBody.append(
           '<p><label>Position<br><input type="text" class="widefat leader-position" value="' +
             (it.position || "") +
             '"></label></p>',
         );
-        row.append(
+        leaderBody.append(
           '<p><label>Description<br><input type="text" class="widefat leader-description" value="' +
             (it.description || "") +
             '"></label></p>',
         );
-        row.append(
+        leaderBody.append(
           '<p><label>URL<br><input type="text" class="widefat leader-url" value="' +
             (it.url || "") +
             '"></label></p>',
         );
-        row.append(
+        leaderBody.append(
           '<p><button type="button" class="button remove-leader">Remove</button></p>',
         );
         row.on("click", ".leader-select-image", function (e) {
@@ -166,6 +182,8 @@
           cur.url = row.find(".leader-url").val();
           items2[idx] = cur;
           setItems(items2);
+          var n = row.find(".leader-name").val();
+          if (n) leaderHeader.find(".leader-accordion-label").text(n);
         });
         row.on("click", ".remove-leader", function (e) {
           e.preventDefault();

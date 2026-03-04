@@ -56,9 +56,23 @@
       $list.empty();
       updateAddState(items.length);
       items.forEach(function (it, idx) {
-        var $item = $(
-          '<div class="buildpro-about-fact" style="border:1px solid #e5e7eb;padding:8px;margin-bottom:8px;border-radius:4px"></div>',
+        var $item = $('<div class="buildpro-about-fact"></div>');
+        var $factHeader = $(
+          '<div class="fact-accordion-header"><span class="fact-accordion-label">' +
+            (it.label || "Item " + (idx + 1)) +
+            '</span><span class="fact-accordion-arrow">&#9660;</span></div>',
         );
+        var $factBody = $(
+          '<div class="fact-accordion-body" style="display:none"></div>',
+        );
+        $item.append($factHeader).append($factBody);
+        $factHeader.on("click", function () {
+          var isOpen = $factBody.css("display") !== "none";
+          $factBody.css("display", isOpen ? "none" : "block");
+          $factHeader
+            .find(".fact-accordion-arrow")
+            .css("transform", isOpen ? "rotate(-90deg)" : "rotate(0deg)");
+        });
         var $label = $(
           '<p><label>Label<br><input type="text" class="widefat"></label></p>',
         );
@@ -70,13 +84,15 @@
         );
         $label.find("input").val(it.label || "");
         $value.find("input").val(it.value || "");
-        $item.append($label).append($value).append($remove);
+        $factBody.append($label).append($value).append($remove);
         $list.append($item);
         $label.find("input").on("input", function () {
           var items2 = getItems();
           items2[idx] = items2[idx] || { label: "", value: "" };
           items2[idx].label = String($(this).val() || "");
           setItems(items2, { notify: false });
+          var v = $(this).val();
+          if (v) $factHeader.find(".fact-accordion-label").text(v);
         });
         $label.find("input").on("blur", function () {
           $input.trigger("change");

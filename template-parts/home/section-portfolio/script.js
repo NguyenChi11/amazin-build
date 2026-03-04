@@ -1,8 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var list = document.querySelector(".section-portfolio__list");
-  var titleEl = document.querySelector(".section-portfolio__title");
-  var descEl = document.querySelector(".section-portfolio__description");
-  var titleHasMeta = titleEl && titleEl.getAttribute("data-has-meta") === "1";
-  var descHasMeta = descEl && descEl.getAttribute("data-has-meta") === "1";
-  // Demo injection removed; projectsData is used only for initial import
+  // Swiper
+  if (typeof Swiper !== "undefined") {
+    new Swiper(".section-portfolio__swiper", {
+      slidesPerView: 3,
+      spaceBetween: 20,
+      loop: true,
+      navigation: {
+        nextEl: ".section-portfolio__swiper-next",
+        prevEl: ".section-portfolio__swiper-prev",
+      },
+      breakpoints: {
+        0: { slidesPerView: 1 },
+        640: { slidesPerView: 2 },
+        1024: { slidesPerView: 3 },
+      },
+    });
+  }
 });

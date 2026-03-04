@@ -1,9 +1,36 @@
 .buildpro-services-row {
   border: 1px solid #e5e7eb;
-  padding: 10px;
   margin: 8px 0;
   background: #fff;
   border-radius: 8px;
+  overflow: hidden;
+}
+.buildpro-services-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  cursor: pointer;
+  background: #f0f0f0;
+  user-select: none;
+}
+.buildpro-services-header:hover {
+  background: #e6e6e6;
+}
+.buildpro-services-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #23282d;
+}
+.buildpro-services-arrow {
+  font-size: 11px;
+  color: #555;
+  transition: transform 0.2s ease;
+  transform: rotate(-90deg);
+  display: inline-block;
+}
+.buildpro-services-body {
+  padding: 10px;
 }
 .buildpro-services-grid {
   display: grid;

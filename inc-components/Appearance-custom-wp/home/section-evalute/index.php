@@ -35,32 +35,38 @@ $rows  = isset($data['items']) && is_array($data['items']) ? $data['items'] : $i
             $avatar_id = isset($item['avatar_id']) ? (int)$item['avatar_id'] : 0;
             $thumb = $avatar_id ? wp_get_attachment_image_url($avatar_id, 'thumbnail') : '';
         ?>
-        <div class="buildpro-evaluate-row" data-index="<?php echo esc_attr($index); ?>">
-            <div class="buildpro-evaluate-grid">
-                <div class="buildpro-evaluate-col">
-                    <p class="buildpro-evaluate-field">
-                        <label>Avatar</label>
-                        <input type="hidden" class="evaluate-avatar-id" value="<?php echo esc_attr($avatar_id); ?>">
-                        <button type="button" class="button evaluate-select-avatar">Chọn ảnh</button>
-                        <button type="button" class="button evaluate-remove-avatar">Xóa ảnh</button>
-                    </p>
-                    <div class="evaluate-avatar-preview">
-                        <?php echo $thumb ? '<img src="' . esc_url($thumb) . '" style="max-height:112px">' : '<span style="color:#888">No photo selected yet</span>'; ?>
+            <div class="buildpro-evaluate-row" data-index="<?php echo esc_attr($index); ?>">
+                <div class="buildpro-evaluate-row-header">
+                    <span class="buildpro-evaluate-row-label"><?php echo $name ? esc_html($name) : 'Item ' . ($index + 1); ?></span>
+                    <span class="buildpro-evaluate-row-arrow">&#9660;</span>
+                </div>
+                <div class="buildpro-evaluate-row-body" style="display:none">
+                    <div class="buildpro-evaluate-grid">
+                        <div class="buildpro-evaluate-col">
+                            <p class="buildpro-evaluate-field">
+                                <label>Avatar</label>
+                                <input type="hidden" class="evaluate-avatar-id" value="<?php echo esc_attr($avatar_id); ?>">
+                                <button type="button" class="button evaluate-select-avatar">Chọn ảnh</button>
+                                <button type="button" class="button evaluate-remove-avatar">Xóa ảnh</button>
+                            </p>
+                            <div class="evaluate-avatar-preview">
+                                <?php echo $thumb ? '<img src="' . esc_url($thumb) . '" style="max-height:112px">' : '<span style="color:#888">No photo selected yet</span>'; ?>
+                            </div>
+                        </div>
+                        <div class="buildpro-evaluate-col">
+                            <p class="buildpro-evaluate-field"><label>Name</label><input type="text" class="regular-text"
+                                    data-item="name" value="<?php echo esc_attr($name); ?>" placeholder="Name"></p>
+                            <p class="buildpro-evaluate-field"><label>Position</label><input type="text" class="regular-text"
+                                    data-item="position" value="<?php echo esc_attr($position); ?>" placeholder="Position"></p>
+                            <p class="buildpro-evaluate-field"><label>Description</label><textarea rows="4" class="large-text"
+                                    data-item="description"
+                                    placeholder="Description"><?php echo esc_textarea($description); ?></textarea></p>
+                        </div>
                     </div>
-                </div>
-                <div class="buildpro-evaluate-col">
-                    <p class="buildpro-evaluate-field"><label>Name</label><input type="text" class="regular-text"
-                            data-item="name" value="<?php echo esc_attr($name); ?>" placeholder="Name"></p>
-                    <p class="buildpro-evaluate-field"><label>Position</label><input type="text" class="regular-text"
-                            data-item="position" value="<?php echo esc_attr($position); ?>" placeholder="Position"></p>
-                    <p class="buildpro-evaluate-field"><label>Description</label><textarea rows="4" class="large-text"
-                            data-item="description"
-                            placeholder="Description"><?php echo esc_textarea($description); ?></textarea></p>
-                </div>
+                    <div class="buildpro-evaluate-actions"><button type="button" class="button evaluate-remove-row">Xóa</button>
+                    </div>
+                </div><!-- /.buildpro-evaluate-row-body -->
             </div>
-            <div class="buildpro-evaluate-actions"><button type="button" class="button evaluate-remove-row">Xóa</button>
-            </div>
-        </div>
         <?php
             $index++;
         }

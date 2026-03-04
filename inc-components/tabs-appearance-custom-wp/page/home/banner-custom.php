@@ -166,7 +166,7 @@ function buildpro_banner_customize_register($wp_customize)
     $wp_customize->add_section('buildpro_link_picker_section', array(
         'title' => __('Link Picker', 'buildpro'),
         'priority' => 26,
-        'active_callback' => 'buildpro_customizer_is_home_preview',
+        // Available for all templates
     ));
     $wp_customize->add_setting('buildpro_link_picker_dummy', array(
         'default' => '',
@@ -186,13 +186,13 @@ function buildpro_link_picker_enqueue_assets()
 {
     wp_enqueue_style(
         'buildpro-link-picker-style',
-        get_theme_file_uri('inc-components/Appearance-custom-wp/home/link/style.css'),
+        get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-link/style.css'),
         array(),
         null
     );
     wp_enqueue_script(
         'buildpro-link-picker-script',
-        get_theme_file_uri('inc-components/Appearance-custom-wp/home/link/script.js'),
+        get_theme_file_uri('inc-components/Appearance-custom-wp/home/section-link/script.js'),
         array('customize-controls'),
         null,
         true

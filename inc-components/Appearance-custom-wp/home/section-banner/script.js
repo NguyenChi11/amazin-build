@@ -40,7 +40,25 @@
       hidden.value = JSON.stringify(data);
       hidden.dispatchEvent(new Event("change"));
     }
-    function bindRow(row) {
+    function bindRow(row, openByDefault) {
+      var header = row.querySelector(".buildpro-banner-header");
+      var body = row.querySelector(".buildpro-banner-body");
+      var labelEl = row.querySelector(".buildpro-banner-label");
+      var arrowEl = row.querySelector(".buildpro-banner-arrow");
+      if (header && body) {
+        if (openByDefault) {
+          body.style.display = "block";
+          if (arrowEl) arrowEl.style.transform = "rotate(0deg)";
+        }
+        header.addEventListener("click", function () {
+          var isOpen = body.style.display !== "none";
+          body.style.display = isOpen ? "none" : "block";
+          if (arrowEl)
+            arrowEl.style.transform = isOpen
+              ? "rotate(-90deg)"
+              : "rotate(0deg)";
+        });
+      }
       var selectBtn = row.querySelector(".select-banner-image");
       var removeImgBtn = row.querySelector(".remove-banner-image");
       var input = row.querySelector("[data-field='image_id']");
@@ -70,6 +88,11 @@
       attachChange(urlInput);
       attachChange(titleInput);
       attachChange(targetSelect);
+      if (textInput && labelEl) {
+        textInput.addEventListener("input", function () {
+          labelEl.textContent = textInput.value || labelEl.textContent;
+        });
+      }
       function showLinkPanel() {
         if (!panel) return;
         panel.style.display = "block";
@@ -248,37 +271,54 @@
       e.preventDefault();
       var idx = wrapper.querySelectorAll(".buildpro-banner-row").length;
       var html =
-        "" +
         '<div class="buildpro-banner-row" data-index="' +
         idx +
         '">' +
-        '  <div class="buildpro-banner-grid">' +
-        '    <div class="buildpro-banner-block">' +
-        "      <h4>Image</h4>" +
-        '      <div class="buildpro-banner-field">' +
-        '        <input type="hidden" class="banner-image-id" data-field="image_id" value="">' +
-        '        <button type="button" class="button select-banner-image">Select image</button>' +
-        '        <button type="button" class="button remove-banner-image">Remove image</button>' +
-        "      </div>" +
-        '      <div class="banner-image-preview" style="margin-top:8px;min-height:84px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px dashed #ddd;border-radius:6px"><span style="color:#888">No image selected</span></div>' +
-        "    </div>" +
-        '    <div class="buildpro-banner-block">' +
-        "      <h4>Content</h4>" +
-        '      <p class="buildpro-banner-field"><label>Type</label><input type="text" class="regular-text" data-field="type" value=""></p>' +
-        '      <p class="buildpro-banner-field"><label>Text</label><input type="text" class="regular-text" data-field="text" value=""></p>' +
-        '      <p class="buildpro-banner-field"><label>Description</label><textarea rows="4" class="large-text" data-field="description"></textarea></p>' +
-        "      <h4>Link</h4>" +
-        '      <p class="buildpro-banner-field"><label>Link URL</label><input type="url" class="regular-text" data-field="link_url" value="" placeholder="https://..."> <button type="button" class="button choose-link">Choose link</button></p>' +
-        '      <p class="buildpro-banner-field"><label>Link Target</label><select data-field="link_target"><option value="">Default</option><option value="_blank">Open in new tab</option></select></p>' +
-        "    </div>" +
+        '  <div class="buildpro-banner-header">' +
+        '    <span class="buildpro-banner-label">Item ' +
+        (idx + 1) +
+        "</span>" +
+        '    <span class="buildpro-banner-arrow">&#9660;</span>' +
         "  </div>" +
-        '  <div class="buildpro-banner-actions"><button type="button" class="button remove-banner-row">Remove item</button></div>' +
+        '  <div class="buildpro-banner-body" style="display:block">' +
+        '    <div class="buildpro-banner-grid">' +
+        '      <div class="buildpro-banner-block">' +
+        "        <h4>Image</h4>" +
+        '        <div class="buildpro-banner-field">' +
+        '          <input type="hidden" class="banner-image-id" data-field="image_id" value="">' +
+        '          <button type="button" class="button select-banner-image">Select photo</button>' +
+        '          <button type="button" class="button remove-banner-image">Remove photo</button>' +
+        "        </div>" +
+        '        <div class="banner-image-preview" style="margin-top:8px;min-height:84px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px dashed #ddd;border-radius:6px"><span style="color:#888">No Image Selected</span></div>' +
+        "      </div>" +
+        '      <div class="buildpro-banner-block">' +
+        "        <h4>Content</h4>" +
+        '        <p class="buildpro-banner-field"><label>Type</label><input type="text" class="regular-text" data-field="type" value=""></p>' +
+        '        <p class="buildpro-banner-field"><label>Text</label><input type="text" class="regular-text" data-field="text" value=""></p>' +
+        '        <p class="buildpro-banner-field"><label>Description</label><textarea rows="4" class="large-text" data-field="description"></textarea></p>' +
+        "        <h4>Link</h4>" +
+        '        <p class="buildpro-banner-field"><label>Link URL</label><input type="url" class="regular-text" data-field="link_url" value="" placeholder="https://..."> <button type="button" class="button choose-link">Choose link</button></p>' +
+        '        <p class="buildpro-banner-field"><label>Link Title</label><input type="text" class="regular-text" data-field="link_title" value="" placeholder="Button text"></p>' +
+        '        <p class="buildpro-banner-field"><label>Link Target</label><select data-field="link_target"><option value="">Same tab</option><option value="_blank">Open in new tab</option></select></p>' +
+        '        <div class="buildpro-link-panel" style="display:none;margin-top:8px">' +
+        '          <div class="buildpro-banner-block" style="background:#fff">' +
+        "            <h4>Choose link</h4>" +
+        '            <p class="buildpro-banner-field"><label>Search pages/posts</label><input type="text" class="regular-text buildpro-link-search" placeholder="Enter keyword..."></p>' +
+        '            <div class="buildpro-link-results" style="max-height:190px;overflow:auto;border:1px solid #eee;border-radius:6px;background:#fafafa;padding:6px"></div>' +
+        '            <p class="buildpro-banner-field"><label><input type="checkbox" class="buildpro-link-target"> Open in new tab (_blank)</label></p>' +
+        '            <div class="buildpro-banner-actions"><button type="button" class="button buildpro-link-close">Close</button></div>' +
+        "          </div>" +
+        "        </div>" +
+        "      </div>" +
+        "    </div>" +
+        '    <div class="buildpro-banner-actions"><button type="button" class="button remove-banner-row">Remove item</button></div>' +
+        "  </div>" +
         "</div>";
       var temp = document.createElement("div");
       temp.innerHTML = html;
       var row = temp.firstElementChild;
       wrapper.appendChild(row);
-      bindRow(row);
+      bindRow(row, true);
       write();
     });
     write();

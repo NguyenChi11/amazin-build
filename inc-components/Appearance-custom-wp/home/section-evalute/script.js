@@ -35,7 +35,23 @@
     hidden.dispatchEvent(new Event("input"));
     hidden.dispatchEvent(new Event("change"));
   }
-  function bindRow(row) {
+  function bindRow(row, openByDefault) {
+    var header = row.querySelector(".buildpro-evaluate-row-header");
+    var body = row.querySelector(".buildpro-evaluate-row-body");
+    var labelEl = row.querySelector(".buildpro-evaluate-row-label");
+    var arrowEl = row.querySelector(".buildpro-evaluate-row-arrow");
+    if (header && body) {
+      if (openByDefault) {
+        body.style.display = "block";
+        if (arrowEl) arrowEl.style.transform = "rotate(0deg)";
+      }
+      header.addEventListener("click", function () {
+        var isOpen = body.style.display !== "none";
+        body.style.display = isOpen ? "none" : "block";
+        if (arrowEl)
+          arrowEl.style.transform = isOpen ? "rotate(-90deg)" : "rotate(0deg)";
+      });
+    }
     var rmRow = row.querySelector(".evaluate-remove-row");
     if (rmRow) {
       rmRow.addEventListener("click", function (e) {
@@ -91,6 +107,12 @@
         });
       },
     );
+    var nameInput = row.querySelector("[data-item='name']");
+    if (nameInput && labelEl) {
+      nameInput.addEventListener("input", function () {
+        if (nameInput.value) labelEl.textContent = nameInput.value;
+      });
+    }
   }
   function init() {
     var wrapper = document.getElementById("buildpro-evaluate-wrapper");
@@ -125,6 +147,10 @@
           '<div class="buildpro-evaluate-row" data-index="' +
           idx +
           '">' +
+          '<div class="buildpro-evaluate-row-header"><span class="buildpro-evaluate-row-label">Item ' +
+          (idx + 1) +
+          '</span><span class="buildpro-evaluate-row-arrow">&#9660;</span></div>' +
+          '<div class="buildpro-evaluate-row-body" style="display:block">' +
           '<div class="buildpro-evaluate-grid">' +
           '<div class="buildpro-evaluate-col">' +
           '<p class="buildpro-evaluate-field"><label>Avatar</label><input type="hidden" class="evaluate-avatar-id" value=""> <button type="button" class="button evaluate-select-avatar">Select photo</button> <button type="button" class="button evaluate-remove-avatar">Remove photo</button></p>' +
@@ -137,12 +163,13 @@
           "</div>" +
           "</div>" +
           '<div class="buildpro-evaluate-actions"><button type="button" class="button evaluate-remove-row">Xóa</button></div>' +
+          "</div>" +
           "</div>";
         var temp = document.createElement("div");
         temp.innerHTML = html;
         var row = temp.firstElementChild;
         itemsWrap.appendChild(row);
-        bindRow(row);
+        bindRow(row, true);
         write(wrapper);
       });
     }

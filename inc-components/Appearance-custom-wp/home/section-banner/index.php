@@ -17,6 +17,11 @@ $items = is_array($items) ? $items : array();
         $thumb = $image_id ? wp_get_attachment_image_url($image_id, 'thumbnail') : '';
     ?>
         <div class="buildpro-banner-row" data-index="<?php echo esc_attr($index); ?>">
+            <div class="buildpro-banner-header">
+                <span class="buildpro-banner-label"><?php echo $text ? esc_html($text) : 'Item ' . ($index + 1); ?></span>
+                <span class="buildpro-banner-arrow">&#9660;</span>
+            </div>
+            <div class="buildpro-banner-body" style="display:none">
             <div class="buildpro-banner-grid">
                 <div class="buildpro-banner-block">
                     <h4>Image</h4>
@@ -72,6 +77,7 @@ $items = is_array($items) ? $items : array();
             </div>
             <div class="buildpro-banner-actions"><button type="button" class="button remove-banner-row">Remove item</button>
             </div>
+            </div><!-- /.buildpro-banner-body -->
         </div>
     <?php
         $index++;

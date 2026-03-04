@@ -92,6 +92,16 @@ function buildpro_portfolio_customize_register($wp_customize)
         'priority' => 35,
         'active_callback' => 'buildpro_customizer_is_home_preview',
     ));
+    $wp_customize->add_setting('buildpro_portfolio_enabled', array(
+        'default' => 1,
+        'transport' => 'refresh',
+        'sanitize_callback' => 'absint',
+    ));
+    $wp_customize->add_control('buildpro_portfolio_enabled', array(
+        'label' => __('Enable Portfolio', 'buildpro'),
+        'section' => 'buildpro_portfolio_section',
+        'type' => 'checkbox',
+    ));
     $wp_customize->add_setting('buildpro_portfolio_data', array(
         'default' => buildpro_portfolio_get_default_data(),
         'transport' => 'postMessage',
@@ -104,30 +114,20 @@ function buildpro_portfolio_customize_register($wp_customize)
             'section' => 'buildpro_portfolio_section',
         )));
     }
-    $wp_customize->add_setting('buildpro_portfolio_enabled', array(
-        'default' => 1,
-        'transport' => 'refresh',
-        'sanitize_callback' => 'absint',
-    ));
-    $wp_customize->add_control('buildpro_portfolio_enabled', array(
-        'label' => __('Enable Portfolio', 'buildpro'),
-        'section' => 'buildpro_portfolio_section',
-        'type' => 'checkbox',
-    ));
     $wp_customize->add_setting('buildpro_portfolio_edit_link', array(
         'default' => '',
         'transport' => 'postMessage',
         'sanitize_callback' => 'esc_url_raw',
     ));
-    if (class_exists('BuildPro_Customize_Button_Control')) {
-        $wp_customize->add_control(new BuildPro_Customize_Button_Control($wp_customize, 'buildpro_portfolio_edit_link', array(
-            'label' => __('Edit Portfolio Section', 'buildpro'),
-            'description' => __('Open the Front Page editor.', 'buildpro'),
-            'section' => 'buildpro_portfolio_section',
-            'button_url' => $edit_url,
-            'button_text' => __('Edit Front Page', 'buildpro'),
-        )));
-    }
+    // if (class_exists('BuildPro_Customize_Button_Control')) {
+    //     $wp_customize->add_control(new BuildPro_Customize_Button_Control($wp_customize, 'buildpro_portfolio_edit_link', array(
+    //         'label' => __('Edit Portfolio Section', 'buildpro'),
+    //         'description' => __('Open the Front Page editor.', 'buildpro'),
+    //         'section' => 'buildpro_portfolio_section',
+    //         'button_url' => $edit_url,
+    //         'button_text' => __('Edit Front Page', 'buildpro'),
+    //     )));
+    // }
     if (isset($wp_customize->selective_refresh)) {
         $wp_customize->selective_refresh->add_partial('buildpro_portfolio_data', array(
             'selector' => '.section-portfolio',

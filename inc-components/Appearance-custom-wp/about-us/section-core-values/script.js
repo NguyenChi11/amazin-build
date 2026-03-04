@@ -74,6 +74,22 @@
       }
       items.forEach(function (it, idx) {
         var row = $('<div class="core-value-item"/>');
+        var cvHeader = $(
+          '<div class="cv-accordion-header"><span class="cv-accordion-label">' +
+            (it.title || "Item " + (idx + 1)) +
+            '</span><span class="cv-accordion-arrow">&#9660;</span></div>',
+        );
+        var cvBody = $(
+          '<div class="cv-accordion-body" style="display:none"></div>',
+        );
+        row.append(cvHeader).append(cvBody);
+        cvHeader.on("click", function () {
+          var isOpen = cvBody.css("display") !== "none";
+          cvBody.css("display", isOpen ? "none" : "block");
+          cvHeader
+            .find(".cv-accordion-arrow")
+            .css("transform", isOpen ? "rotate(-90deg)" : "rotate(0deg)");
+        });
         var previewUrl = it.icon_url || "";
         var preview = $(
           '<div class="cv-icon-preview">' +
@@ -92,25 +108,25 @@
           '<button type="button" class="button button-secondary cv-select-icon">Select Image</button> ' +
           '<button type="button" class="button cv-remove-icon">Remove</button>' +
           "</div>";
-        row.append("<p><label>Icon Image</label></p>");
-        row.append(preview);
-        row.append(imgControls);
-        row.append(
+        cvBody.append("<p><label>Icon Image</label></p>");
+        cvBody.append(preview);
+        cvBody.append(imgControls);
+        cvBody.append(
           '<p><label>Title<br><input type="text" class="widefat cv-title" value="' +
             (it.title || "") +
             '"></label></p>',
         );
-        row.append(
+        cvBody.append(
           '<p><label>Description<br><textarea class="widefat cv-desc" rows="3">' +
             (it.description || "") +
             "</textarea></label></p>",
         );
-        row.append(
+        cvBody.append(
           '<p><label>URL<br><input type="text" class="widefat cv-url" value="' +
             (it.url || "") +
             '"></label></p>',
         );
-        row.append(
+        cvBody.append(
           '<p><button type="button" class="button remove-core-value">Remove</button></p>',
         );
         row.on("click", ".cv-select-icon", function (e) {
@@ -159,6 +175,8 @@
           cur.url = row.find(".cv-url").val();
           items2[idx] = cur;
           setItems(items2);
+          var t = row.find(".cv-title").val();
+          if (t) cvHeader.find(".cv-accordion-label").text(t);
         });
         row.on("click", ".remove-core-value", function (e) {
           e.preventDefault();

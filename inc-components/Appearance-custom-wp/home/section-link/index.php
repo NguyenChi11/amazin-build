@@ -49,7 +49,7 @@
                 $t = isset($__it['title']) ? $__it['title'] : '';
                 $u = isset($__it['url']) ? $__it['url'] : '';
                 $ty = isset($__it['type']) ? $__it['type'] : '';
-                echo '<div class="result"><div><div>' . esc_html($t) . ($ty ? '<span class="chip">' . esc_html(strtoupper($ty)) . '</span>' : '') . '</div><div class="meta">' . esc_html($u) . '</div></div><div><button type="button" class="button buildpro-link-pick" data-url="' . esc_url($u) . '" data-title="' . esc_attr($t) . '">Chọn</button></div></div>';
+                echo '<div class="result"><div><div>' . esc_html($t) . ($ty ? '<span class="chip">' . esc_html(strtoupper($ty)) . '</span>' : '') . '</div><div class="meta">' . esc_html($u) . '</div></div><div><button type="button" class="button buildpro-link-pick" data-url="' . esc_url($u) . '" data-title="' . esc_attr($t) . '">Choose</button></div></div>';
             }
         } else {
             echo '<p style="color:#888;margin:6px">No results found</p>';

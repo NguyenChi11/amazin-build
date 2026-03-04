@@ -36,7 +36,7 @@ if ($enabled !== 1) {
 $portfolio_items = [];
 $query = new WP_Query(array(
     'post_type' => 'project',
-    'posts_per_page' => 3,
+    'posts_per_page' => 6,
     'orderby' => 'date',
     'order' => 'DESC',
     'post_status' => 'publish',
@@ -93,40 +93,54 @@ if ($query->have_posts()) {
             <p class="section-portfolio__description"><?php echo esc_html($portfolio_desc); ?></p>
         <?php endif; ?>
     </div>
-    <div class="section-portfolio__list">
-        <?php foreach ($portfolio_items as $item): ?>
-            <a class="section-portfolio__item" href="<?php echo esc_url($item['link_url']); ?>"
-                <?php echo $item['link_target'] ? 'target="' . esc_attr($item['link_target']) . '"' : ''; ?>>
-                <div class="section-portfolio__item-image">
-                    <?php
-                    $img_url = $item['image_id'] ? wp_get_attachment_image_url($item['image_id'], 'full') : '';
-                    ?>
-                    <?php if ($img_url): ?>
-                        <div class="section-portfolio__item-bg"
-                            style="background-image: url('<?php echo esc_url($img_url); ?>');"></div>
-                    <?php else: ?>
-                        <div class="section-portfolio__item-bg"></div>
-                    <?php endif; ?>
+    <div class="swiper section-portfolio__swiper">
+        <div class="swiper-wrapper">
+            <?php foreach ($portfolio_items as $item): ?>
+                <div class="swiper-slide">
+                    <a class="section-portfolio__item" href="<?php echo esc_url($item['link_url']); ?>"
+                        <?php echo $item['link_target'] ? 'target="' . esc_attr($item['link_target']) . '"' : ''; ?>>
+                        <div class="section-portfolio__item-image">
+                            <?php
+                            $img_url = $item['image_id'] ? wp_get_attachment_image_url($item['image_id'], 'full') : '';
+                            ?>
+                            <?php if ($img_url): ?>
+                                <div class="section-portfolio__item-bg"
+                                    style="background-image: url('<?php echo esc_url($img_url); ?>');"></div>
+                            <?php else: ?>
+                                <div class="section-portfolio__item-bg"></div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="section-portfolio__item-content">
+                            <p class="section-portfolio__item-text"><?php echo $item['text']; ?></p>
+                            <h3 class="section-portfolio__item-name"><?php echo $item['name']; ?></h3>
+                            <div class="section-portfolio__item-location-wrapper">
+                                <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/icon_location.png')); ?>"
+                                    alt="location" class="section-portfolio__item-location-icon">
+                                <p class="section-portfolio__item-location"><?php echo esc_html($item['location']); ?></p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <div class="section-portfolio__item-content">
-                    <p class="section-portfolio__item-text"><?php echo $item['text']; ?></p>
-                    <h3 class="section-portfolio__item-name"><?php echo $item['name']; ?></h3>
-                    <div class="section-portfolio__item-location-wrapper">
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/icon_location.png')); ?>"
-                            alt="location" class="section-portfolio__item-location-icon">
-                        <p class="section-portfolio__item-location"><?php echo esc_html($item['location']); ?></p>
-                    </div>
-                </div>
-            </a>
-        <?php endforeach; ?>
+            <?php endforeach; ?>
+        </div>
+        <div class="swiper-button-prev section-portfolio__swiper-prev"></div>
+        <div class="swiper-button-next section-portfolio__swiper-next"></div>
     </div>
+    <?php
+    $projects_page_url = '';
+    $projects_pages = get_pages(array('meta_key' => '_wp_page_template', 'meta_value' => 'projects-page.php', 'number' => 1));
+    if (!empty($projects_pages)) {
+        $projects_page_url = get_permalink($projects_pages[0]->ID);
+    }
+    ?>
     <div class="section-portfolio__page-link">
-        <a class="section-portfolio__page-link-text"
-            href="<?php echo esc_url(get_post_type_archive_link('project')); ?>">
+        <a class="section-portfolio__page-link-text" href="<?php echo esc_url($projects_page_url); ?>">
             View All Projects
         </a>
         <img class="section-banner__item-button-icon"
             src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/Arrow_Right.png')); ?>" alt="Arrow Right">
     </div>
-    <?php if (empty($portfolio_items)) { return; } ?>
+    <?php if (empty($portfolio_items)) {
+        return;
+    } ?>
 </section>

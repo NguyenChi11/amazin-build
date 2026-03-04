@@ -1,6 +1,6 @@
 <div class="buildpro-about-policy-repeater"
     data-type="<?php echo strpos($this->id, 'certifications') !== false ? 'certs' : 'items'; ?>">
-    <p class="description">
+    <!-- <p class="description">
         <?php
         if (strpos($this->id, 'certifications') !== false) {
             echo esc_html__('Manage Certifications (image/url/title/desc).', 'buildpro');
@@ -8,7 +8,7 @@
             echo esc_html__('Manage Warranty Items (icon/title/desc).', 'buildpro');
         }
         ?>
-    </p>
+    </p> -->
     <div class="buildpro-about-policy-list"></div>
     <p><button type="button" class="button button-secondary buildpro-about-policy-add">Add Item</button></p>
     <input type="hidden" class="buildpro-about-policy-input"
