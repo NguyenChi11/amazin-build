@@ -2,6 +2,7 @@
 $paths = array(
     'inc/components/cpt/metarials',
     'inc/components/cpt/post',
+    'inc/components/cpt/product',
     'inc/components/cpt/project',
 );
 foreach ($paths as $rel) {

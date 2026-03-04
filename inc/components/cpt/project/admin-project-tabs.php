@@ -16,6 +16,7 @@ function buildpro_project_group_meta_box_render($post)
         . '<button type="button" class="button buildpro-admin-tab" data-target="buildpro_project_tab_location">Location</button> '
         . '<button type="button" class="button buildpro-admin-tab" data-target="buildpro_project_tab_about">About Project</button> '
         . '<button type="button" class="button buildpro-admin-tab" data-target="buildpro_project_tab_standards">Standards</button> '
+        . '<button type="button" class="button buildpro-admin-tab" data-target="buildpro_project_tab_infomations">Infomations</button> '
         . '<button type="button" class="button buildpro-admin-tab" data-target="buildpro_project_tab_price">Price</button> '
         . '<button type="button" class="button buildpro-admin-tab" data-target="buildpro_project_tab_datetime">Date Time</button> '
         . '<button type="button" class="button buildpro-admin-tab" data-target="buildpro_project_tab_gallery">Gallery</button>'
@@ -25,7 +26,7 @@ function buildpro_project_group_meta_box_render($post)
         function init(){
             var tabs = document.querySelectorAll(".buildpro-admin-tab");
             function show(id){
-                ["buildpro_project_tab_banner","buildpro_project_tab_location","buildpro_project_tab_about","buildpro_project_tab_standards","buildpro_project_tab_price","buildpro_project_tab_datetime","buildpro_project_tab_gallery"].forEach(function(x){
+                ["buildpro_project_tab_banner","buildpro_project_tab_location","buildpro_project_tab_about","buildpro_project_tab_standards","buildpro_project_tab_infomations","buildpro_project_tab_price","buildpro_project_tab_datetime","buildpro_project_tab_gallery"].forEach(function(x){
                     var el = document.getElementById(x);
                     if(el){ el.style.display = (x === id) ? "block" : "none"; }
                 });

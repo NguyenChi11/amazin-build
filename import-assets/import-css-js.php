@@ -58,6 +58,15 @@ function wp_enqueue_custom_assets()
         ],
         [
             'type' => 'style',
+            'handle' => 'buildpro-comment-product-style',
+            'src' => get_theme_file_uri('/template-parts/comment-product/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/comment-product/style.css'))
+        ],
+        [
+            'type' => 'style',
             'handle' => 'buildpro-global',
             'src' => get_theme_file_uri('/assets/css/global.css'),
             'deps' => [],
@@ -487,6 +496,42 @@ function wp_enqueue_custom_assets()
             'ver' => $version,
             'in_footer' => true,
             'condition' => file_exists(get_theme_file_path('/template-parts/single-product/script.js'))
+        ],
+        [
+            'type' => 'style',
+            'handle' => 'buildpro-single-project-style',
+            'src' => get_theme_file_uri('/template-parts/single-project/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/single-project/style.css'))
+        ],
+        [
+            'type' => 'script',
+            'handle' => 'buildpro-single-project-script',
+            'src' => get_theme_file_uri('/template-parts/single-project/script.js'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/template-parts/single-project/script.js'))
+        ],
+        [
+            'type' => 'style',
+            'handle' => 'buildpro-comment-product-contact-form-style',
+            'src' => get_theme_file_uri('/template-parts/comment-product/style.css'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => false,
+            'condition' => file_exists(get_theme_file_path('/template-parts/comment-product/style.css'))
+        ],
+        [
+            'type' => 'script',
+            'handle' => 'buildpro-comment-product-contact-form-script',
+            'src' => get_theme_file_uri('/template-parts/comment-product/script.js'),
+            'deps' => [],
+            'ver' => $version,
+            'in_footer' => true,
+            'condition' => file_exists(get_theme_file_path('/template-parts/comment-product/script.js'))
         ],
     ];
 
