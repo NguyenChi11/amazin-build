@@ -136,3 +136,50 @@
   opacity: 1;
   visibility: visible;
 }
+
+/* ===== Responsive: mobile ===== */
+@media (max-width: 639.98px) {
+  .about-us__section-banner {
+    flex-direction: column;
+    padding: 2.5rem 1.25rem;
+    gap: 2rem;
+  }
+
+  .about-us__section-banner__left {
+    width: 100%;
+  }
+
+  .about-us__section-banner__left__text {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-us__section-banner__left__title {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .about-us__section-banner__left__description {
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-us__section-banner__left__wrapper {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .about-us__section-banner__left__wrapper__item {
+    width: 100%;
+    height: auto;
+    padding: 1.25rem;
+  }
+
+  .about-us__section-banner__right {
+    width: 100%;
+    height: 18rem;
+    border-radius: 1.25rem;
+  }
+}

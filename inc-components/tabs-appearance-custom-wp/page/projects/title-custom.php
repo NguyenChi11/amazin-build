@@ -43,7 +43,24 @@ function buildpro_projects_title_customize_register($wp_customize)
     if (!function_exists('buildpro_customizer_is_projects_preview')) {
         function buildpro_customizer_is_projects_preview()
         {
-            return true;
+            $selected_id = 0;
+            if (function_exists('wp_get_current_user')) {
+                global $wp_customize;
+                if ($wp_customize && $wp_customize instanceof WP_Customize_Manager) {
+                    $setting = $wp_customize->get_setting('buildpro_preview_page_id');
+                    if ($setting) {
+                        $val = $setting->value();
+                        $selected_id = absint($val);
+                    }
+                }
+            }
+            if ($selected_id > 0) {
+                $tpl = get_page_template_slug($selected_id);
+                if ($tpl === 'projects-page.php') {
+                    return true;
+                }
+            }
+            return false;
         }
     }
     $edit_url = '';
@@ -65,7 +82,7 @@ function buildpro_projects_title_customize_register($wp_customize)
     if (class_exists('BuildPro_Projects_Title_Control')) {
         $wp_customize->add_control(new BuildPro_Projects_Title_Control($wp_customize, 'buildpro_projects_title_data', array(
             'label' => __('Projects Title', 'buildpro'),
-            'description' => __('Chỉnh sửa tiêu đề và mô tả của trang Projects.', 'buildpro'),
+            'description' => __('Edit the title and description of the Projects page.', 'buildpro'),
             'section' => 'buildpro_projects_title_section',
         )));
     }
@@ -77,7 +94,7 @@ function buildpro_projects_title_customize_register($wp_customize)
     if (class_exists('BuildPro_Customize_Button_Control')) {
         $wp_customize->add_control(new BuildPro_Customize_Button_Control($wp_customize, 'buildpro_projects_title_edit_link', array(
             'label' => __('Edit Projects Page', 'buildpro'),
-            'description' => __('Mở trình chỉnh sửa trang Projects.', 'buildpro'),
+            'description' => __('Open the Projects page editor.', 'buildpro'),
             'section' => 'buildpro_projects_title_section',
             'button_url' => $edit_url,
             'button_text' => __('Edit Projects Page', 'buildpro'),

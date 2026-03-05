@@ -172,3 +172,40 @@
 .about-contact-form .connect-item:active {
   transform: translateY(1px);
 }
+
+/* ===== Responsive: mobile ===== */
+@media (max-width: 639.98px) {
+  .about-contact-form {
+    flex-direction: column;
+    padding: 2.5rem 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .about-contact-form__inner {
+    width: 100%;
+    padding: 1.25rem;
+  }
+
+  .about-contact-form__title {
+    font-size: 1.25rem;
+  }
+
+  .about-contact-form__aside {
+    width: 100%;
+  }
+
+  .about-contact-form__map {
+    height: 14rem;
+  }
+
+  .about-contact-form__connect {
+    padding: 1rem;
+  }
+
+  .about-contact-form__connect-title {
+    font-size: 1rem;
+  }
+  .about-contact-form__map-note-text {
+    width: 16.5rem;
+  }
+}

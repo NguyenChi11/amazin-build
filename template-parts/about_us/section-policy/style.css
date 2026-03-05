@@ -152,11 +152,31 @@
 .about-policy__warranty-desc {
   color: var(--ap-text);
 }
-/* @media (max-width: 1024px) {
+@media (max-width: 639.98px) {
+  .about-policy {
+    padding: 0 1.25rem 2.5rem;
+  }
+
   .about-policy__grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-} */
+
+  .about-policy__title {
+    font-size: 1.5rem;
+  }
+
+  .about-policy__cert-card {
+    grid-template-columns: 3.5rem 1fr;
+    gap: 0.75rem;
+  }
+
+  .about-policy__cert-icon img,
+  .about-policy__cert-placeholder {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
 .policy__hover-outline {
   position: absolute;
   inset: 0;

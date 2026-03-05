@@ -56,7 +56,8 @@
   cursor: pointer;
 }
 .project--section-title:hover .project--section-title__hover-outline {
-  opacity: 1;}
+  opacity: 1;
+}
 
 /* Show default WP customize edit shortcut on hover (match banner) */
 .project--section-title .customize-partial-edit-shortcut {
@@ -70,4 +71,24 @@
 .project--section-title:hover .customize-partial-edit-shortcut {
   opacity: 1;
   visibility: visible;
+}
+
+@media (max-width: 639.98px) {
+  .project--section-title {
+    padding: 1rem;
+  }
+  .project--section-title__title {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+    letter-spacing: 0;
+    margin: 0;
+    width: 20.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .project--section-title__desc {
+    font-size: 0.625rem;
+    letter-spacing: 0;
+    line-height: normal;
+    width: 20.25rem;
+  }
 }

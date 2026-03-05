@@ -224,7 +224,7 @@
 }
 @media (max-width: 639.98px) {
   .site-footer {
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
   }
   .footer__inner {
     padding: 2rem 1rem 1.5rem 1rem;

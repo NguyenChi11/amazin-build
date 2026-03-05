@@ -69,6 +69,7 @@
     grid-template-columns: 1fr;
   }
 }
+
 .contact__hover-outline {
   position: absolute;
   inset: 0;
@@ -92,4 +93,27 @@
 .about-contact:hover .customize-partial-edit-shortcut {
   opacity: 1;
   visibility: visible;
+}
+
+@media (max-width: 639.98px) {
+  .about-contact {
+    padding: 0 1.25rem 2.5rem;
+  }
+
+  .about-contact__title {
+    font-size: 1.5rem;
+  }
+
+  .about-contact__card {
+    padding: 0.875rem 1rem;
+  }
+  .about-contact__desc {
+    font-size: 0.875rem;
+  }
+  .about-contact__label {
+    font-size: 0.875rem;
+  }
+  .about-contact__value {
+    font-size: 0.75rem;
+  }
 }

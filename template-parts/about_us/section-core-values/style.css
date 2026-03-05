@@ -118,9 +118,26 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (max-width: 640px) {
+@media (max-width: 639.98px) {
+  .about-core-values {
+    padding: 0 1.25rem 2.5rem;
+  }
+
+  .about-core-values__title {
+    font-size: 2rem;
+  }
+
+  .about-core-values__description {
+    font-size: 1rem;
+  }
+
   .about-core-values__grid {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .about-core-values__card {
+    min-height: unset;
   }
 }
 

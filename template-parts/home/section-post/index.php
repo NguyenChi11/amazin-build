@@ -63,41 +63,55 @@ if (empty($posts)) {
 ?>
 <section class="section-post">
     <?php if (is_customize_preview()): ?>
-        <div class="section-post__hover-outline"></div>
+    <div class="section-post__hover-outline"></div>
     <?php endif; ?>
     <div class="section-post__header">
         <?php if ($title !== ''): ?>
-            <h2 class="section-post__title" id="section-post-title"><?php echo esc_html($title); ?></h2>
+        <h2 class="section-post__title" id="section-post-title"><?php echo esc_html($title); ?></h2>
         <?php endif; ?>
         <?php if ($desc !== ''): ?>
-            <p class="section-post__description" id="section-post-desc"><?php echo esc_html($desc); ?></p>
+        <p class="section-post__description" id="section-post-desc"><?php echo esc_html($desc); ?></p>
         <?php endif; ?>
     </div>
     <div class="section-post__list">
         <?php foreach ($posts as $p): ?>
-            <a class="section-post__item" href="<?php echo esc_url($p['link']); ?>">
-                <div class="section-post__item-image">
-                    <?php if (!empty($p['image'])): ?>
-                        <img src="<?php echo esc_url($p['image']); ?>" alt="<?php echo esc_attr($p['title']); ?>">
-                    <?php endif; ?>
+        <a class="section-post__item" href="<?php echo esc_url($p['link']); ?>">
+            <div class="section-post__item-image">
+                <?php if (!empty($p['image'])): ?>
+                <img src="<?php echo esc_url($p['image']); ?>" alt="<?php echo esc_attr($p['title']); ?>">
+                <?php endif; ?>
+            </div>
+            <div class="section-post__item-content">
+                <div class="section-post__item-top">
+                    <?php echo buildpro_svg_icon('calendar-days', 'regular', 'section-post__item-icon'); ?>
+                    <p class="section-post__item-date"><?php echo esc_html($p['date']); ?></p>
                 </div>
-                <div class="section-post__item-content">
-                    <div class="section-post__item-top">
-                        <?php echo buildpro_svg_icon('calendar-days', 'regular', 'section-post__item-icon'); ?>
-                        <p class="section-post__item-date"><?php echo esc_html($p['date']); ?></p>
-                    </div>
-                    <h3 class="section-post__item-title"><?php echo esc_html($p['title']); ?></h3>
-                    <p class="section-post__item-desc">
-                        <?php echo esc_html(get_post_meta($p['id'], 'buildpro_post_description', true)); ?>
-                    </p>
-                </div>
-                <div class="section-post__item-bottom">
-                    <p class="section-post__item-readmore">Read more
-                        <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/Arrow_Right_blue.png')); ?>"
-                            alt="right arrow" class="section-services__item-link-icon">
-                    </p>
-                </div>
-            </a>
+                <h3 class="section-post__item-title"><?php echo esc_html($p['title']); ?></h3>
+                <p class="section-post__item-desc">
+                    <?php echo esc_html(get_post_meta($p['id'], 'buildpro_post_description', true)); ?>
+                </p>
+            </div>
+            <div class="section-post__item-bottom">
+                <p class="section-post__item-readmore">Read more
+                    <img src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/Arrow_Right_blue.png')); ?>"
+                        alt="right arrow" class="section-services__item-link-icon">
+                </p>
+            </div>
+        </a>
         <?php endforeach; ?>
+    </div>
+    <?php
+    $blog_page_url = '';
+    $blog_pages = get_pages(array('meta_key' => '_wp_page_template', 'meta_value' => 'blogs-page.php', 'number' => 1));
+    if (!empty($blog_pages)) {
+        $blog_page_url = get_permalink($blog_pages[0]->ID);
+    }
+    ?>
+    <div class="section-portfolio__page-link">
+        <a class="section-portfolio__page-link-text" href="<?php echo esc_url($blog_page_url); ?>">
+            View All Post
+        </a>
+        <img class="section-banner__item-button-icon"
+            src="<?php echo esc_url(get_theme_file_uri('/assets/images/icon/Arrow_Right.png')); ?>" alt="Arrow Right">
     </div>
 </section>

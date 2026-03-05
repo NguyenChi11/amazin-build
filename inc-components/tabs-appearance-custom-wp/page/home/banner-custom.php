@@ -121,15 +121,15 @@ function buildpro_banner_customize_register($wp_customize)
         'transport' => 'postMessage',
         'sanitize_callback' => 'esc_url_raw',
     ));
-    if (class_exists('BuildPro_Customize_Button_Control')) {
-        $wp_customize->add_control(new BuildPro_Customize_Button_Control($wp_customize, 'buildpro_banner_edit_link', array(
-            'label' => __('Edit Banner', 'buildpro'),
-            'description' => __('Open the Banner editor for the Front Page.', 'buildpro'),
-            'section' => 'buildpro_banner_section',
-            'button_url' => $edit_url,
-            'button_text' => __('Edit Banner', 'buildpro'),
-        )));
-    }
+    // if (class_exists('BuildPro_Customize_Button_Control')) {
+    //     $wp_customize->add_control(new BuildPro_Customize_Button_Control($wp_customize, 'buildpro_banner_edit_link', array(
+    //         'label' => __('Edit Banner', 'buildpro'),
+    //         'description' => __('Open the Banner editor for the Front Page.', 'buildpro'),
+    //         'section' => 'buildpro_banner_section',
+    //         'button_url' => $edit_url,
+    //         'button_text' => __('Edit Banner', 'buildpro'),
+    //     )));
+    // }
     $wp_customize->add_setting('buildpro_banner_items', array(
         'default' => buildpro_banner_get_default_items(),
         'transport' => 'postMessage',

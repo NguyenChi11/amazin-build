@@ -113,15 +113,15 @@ function buildpro_evaluate_customize_register($wp_customize)
         'transport' => 'postMessage',
         'sanitize_callback' => 'esc_url_raw',
     ));
-    if (class_exists('BuildPro_Customize_Button_Control')) {
-        $wp_customize->add_control(new BuildPro_Customize_Button_Control($wp_customize, 'buildpro_evaluate_edit_link', array(
-            'label' => __('Edit Evaluate Section', 'buildpro'),
-            'description' => __('Open the Front Page editor.', 'buildpro'),
-            'section' => 'buildpro_evaluate_section',
-            'button_url' => $edit_url,
-            'button_text' => __('Edit Front Page', 'buildpro'),
-        )));
-    }
+    // if (class_exists('BuildPro_Customize_Button_Control')) {
+    //     $wp_customize->add_control(new BuildPro_Customize_Button_Control($wp_customize, 'buildpro_evaluate_edit_link', array(
+    //         'label' => __('Edit Evaluate Section', 'buildpro'),
+    //         'description' => __('Open the Front Page editor.', 'buildpro'),
+    //         'section' => 'buildpro_evaluate_section',
+    //         'button_url' => $edit_url,
+    //         'button_text' => __('Edit Front Page', 'buildpro'),
+    //     )));
+    // }
     if (isset($wp_customize->selective_refresh)) {
         $wp_customize->selective_refresh->add_partial('buildpro_evaluate_data', array(
             'selector' => '.section-evaluate',
